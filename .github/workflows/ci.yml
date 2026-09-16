@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - master
   pull_request:
 
 permissions: {}
@@ -15,16 +14,7 @@ defaults:
 
 jobs:
   test-bot:
-    strategy:
-      matrix:
-        os: [ macos-latest ]
-        include:
-          - os: ubuntu-latest
-            container:
-              image: ghcr.io/homebrew/brew:main
-              options: --privileged
-    runs-on: ${{ matrix.os }}
-    container: ${{ fromJSON(toJSON(matrix.container)) }} # zizmor: ignore[unpinned-images]
+    runs-on: macos-26
     permissions:
       actions: read
       checks: read
@@ -42,7 +32,7 @@ jobs:
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
           key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ matrix.os }}-rubygems-
+          restore-keys: macos-26-rubygems-
 
       - run: brew test-bot --only-cleanup-before
 

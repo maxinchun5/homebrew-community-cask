@@ -11,11 +11,11 @@ cask "atlauncher" do
 
   app "ATLauncher.app"
 
-  uninstall quit: "com.atlauncher.App"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.atlauncher.App"
 
   zap trash: [
     "~/Library/Preferences/com.atlauncher.App.plist",

@@ -11,10 +11,6 @@ cask "nagbar" do
 
   app "NagBar.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -24,4 +20,8 @@ cask "nagbar" do
     "~/Library/Caches/com.volendavidov.NagBar",
     "~/Library/Preferences/com.volendavidov.NagBar.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

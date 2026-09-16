@@ -17,10 +17,6 @@ cask "nault" do
 
   app "Nault.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -31,4 +27,8 @@ cask "nault" do
     "~/Library/Preferences/cc.nault.plist",
     "~/Library/Saved Application State/cc.nault.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

@@ -16,11 +16,11 @@ cask "assinador-serpro" do
 
   pkg "AssinadorSerpro-#{version}.pkg"
 
-  uninstall pkgutil: "br.gov.serpro.desktop.assinador"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall pkgutil: "br.gov.serpro.desktop.assinador"
 
   zap trash: "~/Library/Preferences/org.demoiselle.signer.serpro.desktop.Main.plist"
 end

@@ -16,10 +16,6 @@ cask "hedgewars" do
 
   app "Hedgewars.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -30,4 +26,8 @@ cask "hedgewars" do
     "~/Library/Preferences/org.hedgewars.desktop.plist",
     "~/Library/Saved Application State/org.hedgewars.desktop.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

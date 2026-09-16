@@ -12,6 +12,10 @@ cask "shadowsocksx-ng" do
 
   app "ShadowsocksX-NG.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall launchctl: [
               "com.qiuyuzhou.shadowsocksX-NG.http",
               "com.qiuyuzhou.shadowsocksX-NG.kcptun",
@@ -25,10 +29,6 @@ cask "shadowsocksx-ng" do
               sudo:       true,
             },
             delete:    "/Library/Application Support/ShadowsocksX-NG"
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 
   zap trash: [
     "~/.ShadowsocksX-NG",

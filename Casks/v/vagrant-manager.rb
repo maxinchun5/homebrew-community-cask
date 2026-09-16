@@ -10,18 +10,18 @@ cask "vagrant-manager" do
 
   app "Vagrant Manager.app"
 
-  uninstall quit: "lanayo.Vagrant-Manager"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "lanayo.Vagrant-Manager"
 
   zap trash: [
     "~/Library/Caches/lanayo.Vagrant-Manager",
     "~/Library/Preferences/lanayo.Vagrant-Manager.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

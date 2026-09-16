@@ -16,10 +16,6 @@ cask "natron" do
 
   app "Natron.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -30,4 +26,8 @@ cask "natron" do
     "~/Library/Caches/INRIA/Natron",
     "~/Library/Preferences/com.inria.Natron.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

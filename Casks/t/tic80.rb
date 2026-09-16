@@ -12,18 +12,18 @@ cask "tic80" do
 
   app "tic80.app"
 
-  uninstall quit: "com.nesbox.tic"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.nesbox.tic"
 
   zap trash: [
     "~/Library/Application Support/com.nesbox.tic",
     "~/Library/Saved Application State/com.nesbox.tic.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

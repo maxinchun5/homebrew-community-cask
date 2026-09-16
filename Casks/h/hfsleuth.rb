@@ -15,7 +15,7 @@ cask "hfsleuth" do
 
   binary "hfsleuth.universal", target: "hfsleuth"
   manpage "hfsleuth.1"
-  
+
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end

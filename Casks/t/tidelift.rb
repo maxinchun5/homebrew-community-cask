@@ -8,10 +8,6 @@ cask "tidelift" do
          arm64_linux:  "f83dc155d09ad98d4bc0e68e2eb5ff7447438f4b861e5a438de4acfd9bc0dbe4",
          x86_64_linux: "2d731623238ee5073885d570e766517d8677acb76067a1a1563bb106f5fd2859"
 
-  on_macos do
-
-  end
-
   url "https://download.tidelift.com/cli/#{version}/#{os}#{arch}/tidelift"
   name "Tidelift CLI"
   desc "Tool to interact with the Tidelift system"
@@ -27,9 +23,8 @@ cask "tidelift" do
   postflight_steps do
     set_permissions "tidelift", "+x"
   end
-
   # No zap stanza required
-  
+
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end

@@ -22,13 +22,13 @@ cask "hydrus-network" do
 
   app "Hydrus Network.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
   zap trash: "~/Library/Hydrus"
+
+  caveats do
+    requires_rosetta
+  end
 end

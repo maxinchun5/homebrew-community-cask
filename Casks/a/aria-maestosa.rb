@@ -16,10 +16,6 @@ cask "aria-maestosa" do
 
   app "Aria Maestosa.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -30,4 +26,8 @@ cask "aria-maestosa" do
     "~/Library/Preferences/AriaMaestosa",
     "~/Library/Saved Application State/org.AriaMaestosa.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

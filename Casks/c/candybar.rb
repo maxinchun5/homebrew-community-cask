@@ -16,10 +16,6 @@ cask "candybar" do
 
   app "CandyBar.app"
 
-  caveats do
-    free_license "https://panic.com/bin/setup.php/cb3/PPQA-YAMA-E3KP-VHXG-B6AL-L"
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -31,4 +27,8 @@ cask "candybar" do
     "~/Library/Preferences/com.panic.CandyBar3.plist",
     "~/Library/Saved Application State/com.panic.CandyBar3.savedState",
   ]
+
+  caveats do
+    free_license "https://panic.com/bin/setup.php/cb3/PPQA-YAMA-E3KP-VHXG-B6AL-L"
+  end
 end

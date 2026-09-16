@@ -48,11 +48,11 @@ cask "spaceradar" do
     end
   end
 
-  uninstall quit: "com.electron.spaceradar"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.electron.spaceradar"
 
   zap trash: [
     "~/Library/Application Support/space-radar",

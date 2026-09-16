@@ -20,13 +20,13 @@ cask "dogecoin" do
     set_permissions "Dogecoin-Qt.app", "0755"
   end
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
   zap trash: "~/Library/com.dogecoin.Dogecoin-Qt.plist"
+
+  caveats do
+    requires_rosetta
+  end
 end

@@ -12,10 +12,6 @@ cask "gridea" do
 
   app "Gridea.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -27,4 +23,8 @@ cask "gridea" do
         "~/Library/Saved Application State/com.electron.gridea.savedState",
       ],
       rmdir: "~/Documents/Gridea"
+
+  caveats do
+    requires_rosetta
+  end
 end

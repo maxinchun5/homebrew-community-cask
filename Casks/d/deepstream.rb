@@ -11,15 +11,15 @@ cask "deepstream" do
 
   pkg "deepstream.io-mac-#{version}.pkg"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall pkgutil: "deepstream.io"
 
   # No zap stanza required
 
   caveats do
     files_in_usr_local
-  end
-  
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

@@ -17,13 +17,13 @@ cask "disk-inventory-x" do
 
   app "Disk Inventory X.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
   zap trash: "~/Library/Preferences/com.derlien.DiskInventoryX.plist"
+
+  caveats do
+    requires_rosetta
+  end
 end

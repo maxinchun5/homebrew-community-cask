@@ -24,10 +24,6 @@ cask "mindforger" do
 
   app "mindforger.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -38,4 +34,8 @@ cask "mindforger" do
     "~/Library/Application Support/MindForger",
     "~/Library/Saved Application State/com.yourcompany.mindforger.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

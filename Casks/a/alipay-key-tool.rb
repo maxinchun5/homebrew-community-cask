@@ -15,10 +15,6 @@ cask "alipay-key-tool" do
 
   app "支付宝开放平台密钥工具.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "alipay-key-tool" do
     "~/Library/Preferences/com.alipay.alipayleytool.plist",
     "~/Library/Saved Application State/com.alipay.alipayleytool.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

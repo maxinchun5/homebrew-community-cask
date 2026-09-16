@@ -16,18 +16,18 @@ cask "qtspim" do
 
   pkg "QtSpim.mpkg/Contents/Packages/QtSpim.pkg"
 
-  uninstall pkgutil: "org.larusstone.pkg.QtSpim"
-
-  caveats do
-    requires_rosetta
-  end
-  
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall pkgutil: "org.larusstone.pkg.QtSpim"
 
   zap trash: [
     "~/Library/Preferences/org.larus.qtspim.plist",
     "~/Library/Saved Application State/org.larus.qtspim.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

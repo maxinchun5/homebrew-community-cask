@@ -11,11 +11,11 @@ cask "pixelorama" do
 
   app "Pixelorama.app"
 
-  uninstall quit: "com.orama-interactive.pixelorama"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.orama-interactive.pixelorama"
 
   zap trash: "~/Library/Saved Application State/com.orama_interactive.pixelorama.savedState"
 end

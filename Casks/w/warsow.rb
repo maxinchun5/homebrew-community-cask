@@ -16,10 +16,6 @@ cask "warsow" do
 
   app "Warsow.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "warsow" do
     "~/Library/Caches/Warsow-#{version.major_minor}",
     "~/Library/Saved Application State/org.picmip.Warsow.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

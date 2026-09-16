@@ -11,11 +11,11 @@ cask "haptickey" do
 
   app "HapticKey.app"
 
-  uninstall quit: "at.niw.HapticKey"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "at.niw.HapticKey"
 
   zap trash: [
     "~/Library/Caches/at.niw.HapticKey",

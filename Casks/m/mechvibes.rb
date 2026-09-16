@@ -24,10 +24,6 @@ cask "mechvibes" do
 
   app "Mechvibes.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -38,4 +34,8 @@ cask "mechvibes" do
         "~/Library/Saved Application State/com.electron.mechvibes.savedState",
       ],
       rmdir: "~/mechvibes_custom"
+
+  caveats do
+    requires_rosetta
+  end
 end

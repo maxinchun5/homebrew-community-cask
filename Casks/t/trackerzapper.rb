@@ -11,11 +11,11 @@ cask "trackerzapper" do
 
   app "TrackerZapper.app"
 
-  uninstall quit: "com.rknightuk.TrackerZapper"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.rknightuk.TrackerZapper"
 
   zap trash: [
     "~/Library/Application Scripts/com.rknightuk.TrackerZapper",

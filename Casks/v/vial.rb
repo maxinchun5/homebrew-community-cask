@@ -11,10 +11,6 @@ cask "vial" do
 
   app "Vial.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -25,4 +21,8 @@ cask "vial" do
     "~/Library/Preferences/com.vial.Vial.plist",
     "~/Library/Preferences/Vial.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

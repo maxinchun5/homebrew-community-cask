@@ -33,10 +33,6 @@ cask "polyphone" do
 
   app "polyphone.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -45,4 +41,8 @@ cask "polyphone" do
     "~/Library/Preferences/com.polyphone.Polyphone.plist",
     "~/Library/Saved Application State/fr.polyphone.Polyphone.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

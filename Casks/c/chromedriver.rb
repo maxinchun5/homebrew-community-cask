@@ -23,7 +23,7 @@ cask "chromedriver" do
   binary "chromedriver-mac-#{arch}/chromedriver"
 
   # No zap stanza required
-  
+
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end

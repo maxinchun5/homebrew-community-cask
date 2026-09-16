@@ -26,10 +26,6 @@ cask "avidemux" do
   binary "#{appdir}/Avidemux_#{version}.app/Contents/MacOS/avidemux_cli", target: "avidemux"
   binary "#{appdir}/Avidemux_#{version}.app/Contents/MacOS/avidemux_jobs"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -38,4 +34,8 @@ cask "avidemux" do
     "~/.avidemux6",
     "~/Library/Saved Application State/Avidemux.org.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

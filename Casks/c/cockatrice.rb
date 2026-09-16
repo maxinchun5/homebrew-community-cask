@@ -60,15 +60,15 @@ cask "cockatrice" do
   app "oracle.app"
   app "servatrice.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall quit: [
     "com.cockatrice.cockatrice",
     "com.cockatrice.oracle",
     "com.cockatrice.servatrice",
   ]
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 
   zap trash: [
     "~/Library/Application Support/Cockatrice",

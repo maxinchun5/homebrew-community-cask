@@ -16,10 +16,6 @@ cask "bino" do
 
   app "Bino.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "bino" do
     "~/Library/Preferences/org.bino3d.Bino.plist",
     "~/Library/Saved Application State/org.bino3d.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

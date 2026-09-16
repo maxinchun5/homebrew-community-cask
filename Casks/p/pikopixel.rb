@@ -17,10 +17,6 @@ cask "pikopixel" do
 
   app "PikoPixel.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "pikopixel" do
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.twilightedge.pikopixel.sfl*",
     "~/Library/Preferences/com.twilightedge.PikoPixel.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

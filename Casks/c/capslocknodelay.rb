@@ -11,11 +11,11 @@ cask "capslocknodelay" do
 
   app "CapsLockNoDelay.app"
 
-  uninstall quit: "gkpln3.CapsLockNoDelay"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "gkpln3.CapsLockNoDelay"
 
   zap trash: "~/Library/Containers/gkpln3.CapsLockNoDelay"
 end

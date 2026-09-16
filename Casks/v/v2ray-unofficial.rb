@@ -16,10 +16,6 @@ cask "v2ray-unofficial" do
 
   app "V2Ray-Desktop.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "v2ray-unofficial" do
     "~/Library/Preferences/V2Ray-Desktop",
     "~/Library/Saved Application State/com.yourcompany.V2Ray-Desktop.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

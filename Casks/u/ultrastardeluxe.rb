@@ -14,11 +14,11 @@ cask "ultrastardeluxe" do
 
   app "UltraStarDeluxe.app"
 
-  uninstall quit: "org.ultrastardeluxe.ultrastardeluxe"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "org.ultrastardeluxe.ultrastardeluxe"
 
   zap trash: "~/Library/Application Support/UltraStarDeluxe1.3"
 end

@@ -26,10 +26,6 @@ cask "copyq" do
 
   app "CopyQ.app"
 
-  caveats do
-    unsigned_accessibility
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -40,4 +36,8 @@ cask "copyq" do
     "~/Library/Application Support/copyq.log",
     "~/Library/Preferences/com.copyq.copyq.plist",
   ]
+
+  caveats do
+    unsigned_accessibility
+  end
 end

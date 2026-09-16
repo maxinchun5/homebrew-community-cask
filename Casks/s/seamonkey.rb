@@ -109,10 +109,6 @@ cask "seamonkey" do
 
   app "SeaMonkey.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -123,4 +119,8 @@ cask "seamonkey" do
     "~/Library/Preferences/org.mozilla.seamonkey.plist",
     "~/Library/Saved Application State/org.mozilla.seamonkey.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

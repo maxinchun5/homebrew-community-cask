@@ -17,11 +17,11 @@ cask "ace-link" do
 
   app "Ace Link.app"
 
-  uninstall quit: "blaise.io.acelink"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "blaise.io.acelink"
 
   zap trash: "~/Library/Application Support/Ace Link"
 end

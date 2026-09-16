@@ -22,10 +22,6 @@ cask "chessx" do
 
   app "ChessX.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -36,4 +32,8 @@ cask "chessx" do
     "~/Library/Preferences/net.sourceforge.chessx.plist",
     "~/Library/Saved Application State/net.sourceforge.chessx.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

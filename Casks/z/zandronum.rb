@@ -17,17 +17,6 @@ cask "zandronum" do
   app "Zandronum.app"
   app "Doomseeker.app"
 
-  caveats do
-    requires_rosetta
-    <<~EOS
-      Install IWADs to ~/Library/Application Support/Zandronum/
-
-      For more information, see:
-
-        https://wiki.zandronum.com/Zandronum_and_IWAD_Files
-    EOS
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -40,4 +29,15 @@ cask "zandronum" do
     "~/Library/Preferences/zandronum.ini",
     "~/Library/Saved Application State/org.doomseeker.app.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+    <<~EOS
+      Install IWADs to ~/Library/Application Support/Zandronum/
+
+      For more information, see:
+
+        https://wiki.zandronum.com/Zandronum_and_IWAD_Files
+    EOS
+  end
 end

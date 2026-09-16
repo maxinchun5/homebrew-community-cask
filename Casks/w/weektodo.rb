@@ -16,10 +16,6 @@ cask "weektodo" do
 
   app "WeekToDo.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "weektodo" do
     "~/Library/Preferences/weektodo-app.netlify.app.plist",
     "~/Library/Saved Application State/weektodo-app.netlify.app.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

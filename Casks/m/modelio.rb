@@ -11,13 +11,13 @@ cask "modelio" do
 
   app "Modelio #{version.major_minor}.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
   zap trash: "~/.modelio"
+
+  caveats do
+    requires_rosetta
+  end
 end

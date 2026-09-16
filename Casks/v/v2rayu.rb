@@ -22,14 +22,14 @@ cask "v2rayu" do
 
   app "V2rayU.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall launchctl: [
     "yanue.v2rayu.http",
     "yanue.v2rayu.v2ray-core",
   ]
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 
   zap trash: [
     "~/.V2rayU",

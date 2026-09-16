@@ -10,10 +10,6 @@ cask "material-colors" do
 
   app "Material Colors.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -25,4 +21,8 @@ cask "material-colors" do
     "~/Library/Caches/net.nurik.roman.materialcolors",
     "~/Library/Preferences/net.nurik.roman.materialcolors.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

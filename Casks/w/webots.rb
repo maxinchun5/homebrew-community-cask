@@ -19,11 +19,11 @@ cask "webots" do
 
   app "Webots.app"
 
-  uninstall quit: "com.cyberbotics.webots"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.cyberbotics.webots"
 
   zap trash: [
     "~/Library/Application Support/Cyberbotics/Webots",

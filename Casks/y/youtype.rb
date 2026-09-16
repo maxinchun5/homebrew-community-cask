@@ -17,11 +17,11 @@ cask "youtype" do
 
   app "YouType.app"
 
-  uninstall quit: "com.AVKorotkov.YouType"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.AVKorotkov.YouType"
 
   zap trash: [
     "~/Library/Caches/com.AVKorotkov.YouType",

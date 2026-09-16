@@ -17,19 +17,19 @@ cask "skychart" do
 
   pkg "Install Skychart.pkg"
 
-  uninstall pkgutil: "net.ap-i.pkg.skychart"
-
-  caveats do
-    requires_rosetta
-  end
-  
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall pkgutil: "net.ap-i.pkg.skychart"
 
   zap trash: [
     "~/Library/Application Support/skychart",
     "~/Library/Preferences/net.ap-i.skychart.plist",
     "~/Library/Saved Application State/net.ap-i.skychart.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

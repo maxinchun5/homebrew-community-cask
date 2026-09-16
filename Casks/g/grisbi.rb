@@ -16,10 +16,6 @@ cask "grisbi" do
 
   app "Grisbi.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "grisbi" do
     "~/Library/Preferences/org.grisbi.Grisbi.plist",
     "~/Library/Saved Application State/org.grisbi.Grisbi.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

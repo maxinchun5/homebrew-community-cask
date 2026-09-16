@@ -16,10 +16,6 @@ cask "smplayer" do
 
   app "SMPlayer.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "smplayer" do
     "~/Library/Preferences/info.smplayer.SMPlayer.plist",
     "~/Library/Saved Application State/info.smplayer.SMPlayer.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

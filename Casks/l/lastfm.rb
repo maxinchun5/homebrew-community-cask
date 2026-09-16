@@ -16,10 +16,6 @@ cask "lastfm" do
 
   app "Last.fm.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -32,4 +28,8 @@ cask "lastfm" do
     "~/Library/Logs/Last.fm",
     "~/Library/Preferences/fm.last*",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

@@ -16,10 +16,6 @@ cask "sysdig-inspect" do
 
   app "Sysdig Inspect-darwin-x64/Sysdig Inspect.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -30,4 +26,8 @@ cask "sysdig-inspect" do
     "~/Library/Preferences/com.electron.sysdig-inspect.plist",
     "~/Library/Saved Application State/com.electron.sysdig-inspect.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

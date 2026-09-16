@@ -11,10 +11,6 @@ cask "instatus-out" do
 
   app "Instatus Out.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -24,4 +20,8 @@ cask "instatus-out" do
     "~/Library/Preferences/com.instatus.out.plist",
     "~/Library/Saved Application State/com.instatus.out.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

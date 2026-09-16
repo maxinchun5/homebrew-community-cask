@@ -19,6 +19,10 @@ cask "bluebubbles" do
 
   app "BlueBubbles.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall launchctl:  "com.BlueBubbles.BlueBubbles-Server.ShipIt",
             quit:       [
               "com.BlueBubbles.BlueBubbles-Server",
@@ -29,10 +33,6 @@ cask "bluebubbles" do
               "com.bluebubbles.messaging",
             ],
             login_item: "BlueBubbles"
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 
   zap trash: [
     "~/Library/Application Support/@bluebubbles",

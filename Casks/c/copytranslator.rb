@@ -17,10 +17,6 @@ cask "copytranslator" do
 
   app "copytranslator.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -35,4 +31,8 @@ cask "copytranslator" do
         "~/Library/Saved Application State/com.copytranslator.copytranslator.savedState",
       ],
       rmdir: "~/copytranslator/locales"
+
+  caveats do
+    requires_rosetta
+  end
 end

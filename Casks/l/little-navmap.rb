@@ -12,13 +12,6 @@ cask "little-navmap" do
   app "Little Navconnect.app"
   app "Little Navmap.app"
 
-  caveats do
-    requires_rosetta
-    <<~EOS
-      "The X-Plane plugin will be at #{staged_path} after installation."
-    EOS
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -27,4 +20,11 @@ cask "little-navmap" do
     "~/.config/ABarthel",
     "~/Library/Saved Application State/com.yourcompany.littlenavmap.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+    <<~EOS
+      "The X-Plane plugin will be at #{staged_path} after installation."
+    EOS
+  end
 end

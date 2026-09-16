@@ -33,10 +33,6 @@ cask "gittyup" do
 
   app "Gittyup.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -47,4 +43,8 @@ cask "gittyup" do
     "~/Library/Preferences/com.Murmele.Gittyup.plist",
     "~/Library/Saved Application State/com.Murmele.Gittyup.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

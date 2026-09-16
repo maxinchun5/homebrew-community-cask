@@ -21,7 +21,6 @@ cask "qbittorrent" do
     end
   end
   on_macos do
-
     # Renamed for consistency: app name is different in the Finder and in a shell.
     app "qbittorrent.app", target: "qBittorrent.app"
 

@@ -11,10 +11,6 @@ cask "augur" do
 
   app "augur.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -26,4 +22,8 @@ cask "augur" do
     "~/Library/Preferences/net.augur.augur.plist",
     "~/Library/Saved Application State/net.augur.augur.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

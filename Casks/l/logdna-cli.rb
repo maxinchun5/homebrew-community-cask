@@ -11,11 +11,11 @@ cask "logdna-cli" do
 
   pkg "logdna-cli.pkg"
 
-  uninstall pkgutil: "com.logdna.logdna-cli"
-
-  # No zap stanza required
-  
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall pkgutil: "com.logdna.logdna-cli"
+
+  # No zap stanza required
 end

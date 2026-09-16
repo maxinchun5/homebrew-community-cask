@@ -38,15 +38,11 @@ cask "keepassxc@snapshot" do
   app "KeePassXC.app"
   binary "#{appdir}/KeePassXC.app/Contents/MacOS/keepassxc-cli"
 
-  uninstall quit: "org.keepassxc.keepassxc"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "org.keepassxc.keepassxc"
 
   zap trash: [
     "~/.keepassxc",
@@ -58,4 +54,8 @@ cask "keepassxc@snapshot" do
     "~/Library/Preferences/org.keepassx.keepassxc.plist",
     "~/Library/Saved Application State/org.keepassx.keepassxc.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

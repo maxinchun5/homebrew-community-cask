@@ -9,7 +9,6 @@ cask "koodo-reader" do
          x86_64_linux: "0b6b6236953e2d974fca5d630615855a5587cf75341177e14c98bd07c02421cd"
 
   on_macos do
-
     app "Koodo Reader.app"
 
     zap trash: [

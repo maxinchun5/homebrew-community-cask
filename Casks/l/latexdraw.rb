@@ -16,10 +16,6 @@ cask "latexdraw" do
 
   app "LaTeXDraw.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "latexdraw" do
     "~/Library/Preferences/latexdraw.plist",
     "~/Library/Saved Application State/latexdraw.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

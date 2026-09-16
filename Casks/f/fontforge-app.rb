@@ -7,7 +7,6 @@ cask "fontforge-app" do
          x86_64_linux: "bf72ec45305c663da7d2288822b7d2cfc37846716322bdca4075273c0cef8294"
 
   on_macos do
-
     depends_on macos: :ventura
 
     app "FontForge.app"

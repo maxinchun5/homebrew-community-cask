@@ -22,13 +22,13 @@ cask "geogebra" do
 
   app "GeoGebra Classic #{version.major}.app"
 
-  uninstall quit:       "org.geogebra.mathapps",
-            login_item: "GeoGebra",
-            pkgutil:    "org.geogebra#{version.major}.mac"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit:       "org.geogebra.mathapps",
+            login_item: "GeoGebra",
+            pkgutil:    "org.geogebra#{version.major}.mac"
 
   zap trash: [
     "~/Library/Application Scripts/org.geogebra#{version.major}.mac",

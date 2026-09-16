@@ -17,11 +17,11 @@ cask "apple-juice" do
 
   app "Apple Juice.app"
 
-  uninstall quit: "io.raphaelhanneken.applejuice"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "io.raphaelhanneken.applejuice"
 
   zap trash: [
     "~/Library/Caches/io.raphaelhanneken.applejuice",

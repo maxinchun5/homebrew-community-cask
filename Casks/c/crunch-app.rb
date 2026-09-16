@@ -11,10 +11,6 @@ cask "crunch-app" do
 
   app "Crunch.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -23,4 +19,8 @@ cask "crunch-app" do
     "~/Library/Preferences/com.csimpkins.Crunch.plist",
     "~/Library/Saved Application State/com.csimpkins.Crunch.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

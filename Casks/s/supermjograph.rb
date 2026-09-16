@@ -16,10 +16,6 @@ cask "supermjograph" do
 
   app "SuperMjograph.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "supermjograph" do
     "~/Library/Caches/com.mjo.SuperMjograph",
     "~/Library/Preferences/com.mjo.SuperMjograph.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

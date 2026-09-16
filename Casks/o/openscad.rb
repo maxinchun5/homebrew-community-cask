@@ -18,10 +18,6 @@ cask "openscad" do
   app "OpenSCAD-#{version}.app"
   binary "#{appdir}/OpenSCAD-#{version}.app/Contents/MacOS/OpenSCAD", target: "openscad"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -31,4 +27,8 @@ cask "openscad" do
     "~/Library/Preferences/org.openscad.OpenSCAD.plist",
     "~/Library/Saved Application State/org.openscad.OpenSCAD.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

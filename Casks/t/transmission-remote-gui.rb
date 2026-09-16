@@ -10,19 +10,19 @@ cask "transmission-remote-gui" do
 
   app "Transmission Remote GUI.app"
 
-  uninstall quit: "com.transgui"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.transgui"
 
   zap trash: [
     "~/.config/Transmission Remote GUI",
     "~/Library/Preferences/com.transgui.plist",
     "~/Library/Saved Application State/com.transgui.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

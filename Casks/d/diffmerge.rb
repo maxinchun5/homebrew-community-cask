@@ -18,10 +18,6 @@ cask "diffmerge" do
   binary "Extras/diffmerge.sh", target: "diffmerge"
   manpage "Extras/diffmerge.1"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -31,4 +27,8 @@ cask "diffmerge" do
     "~/Library/Preferences/SourceGear DiffMerge Preferences",
     "~/Library/Saved Application State/com.sourcegear.DiffMerge.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

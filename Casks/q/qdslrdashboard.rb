@@ -22,10 +22,6 @@ cask "qdslrdashboard" do
 
   app "qDslrDashboard.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -34,4 +30,8 @@ cask "qdslrdashboard" do
     "~/Library/Application Support/DslrDashboard/qDslrDashboard",
     "~/Library/Saved Application State/info.dslrdashboard.qDslrDashboard.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

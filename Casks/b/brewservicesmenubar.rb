@@ -11,11 +11,11 @@ cask "brewservicesmenubar" do
 
   app "BrewServicesMenubar.app"
 
-  uninstall quit: "andrewnicolaou.BrewServicesMenubar"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "andrewnicolaou.BrewServicesMenubar"
 
   zap trash: "~/Library/Preferences/andrewnicolaou.BrewServicesMenubar.plist"
 end

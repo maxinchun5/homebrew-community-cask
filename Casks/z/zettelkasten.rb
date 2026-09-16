@@ -16,10 +16,6 @@ cask "zettelkasten" do
 
   app "Zettelkasten.app"
 
-  caveats do
-    depends_on_java "8"
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "zettelkasten" do
     "~/.Zettelkasten",
     "~/Library/Saved Application State/de.danielluedecke.zettelkasten.ZettelkastenApp.savedState",
   ]
+
+  caveats do
+    depends_on_java "8"
+  end
 end

@@ -11,15 +11,11 @@ cask "igdm" do
 
   app "IGdm.app"
 
-  uninstall quit: "com.ifedapoolarewaju.desktop.igdm"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.ifedapoolarewaju.desktop.igdm"
 
   zap trash: [
     "~/Library/Application Support/IGdm",
@@ -28,4 +24,8 @@ cask "igdm" do
     "~/Library/Preferences/com.ifedapoolarewaju.desktop.igdm.plist",
     "~/Library/Saved Application State/com.ifedapoolarewaju.desktop.igdm.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

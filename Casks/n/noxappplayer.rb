@@ -23,10 +23,6 @@ cask "noxappplayer" do
 
   app "NoxAppPlayer.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -35,4 +31,8 @@ cask "noxappplayer" do
     "~/Library/Application Support/NoxAppPlayer",
     "~/Library/Saved Application State/com.nox.NoxAppPlayer.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

@@ -55,10 +55,6 @@ cask "wine-stable" do
   binary "#{appdir}/Wine Stable.app/Contents/Resources/wine/bin/winepath"
   binary "#{appdir}/Wine Stable.app/Contents/Resources/wine/bin/wineserver"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -77,4 +73,8 @@ cask "wine-stable" do
         "~/.local/share/icons",
         "~/.local/share/mime",
       ]
+
+  caveats do
+    requires_rosetta
+  end
 end

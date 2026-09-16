@@ -17,11 +17,11 @@ cask "utc-menu-clock" do
 
   app "UTCMenuClock.app"
 
-  uninstall launchctl: "application.UTCMenuClock.app.*"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall launchctl: "application.UTCMenuClock.app.*"
 
   zap trash: "~/Library/Preferences/net.retina.UTCMenuClock.plist"
 end

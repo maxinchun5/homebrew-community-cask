@@ -23,7 +23,7 @@ permissions:
 jobs:
   remove-disabled-packages:
     if: github.repository_owner == 'maxinchun5'
-    runs-on: macos-latest
+    runs-on: macos-26
     env:
       REMOVAL_BRANCH: remove-disabled-packages
     steps:

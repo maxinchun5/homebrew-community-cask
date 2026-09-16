@@ -11,10 +11,6 @@ cask "pine" do
 
   app "Pine.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -27,4 +23,8 @@ cask "pine" do
     "~/Library/Saved Application State/io.github.lukakerr.Pine.savedState",
     "~/Library/WebKit/io.github.lukakerr.Pine",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

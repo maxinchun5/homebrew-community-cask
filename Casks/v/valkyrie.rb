@@ -16,10 +16,6 @@ cask "valkyrie" do
 
   app "Valkyrie.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "valkyrie" do
     "~/Library/Preferences/unity.NA.Valkyrie.plist",
     "~/Library/Saved Application State/unity.NA.Valkyrie.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

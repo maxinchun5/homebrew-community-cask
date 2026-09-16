@@ -17,16 +17,16 @@ cask "obs-advanced-scene-switcher" do
 
   pkg "advanced-scene-switcher-#{version}-macos-universal.pkg"
 
+  # No zap stanza required
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall pkgutil: [
               "'com.warmuptill.advanced-scene-switcher'",
               "com.warmuptill.advanced-scene-switcher",
             ],
             delete:  "/Library/Application Support/obs-studio/plugins/advanced-scene-switcher.plugin",
             rmdir:   "/Library/Application Support/obs-studio/plugins"
-
-  # No zap stanza required
-  
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 end

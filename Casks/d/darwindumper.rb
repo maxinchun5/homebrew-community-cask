@@ -18,10 +18,6 @@ cask "darwindumper" do
 
   app "DarwinDumper.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -32,4 +28,8 @@ cask "darwindumper" do
     "~/Library/Preferences/org.tom.DarwinDumper.plist",
     "~/Library/Saved Application State/com.DarwinDumper.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

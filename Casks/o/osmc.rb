@@ -17,10 +17,6 @@ cask "osmc" do
   # Original discussion: https://github.com/Homebrew/homebrew-cask/pull/9420
   app "qt_host_installer.app", target: "OSMC.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "osmc" do
     "~/Library/Saved Application State/tv.osmc.installer.savedState",
     "~/omsc_installer_log.txt",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

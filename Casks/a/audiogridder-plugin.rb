@@ -16,6 +16,10 @@ cask "audiogridder-plugin" do
 
   pkg "AudioGridderPlugin_#{version}_macOS-universal.pkg"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall pkgutil: [
     "com.e47.audiogridder.aax",
     "com.e47.audiogridder.au",
@@ -27,10 +31,6 @@ cask "audiogridder-plugin" do
     "com.e47.pkg.vst",
     "com.e47.pkg.vst3",
   ]
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 
   zap trash: [
         "~/.audiogridder/audiogridder.winpos",

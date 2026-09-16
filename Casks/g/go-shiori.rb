@@ -14,6 +14,12 @@ cask "go-shiori" do
 
   binary "shiori"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
+  zap trash: "~/Library/ApplicationSupport/shiori"
+
   caveats do
     <<~EOS
 
@@ -22,10 +28,4 @@ cask "go-shiori" do
 
     EOS
   end
-  
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
-
-  zap trash: "~/Library/ApplicationSupport/shiori"
 end

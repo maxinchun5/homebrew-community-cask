@@ -16,19 +16,19 @@ cask "psi" do
 
   app "Psi.app"
 
-  uninstall quit: "org.psi-im"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "org.psi-im"
 
   zap trash: [
     "~/Library/Application Support/Psi",
     "~/Library/Caches/Psi",
     "~/Library/Saved Application State/org.psi-im.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

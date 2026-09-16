@@ -11,10 +11,6 @@ cask "torrent-file-editor" do
 
   app "Torrent File Editor.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -26,4 +22,8 @@ cask "torrent-file-editor" do
     "~/Library/Preferences/net.sourceforge.torrent-file-editor.plist",
     "~/Library/Saved Application State/net.sourceforge.torrent-file-editor.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

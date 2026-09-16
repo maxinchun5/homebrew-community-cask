@@ -11,10 +11,6 @@ cask "gdlauncher" do
 
   app "GDLauncher.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -26,4 +22,8 @@ cask "gdlauncher" do
     "~/Library/Preferences/org.gorilladevs.GDLauncher.plist",
     "~/Library/Saved Application State/org.gorilladevs.GDLauncher.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

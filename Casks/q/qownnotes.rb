@@ -17,11 +17,11 @@ cask "qownnotes" do
 
   app "QOwnNotes.app"
 
-  uninstall quit: "com.PBE.QOwnNotes"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.PBE.QOwnNotes"
 
   zap trash: [
     "~/Library/Preferences/com.pbe.QOwnNotes.plist",

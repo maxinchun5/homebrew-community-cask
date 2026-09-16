@@ -19,10 +19,6 @@ cask "sioyek" do
   command_wrapper "sioyek",
                   executable: "#{appdir}/sioyek.app/Contents/MacOS/sioyek"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -31,4 +27,8 @@ cask "sioyek" do
     "~/Library/Application Support/sioyek",
     "~/Library/Saved Application State/com.yourcompany.sioyek.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

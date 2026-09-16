@@ -12,10 +12,6 @@ cask "slicer@preview" do
 
   app "Slicer.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -27,4 +23,8 @@ cask "slicer@preview" do
     "~/Library/Preferences/Slicer.plist",
     "~/Library/Saved Application State/org.slicer.slicer.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

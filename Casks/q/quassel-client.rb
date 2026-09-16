@@ -16,13 +16,13 @@ cask "quassel-client" do
 
   app "Quassel Client.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
   zap trash: "~/Library/Preferences/org.quassel-irc.client.plist"
+
+  caveats do
+    requires_rosetta
+  end
 end

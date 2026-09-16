@@ -16,17 +16,17 @@ cask "keepassx" do
 
   app "KeePassX.app"
 
-  uninstall_preflight_steps do
-    set_ownership "KeePassX.app", base: :appdir
-  end
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
+  uninstall_preflight_steps do
+    set_ownership "KeePassX.app", base: :appdir
+  end
+
   zap trash: "~/.keepassx"
+
+  caveats do
+    requires_rosetta
+  end
 end

@@ -15,19 +15,19 @@ cask "mqtt-explorer" do
 
   app "MQTT Explorer.app"
 
-  uninstall quit: "de.t7n.apps.mqtt-explorer"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "de.t7n.apps.mqtt-explorer"
 
   zap trash: [
     "~/Library/Application Scripts/de.t7n.apps.mqtt-explorer",
     "~/Library/Containers/de.t7n.apps.mqtt-explorer",
     "~/Library/Group Containers/*.de.t7n.apps.mqtt-explorer",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

@@ -18,7 +18,7 @@ cask "procexp" do
   binary "procexp"
 
   # No zap stanza required
-  
+
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end

@@ -28,15 +28,15 @@ cask "wire" do
 
   pkg "Wire.pkg"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall signal:  [
               ["TERM", "com.wearezeta.zclient.mac.helper"],
               ["TERM", "com.wearezeta.zclient.mac"],
             ],
             pkgutil: "com.wearezeta.zclient.mac"
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 
   zap trash: "~/Library/Containers/com.wearezeta.zclient.mac"
 end

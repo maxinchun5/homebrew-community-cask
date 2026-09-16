@@ -11,12 +11,12 @@ cask "usr-sse2-rdm" do
 
   app "RDM.app"
 
-  uninstall quit:    "net.alkalay.RDM",
-            pkgutil: "net.alkalay.RDM"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit:    "net.alkalay.RDM",
+            pkgutil: "net.alkalay.RDM"
 
   zap trash: [
     "~/Library/Application Support/net.alkalay.RDM",

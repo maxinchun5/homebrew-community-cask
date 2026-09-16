@@ -18,16 +18,12 @@ cask "pd-l2ork" do
   app "Purr-Data.app"
   binary "#{appdir}/Purr-Data.app/Contents/Resources/app.nw/bin/pd-l2ork"
 
-  uninstall_preflight_steps do
-    set_permissions "Purr-Data.app", "0777", base: :appdir
-  end
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
+  uninstall_preflight_steps do
+    set_permissions "Purr-Data.app", "0777", base: :appdir
   end
 
   zap trash: [
@@ -35,4 +31,8 @@ cask "pd-l2ork" do
     "~/Library/Logs/Purr-Data",
     "~/Library/Purr-Data",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

@@ -12,6 +12,10 @@ cask "pb" do
 
   app "PB for Desktop.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall launchctl: "PB for Desktop",
             quit:      [
               "de.sidneys.pb-for-desktop",
@@ -20,14 +24,6 @@ cask "pb" do
               "de.sidneys.pb-for-desktop.helper.Plugin",
               "de.sidneys.pb-for-desktop.helper.Renderer",
             ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/de.sidneys.pb-for-desktop.sfl*",
@@ -44,4 +40,8 @@ cask "pb" do
     "~/Library/Saved Application State/de.sidneys.pb-for-desktop.savedState",
     "~/Library/WebKit/de.sidneys.pb-for-desktop",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

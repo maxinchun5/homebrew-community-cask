@@ -21,20 +21,20 @@ cask "ubiquiti-unifi-controller" do
 
   app "UniFi.app"
 
-  uninstall signal: ["TERM", "com.ubnt.UniFi"]
-
-  caveats do
-    requires_rosetta
-    license "https://www.ui.com/eula/"
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall signal: ["TERM", "com.ubnt.UniFi"]
 
   zap trash: [
     "~/Library/Application Support/UniFi",
     "~/Library/Saved Application State/com.ubnt.UniFi-Discover.savedState",
     "~/Library/Saved Application State/com.ubnt.UniFi.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+    license "https://www.ui.com/eula/"
+  end
 end

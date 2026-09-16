@@ -14,13 +14,13 @@ cask "universal-android-debloater" do
 
   binary "uad_gui-macos-opengl", target: "uad"
 
-  caveats do
-    requires_rosetta
-  end
-  
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
   zap trash: "~/Library/Caches/uad"
+
+  caveats do
+    requires_rosetta
+  end
 end

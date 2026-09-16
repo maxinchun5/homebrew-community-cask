@@ -11,11 +11,11 @@ cask "michaelvillar-timer" do
 
   app "Timer.app"
 
-  uninstall quit: "com.michaelvillar.Timer"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.michaelvillar.Timer"
 
   zap trash: [
     "~/Library/Preferences/com.michaelvillar.Timer.plist",

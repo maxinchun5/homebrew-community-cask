@@ -28,10 +28,6 @@ cask "weka" do
 
   app "weka-#{version}.app"
 
-  caveats do
-    depends_on_java "8+"
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -40,4 +36,8 @@ cask "weka" do
     "~/Library/Saved Application State/weka.gui.savedState",
     "~/wekafiles",
   ]
+
+  caveats do
+    depends_on_java "8+"
+  end
 end

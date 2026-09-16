@@ -23,11 +23,6 @@ cask "gdat" do
 
   app "Genealogical DNA Analysis Tool.app"
 
-  caveats do
-    requires_rosetta
-    license "https://www.getgdat.com/home/download/terms-of-use"
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -37,4 +32,9 @@ cask "gdat" do
     "~/Library/Preferences/BeckinsLLC.GMP64.plist",
     "~/Library/Saved Application State/BeckinsLLC.GMP64.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+    license "https://www.getgdat.com/home/download/terms-of-use"
+  end
 end

@@ -20,7 +20,7 @@ concurrency:
 jobs:
   create_matrix:
     if: startsWith( github.repository, 'maxinchun5/' )
-    runs-on: macos-latest
+    runs-on: macos-26
     outputs:
       json: ${{ steps.matrix.outputs.json }}
     env:
@@ -63,7 +63,7 @@ jobs:
       fail-fast: false
       matrix:
         cask: ${{ fromJson(needs.create_matrix.outputs.json) }}
-        os: [macos-latest]
+        os: [macos-26]
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew

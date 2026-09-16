@@ -16,10 +16,6 @@ cask "macast" do
 
   app "Macast.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "macast" do
     "~/Library/Preferences/cn.xfangfang.Macast.plist",
     "~/Library/Saved Application State/cn.xfangfang.Macast.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

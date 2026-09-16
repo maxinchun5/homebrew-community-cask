@@ -34,6 +34,10 @@ cask "metasploit" do
   binary "/opt/metasploit-framework/bin/msfrpcd"
   binary "/opt/metasploit-framework/bin/msfvenom"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall script: {
               executable: "/opt/metasploit-framework/bin/msfremove",
               input:      ["y"],
@@ -41,13 +45,9 @@ cask "metasploit" do
             },
             rmdir:  "/opt/metasploit-framework"
 
+  zap trash: "~/.msf4"
+
   caveats do
     requires_rosetta
   end
-  
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
-
-  zap trash: "~/.msf4"
 end

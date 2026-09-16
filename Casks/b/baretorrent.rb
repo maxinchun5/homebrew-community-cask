@@ -16,10 +16,6 @@ cask "baretorrent" do
 
   app "baretorrent.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "baretorrent" do
     "~/Library/Application Support/baretorrent",
     "~/Library/Saved Application State/baretorrent.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

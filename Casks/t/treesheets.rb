@@ -24,11 +24,11 @@ cask "treesheets" do
 
   app "TreeSheets.app"
 
-  uninstall quit: "dot3labs.TreeSheets"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "dot3labs.TreeSheets"
 
   zap trash: [
     "~/Library/Preferences/com.strlen.TreeSheets.plist",

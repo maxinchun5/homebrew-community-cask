@@ -17,10 +17,6 @@ cask "orca" do
 
   app "orca.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "orca" do
     "~/Library/Application Support/orca",
     "~/Library/Preferences/com.plotly.orca.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

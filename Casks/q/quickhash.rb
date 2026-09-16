@@ -24,10 +24,6 @@ cask "quickhash" do
 
   app "Quickhash-GUI.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -36,4 +32,8 @@ cask "quickhash" do
     "~/.Quickhash-GUI",
     "~/Library/Saved Application State/www.Quickhash-GUI.org.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

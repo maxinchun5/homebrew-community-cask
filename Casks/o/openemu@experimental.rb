@@ -18,10 +18,6 @@ cask "openemu@experimental" do
 
   app "OpenEmu.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -37,4 +33,8 @@ cask "openemu@experimental" do
     "~/Library/Preferences/org.openemu.*.plist",
     "~/Library/Saved Application State/org.openemu.OpenEmu.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

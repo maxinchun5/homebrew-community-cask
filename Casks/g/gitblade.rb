@@ -16,10 +16,6 @@ cask "gitblade" do
 
   app "GitBlade.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -30,4 +26,8 @@ cask "gitblade" do
     "~/Library/Preferences/com.electron.gitblade.plist",
     "~/Library/Saved Application State/com.electron.gitblade.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

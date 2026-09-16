@@ -23,7 +23,6 @@ jobs:
           - macos-14
           - macos-15
           - macos-26
-          - ubuntu-latest
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Set up Homebrew

@@ -11,10 +11,6 @@ cask "airtrash" do
 
   app "Airtrash.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -23,4 +19,8 @@ cask "airtrash" do
     "~/Library/Application Support/airtrash",
     "~/Library/Preferences/maciejczyzewski.airtrash.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

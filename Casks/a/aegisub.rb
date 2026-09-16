@@ -16,19 +16,19 @@ cask "aegisub" do
 
   app "Aegisub.app"
 
-  uninstall quit: "com.aegisub.aegisub"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.aegisub.aegisub"
 
   zap trash: [
     "~/Library/Application Support/Aegisub",
     "~/Library/Preferences/com.aegisub.aegisub.plist",
     "~/Library/Saved Application State/com.aegisub.aegisub.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

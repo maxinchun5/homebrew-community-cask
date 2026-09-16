@@ -20,11 +20,11 @@ cask "tidgi" do
 
   app "TidGi.app"
 
-  uninstall quit: "com.tidgi"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.tidgi"
 
   zap trash: [
     "~/Library/Application Support/TidGi",

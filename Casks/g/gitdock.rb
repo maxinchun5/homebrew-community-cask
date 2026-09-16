@@ -15,10 +15,6 @@ cask "gitdock" do
 
   app "GitDock.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "gitdock" do
     "~/Library/Preferences/com.electron.gitdock.plist",
     "~/Library/Saved Application State/com.electron.gitdock.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

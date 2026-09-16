@@ -16,11 +16,11 @@ cask "vassal" do
 
   app "VASSAL.app"
 
-  uninstall quit: "org.vassalengine.vassal"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "org.vassalengine.vassal"
 
   zap trash: "~/Library/Application Support/VASSAL"
 end

@@ -12,11 +12,11 @@ cask "timelapze" do
 
   app "TimeLapze.app"
 
-  uninstall quit: "com.smartservices.TimeLapze"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.smartservices.TimeLapze"
 
   zap trash: [
     "~/Library/Application Scripts/com.smartservices.TimeLapze",

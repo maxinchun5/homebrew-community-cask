@@ -11,10 +11,6 @@ cask "pusher" do
 
   app "Pusher.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -23,4 +19,8 @@ cask "pusher" do
     "~/Library/Pusher",
     "~/Library/Saved Application State/com.noodlewerk.Pusher.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

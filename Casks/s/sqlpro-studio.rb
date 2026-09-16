@@ -2,10 +2,6 @@ cask "sqlpro-studio" do
   version "2026.238"
   sha256 "59f808e0ce1943d8720dea2aaa43d40b9a7989b910b984ce2b85dcc11337db27"
 
-  on_sequoia :or_older do
-
-  end
-
   url "https://d3fwkemdw8spx3.cloudfront.net/studio/SQLProStudio.#{version}.app.zip"
   name "SQLPro Studio"
   desc "Database management tool"

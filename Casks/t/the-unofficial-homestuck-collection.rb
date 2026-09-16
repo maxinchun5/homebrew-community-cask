@@ -32,14 +32,6 @@ cask "the-unofficial-homestuck-collection" do
 
   app "The Unofficial Homestuck Collection.app"
 
-  caveats do
-    requires_rosetta
-    <<~EOS
-      You will need to download the corresponding Asset Pack by visiting:
-        https://bambosh.github.io/unofficial-homestuck-collection/
-    EOS
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -49,4 +41,12 @@ cask "the-unofficial-homestuck-collection" do
     "~/Library/Preferences/com.bambosh.unofficialhomestuckcollection.plist",
     "~/Library/Saved Application State/com.bambosh.unofficialhomestuckcollection.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+    <<~EOS
+      You will need to download the corresponding Asset Pack by visiting:
+        https://bambosh.github.io/unofficial-homestuck-collection/
+    EOS
+  end
 end

@@ -11,15 +11,11 @@ cask "cerebro" do
 
   app "Cerebro.app"
 
-  uninstall quit: "cerebro"
-
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "cerebro"
 
   zap trash: [
     "~/Library/Application Support/Cerebro",
@@ -27,4 +23,8 @@ cask "cerebro" do
     "~/Library/Preferences/com.cerebroapp.Cerebro.plist",
     "~/Library/Saved Application State/com.cerebroapp.Cerebro.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

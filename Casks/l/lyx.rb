@@ -26,11 +26,11 @@ cask "lyx" do
   binary "#{appdir}/LyX.app/Contents/MacOS/maxima", target: "lyx-maxima"
   binary "#{appdir}/LyX.app/Contents/MacOS/tex2lyx"
 
-  uninstall quit: "org.lyx.lyx"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "org.lyx.lyx"
 
   zap trash: [
     "~/Library/Application Support/LyX-#{version.major_minor}",

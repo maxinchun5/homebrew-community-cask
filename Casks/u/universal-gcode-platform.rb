@@ -19,12 +19,6 @@ cask "universal-gcode-platform" do
 
   app "Universal Gcode Sender.app"
 
-  caveats <<~EOS
-    UGS developers do not sign their code and this app may need manual changes.
-    For more information, see:
-      https://github.com/winder/Universal-G-Code-Sender/issues/1351#issuecomment-579110056
-  EOS
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -33,4 +27,10 @@ cask "universal-gcode-platform" do
     "~/Library/Application Support/ugsplatform",
     "~/Library/Preferences/ugs",
   ]
+
+  caveats <<~EOS
+    UGS developers do not sign their code and this app may need manual changes.
+    For more information, see:
+      https://github.com/winder/Universal-G-Code-Sender/issues/1351#issuecomment-579110056
+  EOS
 end

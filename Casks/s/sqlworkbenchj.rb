@@ -18,13 +18,13 @@ cask "sqlworkbenchj" do
 
   app "SQLWorkbenchJ.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   # No zap stanza required
 
   caveats do
     depends_on_java "11+"
-  end
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

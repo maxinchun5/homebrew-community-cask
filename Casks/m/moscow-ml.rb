@@ -11,15 +11,15 @@ cask "moscow-ml" do
 
   pkg "mosml-#{version}.pkg"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall pkgutil: "org.mosml"
 
   # No zap stanza required
 
   caveats do
     requires_rosetta
-  end
-  
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

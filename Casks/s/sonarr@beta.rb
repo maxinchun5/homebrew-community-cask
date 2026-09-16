@@ -18,10 +18,6 @@ cask "sonarr@beta" do
 
   app "Sonarr.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -30,4 +26,8 @@ cask "sonarr@beta" do
     "~/.config/Sonarr",
     "~/Library/Saved Application State/com.osx.sonarr.tv.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

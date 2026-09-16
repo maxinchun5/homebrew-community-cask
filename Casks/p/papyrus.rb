@@ -20,11 +20,6 @@ cask "papyrus" do
 
   app "Papyrus.app"
 
-  caveats do
-    depends_on_java "11+"
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -33,4 +28,9 @@ cask "papyrus" do
     "~/Library/Preferences/org.eclipse.papyrus.rcp.product.plist",
     "~/Library/Saved Application State/org.eclipse.papyrus.rcp.product.savedState",
   ]
+
+  caveats do
+    depends_on_java "11+"
+    requires_rosetta
+  end
 end

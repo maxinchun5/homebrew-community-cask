@@ -17,10 +17,6 @@ cask "vmpk" do
 
   app "vmpk.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +25,8 @@ cask "vmpk" do
     "~/Library/Preferences/net.sourceforge.vmpk.VMPK.plist",
     "~/Library/Saved Application State/net.sourceforge.vmpk.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

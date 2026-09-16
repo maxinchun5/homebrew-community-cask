@@ -11,10 +11,6 @@ cask "google-assistant" do
 
   app "Google Assistant.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -26,4 +22,8 @@ cask "google-assistant" do
     "~/Library/Preferences/com.redvirus.g-assist.plist",
     "~/Library/Saved Application State/com.redvirus.g-assist.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

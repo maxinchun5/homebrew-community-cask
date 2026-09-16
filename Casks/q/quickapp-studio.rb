@@ -20,16 +20,16 @@ cask "quickapp-studio" do
 
   pkg "QuickApp_Studio_#{arch}-#{version}.pkg"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall quit:    "cn.quickapp.studio",
             pkgutil: [
               "cn.quickapp.studio",
               "com.hapteam.app",
               "com.mygreatcompany.pkg.quickAppIde",
             ]
-
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
 
   zap trash: "~/.快应用开发工具"
 end

@@ -25,10 +25,6 @@ cask "macdown" do
   app "MacDown.app"
   binary "#{appdir}/MacDown.app/Contents/SharedSupport/bin/macdown"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -42,4 +38,8 @@ cask "macdown" do
     "~/Library/Saved Application State/com.uranusjr.macdown.savedState",
     "~/Library/WebKit/com.uranusjr.macdown",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

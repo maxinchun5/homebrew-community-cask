@@ -16,10 +16,6 @@ cask "quassel" do
 
   app "Quassel.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -30,4 +26,8 @@ cask "quassel" do
     "~/Library/Preferences/org.quassel-irc.quasselcore.plist",
     "~/Library/Saved Application State/org.quassel-irc.client.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

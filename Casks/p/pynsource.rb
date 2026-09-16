@@ -16,10 +16,6 @@ cask "pynsource" do
 
   app "Pynsource.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -30,4 +26,8 @@ cask "pynsource" do
     "~/Library/Preferences/PyNSource",
     "~/Library/Saved Application State/Pynsource.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

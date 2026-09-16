@@ -18,10 +18,6 @@ cask "opencore-configurator" do
 
   app "OpenCore Configurator.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -33,4 +29,8 @@ cask "opencore-configurator" do
     "~/Library/HTTPStorages/org.altervista.mackie100projects.OpenCore-Configurator",
     "~/Library/Preferences/org.altervista.mackie100projects.OpenCore-Configurator.plist",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

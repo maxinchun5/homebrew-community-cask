@@ -16,13 +16,13 @@ cask "gpodder" do
 
   app "gPodder.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
   zap trash: "~/Library/Application Support/gPodder"
+
+  caveats do
+    requires_rosetta
+  end
 end

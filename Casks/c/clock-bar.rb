@@ -25,10 +25,6 @@ cask "clock-bar" do
 
   app "Clock Bar.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -37,4 +33,8 @@ cask "clock-bar" do
     "~/Library/Application Scripts/nihalsharma.clock-bar",
     "~/Library/Containers/nihalsharma.clock-bar",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

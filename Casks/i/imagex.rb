@@ -16,10 +16,6 @@ cask "imagex" do
 
   app "ImageX.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "imagex" do
     "~/Library/Preferences/de.htw.lcs.imagex.plist",
     "~/Library/Saved Application State/de.htw.lcs.imagex.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

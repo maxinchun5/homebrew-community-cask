@@ -14,7 +14,6 @@ cask "pencil2d" do
     livecheck do
       skip "Legacy version"
     end
-
   end
 
   name "Pencil2D"
@@ -26,10 +25,6 @@ cask "pencil2d" do
 
   app "Pencil2D.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -39,4 +34,8 @@ cask "pencil2d" do
     "~/Library/Preferences/com.pencil.Pencil.plist",
     "~/Library/Saved Application State/com.pencil2d.Pencil2D.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

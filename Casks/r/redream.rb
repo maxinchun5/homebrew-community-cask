@@ -16,10 +16,6 @@ cask "redream" do
 
   app "redream.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "redream" do
     "~/Library/Application Support/redream",
     "~/Library/Saved Application State/io.recompiled.redream.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

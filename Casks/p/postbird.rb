@@ -11,10 +11,6 @@ cask "postbird" do
 
   app "Postbird.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -24,4 +20,8 @@ cask "postbird" do
     "~/Library/Preferences/com.electron.postbird.plist",
     "~/Library/Saved Application State/com.electron.postbird.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

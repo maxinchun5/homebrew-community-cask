@@ -16,10 +16,6 @@ cask "persepolis-download-manager" do
 
   app "Persepolis Download Manager.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -28,4 +24,8 @@ cask "persepolis-download-manager" do
     "~/.persepolis",
     "~/Library/Application Support/persepolis_download_manager",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end

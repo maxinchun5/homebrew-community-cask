@@ -24,11 +24,11 @@ cask "mfiles" do
 
   app "爱传送.app"
 
-  uninstall quit: "com.windtune.itransfer"
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.windtune.itransfer"
 
   zap trash: "~/Library/Preferences/com.windtune.itransfer.plist"
 end

@@ -11,10 +11,6 @@ cask "glance-chamburr" do
 
   app "Glance.app"
 
-  caveats <<~EOS
-    You must start #{appdir}/Glance.app once manually to setup the Quick Look plugin.
-  EOS
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -25,4 +21,8 @@ cask "glance-chamburr" do
     "~/Library/Containers/com.chamburr.Glance",
     "~/Library/Containers/com.chamburr.Glance.QLPlugin",
   ]
+
+  caveats <<~EOS
+    You must start #{appdir}/Glance.app once manually to setup the Quick Look plugin.
+  EOS
 end

@@ -27,11 +27,11 @@ cask "fx-cast-bridge" do
 
   pkg "fx_cast_bridge-#{version}-#{arch}.pkg"
 
-  uninstall pkgutil: "tf.matt.fx_cast_bridge"
-
   # No zap stanza required
-  
+
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall pkgutil: "tf.matt.fx_cast_bridge"
 end

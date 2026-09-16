@@ -19,10 +19,6 @@ cask "multimc" do
 
   app "MultiMC.app"
 
-  caveats do
-    requires_rosetta
-  end
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -32,4 +28,8 @@ cask "multimc" do
     "~/Library/Preferences/org.multimc.MultiMC5.plist",
     "~/Library/Saved Application State/org.multimc.MultiMC5.savedState",
   ]
+
+  caveats do
+    requires_rosetta
+  end
 end
