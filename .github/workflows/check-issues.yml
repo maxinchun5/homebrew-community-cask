@@ -23,8 +23,8 @@ jobs:
     # Restrict this write-token workflow to repositories with supported templates.
     # The first step also fails if a repository checkout has occurred.
     if: >-
-      contains(fromJSON('["Homebrew/BrewUI", "Homebrew/brew", "Homebrew/homebrew-core", "Homebrew/homebrew-cask"]'), github.repository) &&
-      github.event.issue.user.login != 'BrewTestBot' &&
+      github.repository == 'maxinchun5/homebrew-community-cask' &&
+      github.event.issue.user.login != 'github-actions[bot]' &&
       github.event.issue.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
@@ -58,11 +58,7 @@ jobs:
           # Validate against the brew, homebrew-core and homebrew-cask templates so
           # issues transferred between these repositories are not closed for using a
           # sibling repository's (valid) template.
-          template_repositories=(Homebrew/brew Homebrew/homebrew-core Homebrew/homebrew-cask)
-          if [[ "${GITHUB_REPOSITORY}" == "Homebrew/BrewUI" ]]
-          then
-            template_repositories=("${GITHUB_REPOSITORY}")
-          fi
+          template_repositories=("${GITHUB_REPOSITORY}")
           for repo in "${template_repositories[@]}"
           do
             gh api "repos/${repo}/contents/.github/ISSUE_TEMPLATE?ref=main" \
@@ -86,16 +82,6 @@ jobs:
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
-          # Released apps attach a crash report instead of filling in the issue form.
-          if [[ "${GITHUB_REPOSITORY}" == "Homebrew/BrewUI" &&
-                "${ISSUE_TITLE}" == "Crash: "* ]] &&
-             grep -q '^<summary>Automatic crash report</summary>[[:space:]]*$' "${RUNNER_TEMP}/check-issues/body" &&
-             grep -q '^Homebrew[.]app crash report[[:space:]]*$' "${RUNNER_TEMP}/check-issues/body"
-          then
-            echo "complete_template=true" >>"${GITHUB_OUTPUT:?}"
-            exit 0
-          fi
-
           complete_template="$(
             ruby "${RUNNER_TEMP:?}/check_template.rb" issue \
               "${RUNNER_TEMP}/check-issues/body" \

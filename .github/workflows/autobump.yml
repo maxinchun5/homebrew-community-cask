@@ -11,11 +11,12 @@ on:
     - cron: "23 */3 * * *"
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   autobump:
-    if: github.repository == 'Homebrew/homebrew-cask'
+    if: github.repository == 'maxinchun5/homebrew-community-cask'
     env:
       HOMEBREW_DEVELOPER: 1
     runs-on: macos-26
@@ -28,22 +29,18 @@ jobs:
           cask: true
 
       - name: Configure Git user
+        id: git_setup
         uses: Homebrew/actions/git-user-config@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
         with:
-          username: ${{ (github.event_name == 'workflow_dispatch' && github.actor) || 'BrewTestBot' }}
-
-      - name: Set up commit signing
-        uses: Homebrew/actions/setup-commit-signing@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
-        with:
-          signing_key: ${{ secrets.BREWTESTBOT_SSH_SIGNING_KEY }}
+          username: ${{ (github.event_name == 'workflow_dispatch' && github.actor) || 'github-actions[bot]' }}
 
       - name: Bump casks
         id: autobump
         env:
           HOMEBREW_TEST_BOT_AUTOBUMP: 1
-          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_CASK_REPO_WORKFLOW_TOKEN }}
-          HOMEBREW_GIT_COMMITTER_NAME: BrewTestBot
-          HOMEBREW_GIT_COMMITTER_EMAIL: 1589480+BrewTestBot@users.noreply.github.com
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_GIT_COMMITTER_NAME: ${{ steps.git_setup.outputs.name }}
+          HOMEBREW_GIT_COMMITTER_EMAIL: ${{ steps.git_setup.outputs.email }}
           CASKS: ${{ inputs.casks }}
         continue-on-error: true
         run: |
@@ -51,5 +48,5 @@ jobs:
           if [[ -n "${CASKS-}" ]]; then
             xargs "${BREW_BUMP[@]}" <<<"${CASKS}"
           else
-            "${BREW_BUMP[@]}" --auto --tap=Homebrew/cask
+            "${BREW_BUMP[@]}" --auto --tap=maxinchun5/community-cask
           fi

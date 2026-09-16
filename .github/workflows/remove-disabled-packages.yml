@@ -17,16 +17,15 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
+  pull_requests: write
 
 jobs:
   remove-disabled-packages:
-    if: github.repository_owner == 'Homebrew'
+    if: github.repository_owner == 'maxinchun5'
     runs-on: macos-latest
     env:
       REMOVAL_BRANCH: remove-disabled-packages
-    permissions:
-      contents: write # for Homebrew/actions/git-try-push
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
@@ -39,12 +38,7 @@ jobs:
         id: git-user-config
         uses: Homebrew/actions/git-user-config@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
         with:
-          username: BrewTestBot
-
-      - name: Set up commit signing
-        uses: Homebrew/actions/setup-commit-signing@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
-        with:
-          signing_key: ${{ secrets.BREWTESTBOT_SSH_SIGNING_KEY }}
+          username: github-actions[bot]
 
       - name: Checkout removal branch
         run: git checkout -b "$REMOVAL_BRANCH" origin/HEAD
@@ -73,7 +67,7 @@ jobs:
         if: fromJson(steps.remove_disabled.outputs.packages-removed)
         working-directory: ${{ steps.set-up-homebrew.outputs.repository-path }}
         env:
-          GH_TOKEN: ${{ secrets.HOMEBREW_GITHUB_PUBLIC_REPO_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_BODY: >
             This pull request was created automatically by the
             [`remove-disabled-packages`](https://github.com/Homebrew/homebrew-cask/blob/HEAD/.github/workflows/remove-disabled-packages.yml)
