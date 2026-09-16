@@ -12,8 +12,6 @@ cask "cakebrewjs" do
     regex(%r{url=.*?/cakebrewjs[._-]v?(\d+(?:\.\d+)+)(?:[._-]Darwin)?\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :tahoe
 
   app "cakebrewjs.app"
@@ -27,4 +25,8 @@ cask "cakebrewjs" do
     "~/Library/Preferences/com.electron.cakebrewjs.plist",
     "~/Library/Preferences/com.shemeshg.Cakebrewjs2.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/cakebrewjs.app"
+  end
 end

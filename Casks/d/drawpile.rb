@@ -32,8 +32,6 @@ cask "drawpile" do
   desc "Collaborative drawing app"
   homepage "https://drawpile.net/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Drawpile.app"
@@ -44,4 +42,8 @@ cask "drawpile" do
     "~/Library/Preferences/net.drawpile.DrawpileClient.plist",
     "~/Library/Saved Application State/net.drawpile.DrawpileClient.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Drawpile.app"
+  end
 end

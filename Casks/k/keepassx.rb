@@ -12,8 +12,6 @@ cask "keepassx" do
     regex(/href=.*?KeePassX[._-]v?(\d+(?:\.\d+)+)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "KeePassX.app"
@@ -26,5 +24,9 @@ cask "keepassx" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/KeePassX.app"
   end
 end

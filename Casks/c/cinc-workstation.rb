@@ -42,8 +42,6 @@ cask "cinc-workstation" do
   desc "Installer for Chef infrastructure management tools"
   homepage "https://cinc.sh/start/workstation/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "cinc-workstation-#{version}-1.#{arch}.pkg"
@@ -56,4 +54,8 @@ cask "cinc-workstation" do
             pkgutil:   "com.cinc-project.pkg.cinc-workstation"
 
   zap trash: "~/.cinc-workstation"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/cinc-workstation-#{version}-1.#{arch}.pkg"
+  end
 end

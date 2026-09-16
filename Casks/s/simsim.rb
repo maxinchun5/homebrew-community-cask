@@ -7,8 +7,6 @@ cask "simsim" do
   desc "Tool to explore iOS application folders in Terminal or Finder"
   homepage "https://github.com/dsmelov/simsim/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "SimSim.app"
@@ -16,4 +14,8 @@ cask "simsim" do
   uninstall quit: "com.dsmelov.SimSim"
 
   zap trash: "~/Library/Preferences/com.dsmelov.SimSim.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SimSim.app"
+  end
 end

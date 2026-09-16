@@ -7,8 +7,6 @@ cask "wombat" do
   desc "Cross platform gRPC client"
   homepage "https://github.com/rogchap/wombat"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Wombat.app"
@@ -17,5 +15,9 @@ cask "wombat" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Wombat.app"
   end
 end

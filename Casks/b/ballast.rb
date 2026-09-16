@@ -7,8 +7,6 @@ cask "ballast" do
   desc "Status Bar app to keep the audio balance from drifting"
   homepage "https://jamsinclair.nz/ballast"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "ballast.app"
@@ -23,4 +21,8 @@ cask "ballast" do
     "~/Library/Containers/nz.jamsinclair.ballast-LaunchAtLoginHelper",
     "~/Library/Preferences/nz.jamsinclair.ballast.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ballast.app"
+  end
 end

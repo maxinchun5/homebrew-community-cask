@@ -7,8 +7,6 @@ cask "cmd-eikana" do
   name "⌘英かな"
   homepage "https://github.com/iMasanari/cmd-eikana"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "⌘英かな.app"
@@ -17,5 +15,9 @@ cask "cmd-eikana" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/⌘英かな.app"
   end
 end

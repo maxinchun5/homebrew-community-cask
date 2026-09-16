@@ -12,8 +12,6 @@ cask "zandronum" do
     regex(/href=.*?zandronum[._-]?v?(\d+(?:\.\d+)+)[._-]macosx\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Zandronum.app"
@@ -37,5 +35,9 @@ cask "zandronum" do
 
         https://wiki.zandronum.com/Zandronum_and_IWAD_Files
     EOS
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Zandronum.app"
   end
 end

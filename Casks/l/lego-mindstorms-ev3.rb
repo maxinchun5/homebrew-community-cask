@@ -13,8 +13,6 @@ cask "lego-mindstorms-ev3" do
     strategy :header_match
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "LEGO MINDSTORMS EV3 Home Edition.pkg"
@@ -36,4 +34,8 @@ cask "lego-mindstorms-ev3" do
     "com.ni.pkg.legodriver",
     "com.ximian.mono-*",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/LEGO MINDSTORMS EV3 Home Edition.pkg"
+  end
 end

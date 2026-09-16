@@ -7,8 +7,6 @@ cask "chai" do
   desc "Utility to prevent the system from going to sleep"
   homepage "https://github.com/lvillani/chai"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Chai.app"
@@ -17,4 +15,8 @@ cask "chai" do
     "~/Library/Application Scripts/me.villani.lorenzo.Chai",
     "~/Library/Containers/me.villani.lorenzo.Chai",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Chai.app"
+  end
 end

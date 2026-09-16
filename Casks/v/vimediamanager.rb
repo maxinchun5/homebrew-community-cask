@@ -20,8 +20,6 @@ cask "vimediamanager" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "ViMediaManager.app"
@@ -32,4 +30,8 @@ cask "vimediamanager" do
     "~/Library/Preferences/com.vidalvanbergen.vimediamanager-alpha.plist",
     "~/Library/Saved Application State/com.vidalvanbergen.vimediamanager-alpha.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ViMediaManager.app"
+  end
 end

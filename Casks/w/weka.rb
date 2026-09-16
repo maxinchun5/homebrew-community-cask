@@ -24,8 +24,6 @@ cask "weka" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "weka-#{version}.app"
@@ -37,5 +35,9 @@ cask "weka" do
 
   caveats do
     depends_on_java "8+"
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/weka-#{version}.app"
   end
 end

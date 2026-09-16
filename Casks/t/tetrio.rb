@@ -15,8 +15,6 @@ cask "tetrio" do
     regex(%r{href=.*builds/(\d+)/TETR\.IO[. _-]Setup[. _-]#{arch}\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "TETR.IO.app"
@@ -27,4 +25,8 @@ cask "tetrio" do
     "~/Library/Saved Application State/sh.osk.tetrio-client.savedState",
     "~/Library/WebKit/sh.osk.tetrio-client",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TETR.IO.app"
+  end
 end

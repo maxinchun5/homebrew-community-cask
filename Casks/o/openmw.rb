@@ -23,8 +23,6 @@ cask "openmw" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "OpenMW.app"
@@ -36,4 +34,8 @@ cask "openmw" do
     "~/Library/Preferences/org.openmw.openmw.plist",
     "~/Library/Saved Application State/org.openmw.*.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenMW.app"
+  end
 end

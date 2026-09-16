@@ -7,8 +7,6 @@ cask "ayugram" do
   desc "Telegram client with ghost mode and message history"
   homepage "https://github.com/AyuGram/AyuGramDesktop"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "AyuGram.app"
@@ -17,4 +15,8 @@ cask "ayugram" do
     "~/Library/Application Support/AyuGram Desktop",
     "~/Library/Saved Application State/one.ayugram.AyuGramDesktop.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/AyuGram.app"
+  end
 end

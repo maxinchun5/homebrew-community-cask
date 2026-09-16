@@ -27,8 +27,6 @@ cask "yesplaymusic" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "YesPlayMusic.app"
@@ -38,4 +36,8 @@ cask "yesplaymusic" do
     "~/Library/Preferences/com.electron.yesplaymusic.plist",
     "~/Library/Saved Application State/com.electron.yesplaymusic.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/YesPlayMusic.app"
+  end
 end

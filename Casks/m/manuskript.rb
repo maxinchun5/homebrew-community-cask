@@ -12,8 +12,6 @@ cask "manuskript" do
     regex(/href.*?manuskript[._-]v?(\d+(?:\.\d+)+)[._-]osx\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "manuskript.app"
@@ -27,5 +25,9 @@ cask "manuskript" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/manuskript.app"
   end
 end

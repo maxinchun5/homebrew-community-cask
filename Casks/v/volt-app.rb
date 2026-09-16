@@ -16,8 +16,6 @@ cask "volt-app" do
   desc "Client for Slack, Discord, Skype, Gmail, Twitter, Facebook, and more"
   homepage "https://volt-app.com/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Volt.app"
@@ -28,4 +26,8 @@ cask "volt-app" do
     "~/Library/HTTPStorages/Volt.binarycookies",
     "~/Library/WebKit/Volt",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Volt.app"
+  end
 end

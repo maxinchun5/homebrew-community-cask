@@ -20,8 +20,6 @@ cask "treesheets" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "TreeSheets.app"
@@ -34,4 +32,8 @@ cask "treesheets" do
     "~/Library/Preferences/TreeSheets Preferences",
     "~/Library/Saved Application State/dot3labs.TreeSheets.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TreeSheets.app"
+  end
 end

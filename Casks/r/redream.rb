@@ -12,8 +12,6 @@ cask "redream" do
     regex(/redream\.x86_64-mac-v(\d+(?:\.\d+)*)\.t/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "redream.app"
@@ -25,5 +23,9 @@ cask "redream" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/redream.app"
   end
 end

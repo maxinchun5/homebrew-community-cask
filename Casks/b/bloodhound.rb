@@ -10,8 +10,6 @@ cask "bloodhound" do
   desc "Six Degrees of Domain Admin"
   homepage "https://github.com/BloodHoundAD/BloodHound"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "BloodHound-darwin-#{arch}/BloodHound.app"
@@ -21,4 +19,8 @@ cask "bloodhound" do
     "~/Library/Preferences/com.electron.bloodhound.plist",
     "~/Library/Saved Application State/com.electron.bloodhound.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BloodHound-darwin-#{arch}/BloodHound.app"
+  end
 end

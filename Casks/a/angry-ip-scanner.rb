@@ -10,11 +10,13 @@ cask "angry-ip-scanner" do
   desc "Network scanner"
   homepage "https://angryip.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Angry IP Scanner.app"
 
   # No zap stanza required
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Angry IP Scanner.app"
+  end
 end

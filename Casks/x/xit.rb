@@ -52,8 +52,6 @@ cask "xit" do
   desc "GUI for the git version control system"
   homepage "https://github.com/Uncommon/Xit"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   zap trash: [
@@ -62,4 +60,8 @@ cask "xit" do
     "~/Library/Preferences/com.uncommonplace.Xit.plist",
     "~/Library/Saved Application State/com.uncommonplace.Xit.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Xit.app"
+  end
 end

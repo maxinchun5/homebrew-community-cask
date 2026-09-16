@@ -12,11 +12,13 @@ cask "nulloy" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Nulloy.app"
 
   zap trash: "~/Library/Saved Application State/com.nulloy.savedState"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Nulloy.app"
+  end
 end

@@ -26,8 +26,6 @@ cask "duckietv" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "DuckieTV-#{version}-OSX-x64.pkg"
@@ -40,5 +38,9 @@ cask "duckietv" do
 
   caveats do
     requires_rosetta
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/DuckieTV-#{version}-OSX-x64.pkg"
   end
 end

@@ -7,8 +7,6 @@ cask "pine" do
   desc "Native markdown editor"
   homepage "https://github.com/lukakerr/pine"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Pine.app"
@@ -24,5 +22,9 @@ cask "pine" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pine.app"
   end
 end

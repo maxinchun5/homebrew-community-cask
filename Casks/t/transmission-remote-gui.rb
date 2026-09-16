@@ -6,8 +6,6 @@ cask "transmission-remote-gui" do
   name "Transmission Remote GUI"
   homepage "https://github.com/transmission-remote-gui/transgui"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Transmission Remote GUI.app"
@@ -22,5 +20,9 @@ cask "transmission-remote-gui" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Transmission Remote GUI.app"
   end
 end

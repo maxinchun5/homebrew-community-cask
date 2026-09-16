@@ -6,8 +6,6 @@ cask "material-colors" do
   name "Material Colors for Mac"
   homepage "https://github.com/romannurik/MaterialColorsApp"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Material Colors.app"
@@ -22,5 +20,9 @@ cask "material-colors" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Material Colors.app"
   end
 end

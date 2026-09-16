@@ -24,8 +24,6 @@ cask "wire" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   pkg "Wire.pkg"
@@ -37,4 +35,8 @@ cask "wire" do
             pkgutil: "com.wearezeta.zclient.mac"
 
   zap trash: "~/Library/Containers/com.wearezeta.zclient.mac"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/Wire.pkg"
+  end
 end

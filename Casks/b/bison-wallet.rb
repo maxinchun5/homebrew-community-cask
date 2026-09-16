@@ -24,8 +24,6 @@ cask "bison-wallet" do
   desc "Multi-coin wallet with feeless DEX, atomic swaps, and arbitrage tools"
   homepage "https://github.com/decred/dcrdex"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Bison Wallet.app"
@@ -34,4 +32,8 @@ cask "bison-wallet" do
     "~/Library/Application Support/Dexc",
     "~/Library/Preferences/com.decred.dcrdex.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Bison Wallet.app"
+  end
 end

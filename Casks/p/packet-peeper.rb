@@ -7,8 +7,6 @@ cask "packet-peeper" do
   desc "Network protocol analyzer"
   homepage "https://github.com/choll/packetpeeper"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Packet Peeper.app"
@@ -18,4 +16,8 @@ cask "packet-peeper" do
     "~/Library/Preferences/org.PacketPeeper.plist",
     "~/Library/Saved Application State/org.PacketPeeper.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Packet Peeper.app"
+  end
 end

@@ -7,8 +7,6 @@ cask "weakauras-companion" do
   desc "Update your auras from Wago.io and creates regular backups of them"
   homepage "https://github.com/WeakAuras/WeakAuras-Companion/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "WeakAuras Companion.app"
@@ -18,4 +16,8 @@ cask "weakauras-companion" do
     "~/Library/Logs/weakauras-companion",
     "~/Library/Preferences/wtf.weakauras.companion.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/WeakAuras Companion.app"
+  end
 end

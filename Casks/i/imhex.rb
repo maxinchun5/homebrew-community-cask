@@ -17,8 +17,6 @@ cask "imhex" do
   desc "Hex editor for reverse engineers"
   homepage "https://imhex.werwolv.net/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "ImHex.app"
@@ -28,4 +26,8 @@ cask "imhex" do
     "~/Library/Preferences/net.WerWolv.ImHex.plist",
     "~/Library/Saved Application State/net.WerWolv.ImHex.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ImHex.app"
+  end
 end

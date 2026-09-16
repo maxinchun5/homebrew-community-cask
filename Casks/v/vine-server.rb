@@ -15,8 +15,6 @@ cask "vine-server" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Vine Server.app"
@@ -27,4 +25,8 @@ cask "vine-server" do
   uninstall delete: "/Library/Application Support/VineServer"
 
   zap trash: "~/Library/Preferences/de.uni-mannheim.VineServer.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Vine Server.app"
+  end
 end

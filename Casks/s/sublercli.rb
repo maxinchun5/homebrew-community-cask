@@ -7,8 +7,6 @@ cask "sublercli" do
   desc "Command-line version of Subler"
   homepage "https://bitbucket.org/galad87/sublercli/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   binary "SublerCLI"
@@ -17,5 +15,9 @@ cask "sublercli" do
 
   caveats do
     requires_rosetta
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
   end
 end

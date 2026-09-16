@@ -12,8 +12,6 @@ cask "zettelkasten" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Zettelkasten.app"
@@ -25,5 +23,9 @@ cask "zettelkasten" do
 
   caveats do
     depends_on_java "8"
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Zettelkasten.app"
   end
 end

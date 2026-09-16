@@ -12,11 +12,13 @@ cask "netxms-console" do
     regex(/href=.*?nxmc[._-]v?(\d+(?:\.\d+)+)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "NetXMS #{version.major_minor}.app"
 
   zap trash: "~/.nxmc"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/NetXMS #{version.major_minor}.app"
+  end
 end

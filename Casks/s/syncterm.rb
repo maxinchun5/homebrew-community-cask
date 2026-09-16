@@ -7,8 +7,6 @@ cask "syncterm" do
   desc "BBS terminal program"
   homepage "https://syncterm.bbsdev.net/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "SyncTERM.app"
@@ -17,4 +15,8 @@ cask "syncterm" do
     "~/Library/Preferences/SyncTERM",
     "~/Library/Preferences/syncterm.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SyncTERM.app"
+  end
 end

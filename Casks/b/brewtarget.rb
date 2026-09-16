@@ -12,8 +12,6 @@ cask "brewtarget" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :sequoia
 
   app "brewtarget_#{version}_MacOS.app"
@@ -23,4 +21,8 @@ cask "brewtarget" do
     "~/Library/Preferences/com.brewtarget.Brewtarget.plist",
     "~/Library/Saved Application State/com.brewtarget.Brewtarget.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/brewtarget_#{version}_MacOS.app"
+  end
 end

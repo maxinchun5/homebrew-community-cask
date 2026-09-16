@@ -13,8 +13,6 @@ cask "n1ghtshade" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on formula: %w[
     libimobiledevice
     libirecovery
@@ -29,4 +27,8 @@ cask "n1ghtshade" do
   app "n1ghtshade.app"
 
   zap trash: "~/Library/Application Support/n1ghtshade"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/n1ghtshade.app"
+  end
 end

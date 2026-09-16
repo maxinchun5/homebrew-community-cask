@@ -7,8 +7,6 @@ cask "machoview" do
   desc "Visual Mach-O file browser"
   homepage "https://sourceforge.net/projects/machoview/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "MachOView.app"
@@ -20,5 +18,9 @@ cask "machoview" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MachOView.app"
   end
 end

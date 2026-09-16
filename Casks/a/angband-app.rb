@@ -12,8 +12,6 @@ cask "angband-app" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Angband.app"
@@ -23,4 +21,8 @@ cask "angband-app" do
     "~/Library/Preferences/org.rephial.angband.plist",
     "~/Library/Saved Application State/org.rephial.angband.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Angband.app"
+  end
 end

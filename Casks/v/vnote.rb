@@ -7,8 +7,6 @@ cask "vnote" do
   desc "Note-taking platform"
   homepage "https://docs.vnote.fun/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "VNote.app"
@@ -18,4 +16,8 @@ cask "vnote" do
     "~/Library/Preferences/com.vnotex.vnote.plist",
     "~/Library/Preferences/VNote",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/VNote.app"
+  end
 end

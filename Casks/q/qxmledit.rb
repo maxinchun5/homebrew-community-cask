@@ -12,8 +12,6 @@ cask "qxmledit" do
     regex(%r{url=.*?/QXmlEdit[._-]v?(\d+(?:\.\d+)+)\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "QXmlEdit.app"
@@ -26,5 +24,9 @@ cask "qxmledit" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/QXmlEdit.app"
   end
 end

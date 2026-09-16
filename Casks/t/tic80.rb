@@ -8,8 +8,6 @@ cask "tic80" do
   desc "Fantasy computer for making, playing and sharing tiny games"
   homepage "https://tic80.com/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "tic80.app"
@@ -23,5 +21,9 @@ cask "tic80" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/tic80.app"
   end
 end

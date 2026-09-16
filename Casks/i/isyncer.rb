@@ -12,8 +12,6 @@ cask "isyncer" do
     regex(/href=.*?iSyncer[._-]?v?(\d+(?:\.\d+)+)[._-]?mac[._-]installer\.t/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "iSyncer-installer-#{version}.pkg"
@@ -22,5 +20,9 @@ cask "isyncer" do
 
   caveats do
     requires_rosetta
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/iSyncer-installer-#{version}.pkg"
   end
 end

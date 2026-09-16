@@ -12,8 +12,6 @@ cask "sonarr@beta" do
     regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: "sonarr"
   depends_on cask: "mono-mdk"
   depends_on :macos
@@ -27,5 +25,9 @@ cask "sonarr@beta" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sonarr.app"
   end
 end

@@ -12,8 +12,6 @@ cask "sioyek" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
   container nested: "build/sioyek.dmg"
 
@@ -28,5 +26,9 @@ cask "sioyek" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/sioyek.app"
   end
 end

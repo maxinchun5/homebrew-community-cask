@@ -7,8 +7,6 @@ cask "iina+" do
   desc "Extra danmaku support for iina (iina 弹幕支持)"
   homepage "https://github.com/xjbeta/iina-plus"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on macos: :ventura
 
@@ -20,4 +18,8 @@ cask "iina+" do
     "~/Library/Preferences/com.xjbeta.iina-plus.plist",
     "~/Library/WebKit/com.xjbeta.iina-plus",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/IINA+.app"
+  end
 end

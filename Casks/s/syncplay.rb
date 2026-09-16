@@ -12,8 +12,6 @@ cask "syncplay" do
     regex(/href=.*?Syncplay[._-]v?(\d+(?:\.\d+)+)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Syncplay.app"
@@ -27,4 +25,8 @@ cask "syncplay" do
     "~/Library/Preferences/pl.syncplay.Syncplay.plist",
     "~/Library/Saved Application State/pl.syncplay.Syncplay.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Syncplay.app"
+  end
 end

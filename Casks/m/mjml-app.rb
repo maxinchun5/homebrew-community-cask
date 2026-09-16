@@ -7,13 +7,15 @@ cask "mjml-app" do
   desc "Desktop app for MJML"
   homepage "https://mjmlio.github.io/mjml-app/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "MJML.app"
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MJML.app"
   end
 end

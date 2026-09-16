@@ -7,8 +7,6 @@ cask "tomatobar" do
   desc "Menu bar pomodoro timer"
   homepage "https://github.com/ivoronin/TomatoBar"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "TomatoBar.app"
@@ -17,4 +15,8 @@ cask "tomatobar" do
     "~/Library/Application Scripts/com.github.ivoronin.TomatoBar",
     "~/Library/Containers/com.github.ivoronin.TomatoBar",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TomatoBar.app"
+  end
 end

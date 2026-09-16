@@ -7,8 +7,6 @@ cask "moscow-ml" do
   desc "Light-weight implementation of Standard ML"
   homepage "https://mosml.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "mosml-#{version}.pkg"
@@ -19,5 +17,9 @@ cask "moscow-ml" do
 
   caveats do
     requires_rosetta
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/mosml-#{version}.pkg"
   end
 end

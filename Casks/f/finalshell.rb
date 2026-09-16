@@ -14,8 +14,6 @@ cask "finalshell" do
     regex(/版本号?(\d+(?:\.\d+)+)/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "finalshell_macos_#{arch}.pkg"
@@ -32,4 +30,8 @@ cask "finalshell" do
     "~/Library/FinalShell",
     "~/Library/Saved Application State/myssh.savedState",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/finalshell_macos_#{arch}.pkg"
+  end
 end

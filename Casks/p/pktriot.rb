@@ -15,11 +15,13 @@ cask "pktriot" do
     regex(/href=.*?pktriot[._-](\d+(?:\.\d+)+)[._-]macos[._-]?#{arch}\.(?:t|zip)/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   binary "pktriot-#{version}/pktriot"
 
   zap trash: "~/.pktriot"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  end
 end

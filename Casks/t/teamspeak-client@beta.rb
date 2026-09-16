@@ -15,8 +15,6 @@ cask "teamspeak-client@beta" do
     regex(%r{href=.*?/(\d+(?:\.\d+)+[^/]*)/teamspeak[._-]client-#{arch}\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -27,4 +25,8 @@ cask "teamspeak-client@beta" do
     "~/Library/Preferences/TeamSpeak",
     "~/Library/Saved Application State/com.teamspeak.#{version.major}.client.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TeamSpeak.app"
+  end
 end

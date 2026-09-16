@@ -14,8 +14,6 @@ cask "tv-browser" do
     regex(%r{url=.*?/tvbrowser[._-]v?(\d+(?:\.\d+)*)(?:[._-]mac(?:java)?)?\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "TV-Browser.app"
@@ -26,4 +24,8 @@ cask "tv-browser" do
     "~/Library/Preferences/tvbrowser.TVBrowser.plist",
     "~/Library/Saved Application State/tvbrowser.TVBrowser.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TV-Browser.app"
+  end
 end

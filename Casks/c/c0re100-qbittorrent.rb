@@ -10,8 +10,6 @@ cask "c0re100-qbittorrent" do
   on_macos do
     url "https://github.com/c0re100/qBittorrent-Enhanced-Edition/releases/download/release-#{version}/qBittorrent-Enhanced-Edition-release-#{version}-macOS-universal.dmg"
 
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
     depends_on macos: :ventura
 
     app "qBittorrent.app"
@@ -44,4 +42,8 @@ cask "c0re100-qbittorrent" do
     "qbittorrent",
     "qbittorrent@lt20",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qBittorrent.app"
+  end
 end

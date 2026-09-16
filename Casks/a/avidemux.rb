@@ -20,8 +20,6 @@ cask "avidemux" do
   desc "Video editor"
   homepage "https://www.avidemux.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Avidemux_#{version}.app"
@@ -35,5 +33,9 @@ cask "avidemux" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Avidemux_#{version}.app"
   end
 end

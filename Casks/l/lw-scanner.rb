@@ -10,7 +10,7 @@ cask "lw-scanner" do
          x86_64_linux: "28f564755a145dafe775b35e8d960464141b304ab6de9bcd3606b2f7c033800f"
 
   on_macos do
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
+
   end
 
   url "https://github.com/lacework/lacework-vulnerability-scanner/releases/download/v#{version}/lw-scanner-#{os}-#{arch}.#{url_end}"
@@ -26,4 +26,8 @@ cask "lw-scanner" do
   binary "bin/lw-scanner"
 
   zap trash: "~/.config/lw-scanner"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  end
 end

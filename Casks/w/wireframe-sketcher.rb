@@ -15,8 +15,6 @@ cask "wireframe-sketcher" do
     regex(/Current\s+version\s+is\s+v?(\d+(?:\.\d+)+)/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "WireframeSketcher.app"
@@ -26,4 +24,8 @@ cask "wireframe-sketcher" do
     "~/Library/Preferences/com.wireframesketcher.studio.plist",
     "~/Library/Saved Application State/com.wireframesketcher.studio.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/WireframeSketcher.app"
+  end
 end

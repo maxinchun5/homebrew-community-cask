@@ -11,8 +11,6 @@ cask "chiaki" do
     url :homepage
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Chiaki.app"
@@ -24,5 +22,9 @@ cask "chiaki" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Chiaki.app"
   end
 end

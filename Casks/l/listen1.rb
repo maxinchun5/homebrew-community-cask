@@ -11,8 +11,6 @@ cask "listen1" do
   desc "Search and play songs from a variety of online sources"
   homepage "https://listen1.github.io/listen1/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Listen1.app"
@@ -21,4 +19,8 @@ cask "listen1" do
     "~/Library/Application Support/listen1",
     "~/Library/Preferences/com.listen1.listen1.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Listen1.app"
+  end
 end

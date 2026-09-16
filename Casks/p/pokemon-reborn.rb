@@ -12,8 +12,6 @@ cask "pokemon-reborn" do
     strategy :header_match
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Reborn.app"
@@ -22,4 +20,8 @@ cask "pokemon-reborn" do
     "~/Library/Application Support/Pokemon Reborn",
     "~/Library/Saved Application State/org.struma.mkxp-z.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Reborn.app"
+  end
 end

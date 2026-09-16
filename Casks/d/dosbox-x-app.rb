@@ -20,8 +20,6 @@ cask "dosbox-x-app" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "dosbox-x/dosbox-x.app"
@@ -30,4 +28,8 @@ cask "dosbox-x-app" do
     "~/Library/Preferences/com.dosbox-x.plist",
     "~/Library/Preferences/mapper-dosbox-x.map",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/dosbox-x/dosbox-x.app"
+  end
 end

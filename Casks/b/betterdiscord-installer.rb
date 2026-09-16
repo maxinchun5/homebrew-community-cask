@@ -7,8 +7,6 @@ cask "betterdiscord-installer" do
   desc "Installer for BetterDiscord"
   homepage "https://betterdiscord.app/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on cask: "discord"
   depends_on macos: :monterey
 
@@ -20,4 +18,8 @@ cask "betterdiscord-installer" do
     "~/Library/Preferences/app.betterdiscord.installer.plist",
     "~/Library/Saved Application State/app.betterdiscord.installer.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BetterDiscord Installer.app"
+  end
 end

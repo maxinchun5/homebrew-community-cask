@@ -10,8 +10,6 @@ cask "electronmail" do
   desc "Unofficial ProtonMail Desktop App"
   homepage "https://github.com/vladimiry/ElectronMail"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "electron-mail.app"
@@ -23,4 +21,8 @@ cask "electronmail" do
     "~/Library/Preferences/github.comvladimiryElectronMail.plist",
     "~/Library/Saved Application State/github.comvladimiryElectronMail.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/electron-mail.app"
+  end
 end

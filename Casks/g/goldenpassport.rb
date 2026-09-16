@@ -12,8 +12,6 @@ cask "goldenpassport" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -23,4 +21,8 @@ cask "goldenpassport" do
     "~/Library/Application Support/GoldenPassport",
     "~/Library/Preferences/site.stanzhai.GoldenPassport.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/GoldenPassport.app"
+  end
 end

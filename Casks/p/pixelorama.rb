@@ -7,8 +7,6 @@ cask "pixelorama" do
   desc "2D sprite editor made with the Godot Engine"
   homepage "https://orama-interactive.itch.io/pixelorama"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Pixelorama.app"
@@ -16,4 +14,8 @@ cask "pixelorama" do
   uninstall quit: "com.orama-interactive.pixelorama"
 
   zap trash: "~/Library/Saved Application State/com.orama_interactive.pixelorama.savedState"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pixelorama.app"
+  end
 end

@@ -7,8 +7,6 @@ cask "postbird" do
   desc "Open-source PostgreSQL GUI client"
   homepage "https://github.com/Paxa/postbird"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Postbird.app"
@@ -21,5 +19,9 @@ cask "postbird" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Postbird.app"
   end
 end

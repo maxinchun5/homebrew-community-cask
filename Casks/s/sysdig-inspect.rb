@@ -12,8 +12,6 @@ cask "sysdig-inspect" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Sysdig Inspect-darwin-x64/Sysdig Inspect.app"
@@ -27,5 +25,9 @@ cask "sysdig-inspect" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sysdig Inspect-darwin-x64/Sysdig Inspect.app"
   end
 end

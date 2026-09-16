@@ -7,7 +7,7 @@ cask "jasp" do
          intel: "d39665e1c1478ae04c1b1c5c92754806b0824f31dcb65d4c5f7497b9e1f2fb07"
 
   on_intel do
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
+
   end
 
   url "https://github.com/jasp-stats/jasp-desktop/releases/download/v#{version.csv.first.major_minor_patch}/JASP-#{version.csv.first}-macOS-#{arch}.dmg"
@@ -36,4 +36,8 @@ cask "jasp" do
     "~/Library/Preferences/org.jasp-stats.JASP.plist",
     "~/Library/Saved Application State/org.jasp-stats.jasp.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/JASP.app"
+  end
 end

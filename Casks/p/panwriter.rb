@@ -15,8 +15,6 @@ cask "panwriter" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on formula: "pandoc"
   depends_on macos: :monterey
 
@@ -26,4 +24,8 @@ cask "panwriter" do
     "~/Library/Application Support/PanWriter",
     "~/Library/Preferences/com.panwriter.app.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PanWriter.app"
+  end
 end

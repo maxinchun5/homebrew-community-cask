@@ -30,8 +30,6 @@ cask "forkgram" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Forkgram.app"
@@ -40,4 +38,8 @@ cask "forkgram" do
     "~/Library/Application Support/Forkgram Desktop",
     "~/Library/Preferences/com.tdesktop.Telegram.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Forkgram.app"
+  end
 end

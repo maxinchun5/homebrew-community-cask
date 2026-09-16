@@ -15,8 +15,6 @@ cask "desmume" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "DeSmuME.app"
@@ -27,4 +25,8 @@ cask "desmume" do
     "~/Library/Preferences/org.desmume.DeSmuME.plist",
     "~/Library/Saved Application State/org.desmume.DeSmuME.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DeSmuME.app"
+  end
 end

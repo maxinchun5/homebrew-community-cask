@@ -13,8 +13,6 @@ cask "liteide" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "liteide/LiteIDE.app"
@@ -22,5 +20,9 @@ cask "liteide" do
   # No zap stanza required
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/liteide/LiteIDE.app"
   end
 end

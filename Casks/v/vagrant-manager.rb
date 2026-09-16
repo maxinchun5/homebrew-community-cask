@@ -6,8 +6,6 @@ cask "vagrant-manager" do
   name "Vagrant Manager"
   homepage "https://www.vagrantmanager.com/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Vagrant Manager.app"
@@ -21,5 +19,9 @@ cask "vagrant-manager" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Vagrant Manager.app"
   end
 end

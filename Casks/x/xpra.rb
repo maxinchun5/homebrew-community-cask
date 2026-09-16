@@ -26,8 +26,6 @@ cask "xpra" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Xpra.app"
@@ -38,4 +36,8 @@ cask "xpra" do
         "~/Library/Application Support/Xpra",
         "~/Library/Saved Application State/org.xpra.xpra.savedState",
       ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Xpra.app"
+  end
 end

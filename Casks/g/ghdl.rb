@@ -55,8 +55,6 @@ cask "ghdl" do
   desc "VHDL 2008/93/87 simulator"
   homepage "https://ghdl.github.io/ghdl/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   directory = "ghdl-llvm-#{version}-macos#{macos_version}-#{arch}"
@@ -70,4 +68,8 @@ cask "ghdl" do
   binary "#{directory}/lib/ghdl", target: "#{HOMEBREW_PREFIX}/lib/ghdl"
 
   # No zap stanza required
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  end
 end

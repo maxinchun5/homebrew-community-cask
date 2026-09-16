@@ -12,8 +12,6 @@ cask "apple-juice" do
     strategy :sparkle, &:short_version
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -25,4 +23,8 @@ cask "apple-juice" do
     "~/Library/Caches/io.raphaelhanneken.applejuice",
     "~/Library/Preferences/io.raphaelhanneken.applejuice.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Apple Juice.app"
+  end
 end

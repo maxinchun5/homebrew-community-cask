@@ -23,8 +23,6 @@ cask "nwjs" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "nwjs-sdk-v#{version}-osx-#{arch}/nwjs.app"
@@ -36,4 +34,8 @@ cask "nwjs" do
     "~/Library/Preferences/io.nwjs.nwjs.plist",
     "~/Library/Saved Application State/io.nwjs.nwjs.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/nwjs-sdk-v#{version}-osx-#{arch}/nwjs.app"
+  end
 end

@@ -26,8 +26,6 @@ cask "alex313031-thorium" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Thorium.app", target: "Thorium Browser.app"
@@ -40,4 +38,8 @@ cask "alex313031-thorium" do
     "~/Library/Preferences/org.chromium.Thorium.plist",
     "~/Library/Saved Application State/org.chromium.Thorium.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Thorium.app"
+  end
 end

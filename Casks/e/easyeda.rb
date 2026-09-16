@@ -17,8 +17,6 @@ cask "easyeda" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "EasyEDA.app"
@@ -30,4 +28,8 @@ cask "easyeda" do
     "~/Library/Preferences/com.easyeda.editor.plist",
     "~/Library/Saved Application State/com.easyeda.editor.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/EasyEDA.app"
+  end
 end

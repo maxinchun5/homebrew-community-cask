@@ -14,8 +14,6 @@ cask "sqlworkbenchj" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "SQLWorkbenchJ.app"
@@ -24,5 +22,9 @@ cask "sqlworkbenchj" do
 
   caveats do
     depends_on_java "11+"
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SQLWorkbenchJ.app"
   end
 end

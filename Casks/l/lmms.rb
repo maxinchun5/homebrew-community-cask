@@ -7,8 +7,6 @@ cask "lmms" do
   desc "Music production software"
   homepage "https://lmms.io/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "LMMS.app"
@@ -21,5 +19,9 @@ cask "lmms" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LMMS.app"
   end
 end

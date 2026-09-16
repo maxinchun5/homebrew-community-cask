@@ -7,8 +7,6 @@ cask "streamlink-twitch-gui" do
   desc "Multi platform Twitch.tv browser for Streamlink"
   homepage "https://github.com/streamlink/streamlink-twitch-gui/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on formula: "streamlink"
   depends_on :macos
 
@@ -22,5 +20,9 @@ cask "streamlink-twitch-gui" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Streamlink Twitch GUI.app"
   end
 end

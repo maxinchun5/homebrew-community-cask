@@ -7,8 +7,6 @@ cask "deepstream" do
   desc "Data-sync realtime server"
   homepage "https://deepstream.io/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "deepstream.io-mac-#{version}.pkg"
@@ -19,5 +17,9 @@ cask "deepstream" do
 
   caveats do
     files_in_usr_local
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/deepstream.io-mac-#{version}.pkg"
   end
 end

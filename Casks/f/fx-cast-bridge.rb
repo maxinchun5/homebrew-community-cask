@@ -23,8 +23,6 @@ cask "fx-cast-bridge" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "fx_cast_bridge-#{version}-#{arch}.pkg"
@@ -32,4 +30,8 @@ cask "fx-cast-bridge" do
   uninstall pkgutil: "tf.matt.fx_cast_bridge"
 
   # No zap stanza required
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/fx_cast_bridge-#{version}-#{arch}.pkg"
+  end
 end

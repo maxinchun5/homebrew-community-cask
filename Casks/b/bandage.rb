@@ -10,8 +10,6 @@ cask "bandage" do
   desc "Bioinformatics app for navigating de novo assembly graphs"
   homepage "https://rrwick.github.io/Bandage/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Bandage.app"
@@ -22,4 +20,8 @@ cask "bandage" do
     "~/Library/Preferences/com.rrwick.Bandage.plist",
     "~/Library/Saved Application State/com.rrwick.Bandage.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Bandage.app"
+  end
 end

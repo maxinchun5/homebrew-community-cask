@@ -15,8 +15,6 @@ cask "electorrent" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on macos: :monterey
 
@@ -28,4 +26,8 @@ cask "electorrent" do
     "~/Library/Preferences/com.github.tympanix.Electorrent.plist",
     "~/Library/Saved Application State/com.github.tympanix.Electorrent.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Electorrent.app"
+  end
 end

@@ -15,8 +15,6 @@ cask "inav-configurator" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "INAV Configurator.app"
@@ -27,4 +25,8 @@ cask "inav-configurator" do
     "~/Library/Preferences/com.nw-builder.inav-configurator.plist",
     "~/Library/Saved Application State/com.nw-builder.inav-configurator.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/INAV Configurator.app"
+  end
 end

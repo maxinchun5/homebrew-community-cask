@@ -7,8 +7,6 @@ cask "react-proto" do
   desc "React application prototyping tool for developers and designers"
   homepage "https://react-proto.github.io/react-proto"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "React-Proto.app"
@@ -20,5 +18,9 @@ cask "react-proto" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/React-Proto.app"
   end
 end

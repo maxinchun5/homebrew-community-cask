@@ -12,8 +12,6 @@ cask "acronis-true-image-cleanup-tool" do
     regex(/\x00cleanup_tool_mac_macarm64[._-]v?(\d+(?:\.\d+)*)\x00/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   lib_directory = "#{HOMEBREW_PREFIX}/lib/acronis-true-image"
@@ -21,4 +19,8 @@ cask "acronis-true-image-cleanup-tool" do
   binary "#{staged_path}/cleanup_tool%20Mac", target: "#{lib_directory}/cleanup_tool"
 
   # No zap stanza required
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  end
 end

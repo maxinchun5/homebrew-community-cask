@@ -40,8 +40,6 @@ cask "vlc@nightly" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: "vlc"
   depends_on :macos
 
@@ -58,4 +56,8 @@ cask "vlc@nightly" do
     "~/Library/Preferences/org.videolan.vlc.plist",
     "~/Library/Saved Application State/org.videolan.vlc.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/VLC.app"
+  end
 end

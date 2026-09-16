@@ -10,8 +10,6 @@ cask "uvtools" do
   desc "MSLA/DLP, file analysis, calibration, repair, conversion and manipulation"
   homepage "https://github.com/sn4k3/UVtools"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on macos: :ventura
 
@@ -21,4 +19,8 @@ cask "uvtools" do
     "~/Library/Preferences/com.UVtools.plist",
     "~/Library/Saved Application State/com.UVtools.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/UVtools.app"
+  end
 end

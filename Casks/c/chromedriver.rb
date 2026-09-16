@@ -17,12 +17,14 @@ cask "chromedriver" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: "chromedriver@beta"
   depends_on :macos
 
   binary "chromedriver-mac-#{arch}/chromedriver"
 
   # No zap stanza required
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  end
 end

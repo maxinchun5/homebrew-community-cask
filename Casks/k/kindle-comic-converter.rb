@@ -16,11 +16,13 @@ cask "kindle-comic-converter" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Kindle Comic Converter.app"
 
   zap trash: "~/Library/Preferences/com.kindlecomicconverter.KindleComicConverter.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Kindle Comic Converter.app"
+  end
 end

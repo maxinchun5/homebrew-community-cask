@@ -13,8 +13,6 @@ cask "disk-inventory-x" do
     strategy :header_match
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Disk Inventory X.app"
@@ -23,5 +21,9 @@ cask "disk-inventory-x" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Disk Inventory X.app"
   end
 end

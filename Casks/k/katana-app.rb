@@ -7,8 +7,6 @@ cask "katana-app" do
   desc "Open-source screenshot utility"
   homepage "https://github.com/bluegill/katana/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Katana.app"
@@ -22,5 +20,9 @@ cask "katana-app" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Katana.app"
   end
 end

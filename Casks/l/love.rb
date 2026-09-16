@@ -7,12 +7,14 @@ cask "love" do
   desc "2D game framework for Lua"
   homepage "https://love2d.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "love.app"
   binary "#{appdir}/love.app/Contents/MacOS/love"
 
   zap trash: "~/Library/Saved Application State/org.love2d.love.savedState"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/love.app"
+  end
 end

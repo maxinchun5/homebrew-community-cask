@@ -20,8 +20,6 @@ cask "salesforce-cli" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "sf-v#{version.csv.first}-#{version.csv.second}-#{arch}.pkg"
@@ -38,4 +36,8 @@ cask "salesforce-cli" do
     "~/.local/share/sf",
     "~/.sf",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/sf-v#{version.csv.first}-#{version.csv.second}-#{arch}.pkg"
+  end
 end

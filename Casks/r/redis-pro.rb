@@ -12,8 +12,6 @@ cask "redis-pro" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "redis-pro.app"
@@ -26,4 +24,8 @@ cask "redis-pro" do
     "~/Library/Preferences/com.cmushroom.redis-pro.plist",
     "~/Library/Saved Application State/com.cmushroom.redis-pro.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/redis-pro.app"
+  end
 end

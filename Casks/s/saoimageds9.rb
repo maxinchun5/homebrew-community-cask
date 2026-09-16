@@ -33,8 +33,6 @@ cask "saoimageds9" do
     regex(/href=.*?SAOImageDS9%20v?(\d+(?:\.\d+)+)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "SAOImageDS9.app"
@@ -44,4 +42,8 @@ cask "saoimageds9" do
     "~/Library/Preferences/com.sao.SAOImageDS9.plist",
     "~/Library/Saved Application State/com.sao.SAOImageDS9.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SAOImageDS9.app"
+  end
 end

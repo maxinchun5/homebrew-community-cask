@@ -7,8 +7,6 @@ cask "usr-sse2-rdm" do
   desc "Set a Retina display to custom resolutions"
   homepage "https://github.com/usr-sse2/RDM"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "RDM.app"
@@ -20,4 +18,8 @@ cask "usr-sse2-rdm" do
     "~/Library/Application Support/net.alkalay.RDM",
     "~/Library/Preferences/net.alkalay.RDM.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/RDM.app"
+  end
 end

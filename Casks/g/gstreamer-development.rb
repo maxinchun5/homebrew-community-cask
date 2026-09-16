@@ -12,8 +12,6 @@ cask "gstreamer-development" do
     regex(/gstreamer[._-]1\.0[._-]devel[._-]v?(\d+(?:\.\d+)+)[._-]universal\.pkg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on cask: "gstreamer-runtime"
   depends_on :macos
 
@@ -46,4 +44,8 @@ cask "gstreamer-development" do
   ]
 
   zap trash: "/Library/Frameworks/GStreamer.framework"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/gstreamer-1.0-devel-#{version}-universal.pkg"
+  end
 end

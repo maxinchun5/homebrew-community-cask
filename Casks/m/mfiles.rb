@@ -20,8 +20,6 @@ cask "mfiles" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "爱传送.app"
@@ -29,4 +27,8 @@ cask "mfiles" do
   uninstall quit: "com.windtune.itransfer"
 
   zap trash: "~/Library/Preferences/com.windtune.itransfer.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/爱传送.app"
+  end
 end

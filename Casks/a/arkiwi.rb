@@ -12,8 +12,6 @@ cask "arkiwi" do
     strategy :sparkle, &:short_version
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -23,4 +21,8 @@ cask "arkiwi" do
     "~/Library/Containers/com.mariogt.arkiwi/Data/Library/Application Support/ArKiwi",
     "~/Library/Containers/com.mariogt.arkiwi/Data/Library/Preferences/com.mariogt.arkiwi.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ArKiwi.app"
+  end
 end

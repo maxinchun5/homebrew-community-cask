@@ -10,8 +10,6 @@ cask "ueli" do
   desc "Keystroke launcher"
   homepage "https://ueli.app/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "ueli.app"
@@ -23,4 +21,8 @@ cask "ueli" do
     "~/Library/Logs/ueli",
     "~/Library/Preferences/com.electron.ueli.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ueli.app"
+  end
 end

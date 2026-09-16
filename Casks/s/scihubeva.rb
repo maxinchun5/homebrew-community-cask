@@ -10,8 +10,6 @@ cask "scihubeva" do
   desc "Cross-platform Sci-Hub GUI application powered by Python and Qt"
   homepage "https://github.com/leovan/SciHubEVA"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -23,4 +21,8 @@ cask "scihubeva" do
     "~/Library/Preferences/tech.leovan.SciHubEVA.plist",
     "~/Library/Saved Application State/tech.leovan.SciHubEVA.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sci-Hub EVA.app"
+  end
 end

@@ -7,8 +7,6 @@ cask "profilecreator" do
   desc "Create standard or customised configuration profiles"
   homepage "https://github.com/ProfileCreator/ProfileCreator"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "ProfileCreator.app"
@@ -18,4 +16,8 @@ cask "profilecreator" do
     "~/Library/Application Support/ProfilePayloads",
     "~/Library/Preferences/com.github.ProfileCreator.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ProfileCreator.app"
+  end
 end

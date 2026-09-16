@@ -15,8 +15,6 @@ cask "sonarr" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   conflicts_with cask: "sonarr@beta"
   depends_on :macos
@@ -24,4 +22,8 @@ cask "sonarr" do
   app "Sonarr.app"
 
   zap trash: "~/.config/Sonarr"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sonarr.app"
+  end
 end

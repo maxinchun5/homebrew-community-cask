@@ -12,8 +12,6 @@ cask "sparkle" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Sparkle Test App.app"
@@ -26,4 +24,8 @@ cask "sparkle" do
     "~/Library/Containers/org.sparkle-project.SparkleTestApp",
     "~/Library/Preferences/org.sparkle-project.SparkleTestApp.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sparkle Test App.app"
+  end
 end

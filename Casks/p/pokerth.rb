@@ -11,11 +11,13 @@ cask "pokerth" do
     url "https://sourceforge.net/projects/pokerth/rss?path=/pokerth"
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "PokerTH.app"
 
   zap trash: "~/.pokerth"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PokerTH.app"
+  end
 end

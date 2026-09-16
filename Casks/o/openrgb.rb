@@ -22,8 +22,6 @@ cask "openrgb" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "OpenRGB.app"
@@ -33,4 +31,8 @@ cask "openrgb" do
     "~/Library/Preferences/com.yourcompany.OpenRGB.plist",
     "~/Library/Saved Application State/com.yourcompany.OpenRGB.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenRGB.app"
+  end
 end

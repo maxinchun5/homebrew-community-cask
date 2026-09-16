@@ -7,8 +7,6 @@ cask "pb" do
   desc "Unofficial Pushbullet desktop app to get push notifications"
   homepage "https://sidneys.github.io/pb-for-desktop"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -41,5 +39,9 @@ cask "pb" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PB for Desktop.app"
   end
 end

@@ -29,8 +29,6 @@ cask "oclint" do
   desc "Static source code analysis tool"
   homepage "https://github.com/oclint/oclint/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   binary "oclint-#{version}/bin/oclint-json-compilation-database"
@@ -40,4 +38,8 @@ cask "oclint" do
   binary "oclint-#{version}/lib/oclint", target: "#{HOMEBREW_PREFIX}/lib/oclint"
 
   # No zap stanza required
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  end
 end

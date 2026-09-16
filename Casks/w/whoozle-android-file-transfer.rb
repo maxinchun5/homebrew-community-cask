@@ -7,8 +7,6 @@ cask "whoozle-android-file-transfer" do
   desc "Android File Transfer for Linux"
   homepage "https://whoozle.github.io/android-file-transfer-linux/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Android File Transfer for Linux.app"
@@ -19,5 +17,9 @@ cask "whoozle-android-file-transfer" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Android File Transfer for Linux.app"
   end
 end

@@ -12,8 +12,6 @@ cask "chainner" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "chaiNNer.app"
@@ -25,4 +23,8 @@ cask "chainner" do
     "~/Library/Preferences/com.electron.chainner.plist",
     "~/Library/Saved Application State/com.electron.chainner.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/chaiNNer.app"
+  end
 end

@@ -12,8 +12,6 @@ cask "ved" do
     regex(/href=.*?ved[ ._-]v?(\d+(?:\.\d+)+)[ ._-]mac\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Ved.app"
@@ -23,4 +21,8 @@ cask "ved" do
     "~/Library/Caches/nl.tolp.ved",
     "~/Library/Saved Application State/nl.tolp.ved.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ved.app"
+  end
 end

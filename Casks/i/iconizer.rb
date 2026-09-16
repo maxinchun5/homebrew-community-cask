@@ -12,12 +12,14 @@ cask "iconizer" do
     strategy :sparkle, &:short_version
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
   app "Iconizer.app"
 
   zap trash: "~/Library/Preferences/com.raphaelhanneken.iconizer.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Iconizer.app"
+  end
 end

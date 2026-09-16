@@ -20,8 +20,6 @@ cask "mechvibes" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Mechvibes.app"
@@ -35,5 +33,9 @@ cask "mechvibes" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Mechvibes.app"
   end
 end

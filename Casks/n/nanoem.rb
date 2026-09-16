@@ -7,8 +7,6 @@ cask "nanoem" do
   desc "Cross-platform MMD (MikuMikuDance) compatible implementation"
   homepage "https://github.com/hkrn/nanoem"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "nanoem.app"
@@ -20,4 +18,8 @@ cask "nanoem" do
     "~/Library/Preferences/com.github.nanoem.plist",
     "~/Library/Saved Application State/com.github.nanoem.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/nanoem.app"
+  end
 end

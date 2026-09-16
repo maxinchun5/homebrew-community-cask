@@ -23,8 +23,6 @@ cask "texmaker" do
   desc "LaTeX editor"
   homepage "https://www.xm1math.net/texmaker/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "texmaker.app"
@@ -33,4 +31,8 @@ cask "texmaker" do
     "~/Library/Preferences/texmaker.plist",
     "~/Library/Saved Application State/texmaker.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/texmaker.app"
+  end
 end

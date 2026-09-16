@@ -18,8 +18,6 @@ cask "gdat" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
   container nested: "macOS 64 bit/Genealogical DNA Analysis Tool.app.tar"
 
@@ -34,5 +32,9 @@ cask "gdat" do
   caveats do
     requires_rosetta
     license "https://www.getgdat.com/home/download/terms-of-use"
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Genealogical DNA Analysis Tool.app"
   end
 end

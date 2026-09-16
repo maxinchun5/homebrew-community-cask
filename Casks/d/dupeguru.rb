@@ -12,8 +12,6 @@ cask "dupeguru" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "dupeguru.app"
@@ -23,4 +21,8 @@ cask "dupeguru" do
     "~/Library/Preferences/com.hardcoded-software.dupeguru.plist",
     "~/Library/Saved Application State/com.hardcoded-software.dupeguru.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/dupeguru.app"
+  end
 end

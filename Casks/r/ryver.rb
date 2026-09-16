@@ -12,8 +12,6 @@ cask "ryver" do
     strategy :header_match
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
   container nested: "Ryver-#{version}.dmg"
 
@@ -29,5 +27,9 @@ cask "ryver" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ryver.app"
   end
 end

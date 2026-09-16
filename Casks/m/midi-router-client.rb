@@ -12,8 +12,6 @@ cask "midi-router-client" do
     regex(%r{url=.*?/midi-router-client[._-]v?(\d+(?:\.\d+)+)[._-]Darwin\.(?:dmg|zip)}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :tahoe
 
   app "midi-router-client.app"
@@ -26,4 +24,8 @@ cask "midi-router-client" do
     "~/Library/Preferences/com.shemeshg.MidiRouter.plist",
     "~/Library/Preferences/com.shemeshg.midirouterclient.midi-router-client.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/midi-router-client.app"
+  end
 end

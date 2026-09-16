@@ -17,8 +17,6 @@ cask "ubiquiti-unifi-controller" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "UniFi.app"
@@ -34,5 +32,9 @@ cask "ubiquiti-unifi-controller" do
   caveats do
     requires_rosetta
     license "https://www.ui.com/eula/"
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/UniFi.app"
   end
 end

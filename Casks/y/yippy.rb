@@ -7,8 +7,6 @@ cask "yippy" do
   desc "Open source clipboard manager"
   homepage "https://github.com/mattDavo/Yippy"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Yippy.app"
@@ -17,5 +15,9 @@ cask "yippy" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Yippy.app"
   end
 end

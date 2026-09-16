@@ -15,8 +15,6 @@ cask "freeorion" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "FreeOrion.app"
@@ -25,4 +23,8 @@ cask "freeorion" do
     "~/Library/Application Support/FreeOrion",
     "~/Library/Saved Application State/org.freeorion.FreeOrion.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/FreeOrion.app"
+  end
 end

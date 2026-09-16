@@ -7,8 +7,6 @@ cask "gas-mask" do
   desc "Hosts file editor/manager"
   homepage "https://github.com/2ndalpha/gasmask/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -26,5 +24,9 @@ cask "gas-mask" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Gas Mask.app"
   end
 end

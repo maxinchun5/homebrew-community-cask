@@ -7,8 +7,6 @@ cask "mks" do
   desc "Mechanical keyboard simulator"
   homepage "https://github.com/x0054/MKS"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "MKS.app"
@@ -17,5 +15,9 @@ cask "mks" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MKS.app"
   end
 end

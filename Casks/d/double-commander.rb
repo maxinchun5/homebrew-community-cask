@@ -15,11 +15,13 @@ cask "double-commander" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Double Commander.app"
 
   zap trash: "~/Library/Caches/doublecmd"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Double Commander.app"
+  end
 end

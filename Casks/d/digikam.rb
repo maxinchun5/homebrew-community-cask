@@ -15,8 +15,6 @@ cask "digikam" do
     regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "digiKam-#{version}-#{arch}.pkg"
@@ -37,4 +35,8 @@ cask "digikam" do
     "~/Library/Preferences/digikamrc",
     "~/Library/Saved Application State/digikam.savedState",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/digiKam-#{version}-#{arch}.pkg"
+  end
 end

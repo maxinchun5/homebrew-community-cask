@@ -22,8 +22,6 @@ cask "copyq" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "CopyQ.app"
@@ -37,5 +35,9 @@ cask "copyq" do
 
   caveats do
     unsigned_accessibility
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CopyQ.app"
   end
 end

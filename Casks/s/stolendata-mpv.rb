@@ -33,8 +33,6 @@ cask "stolendata-mpv" do
     regex(/mpv#{arch}-(\d+(?:\.\d+)+)\.t/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   folder = label&.sub("VERSION", version)
@@ -49,4 +47,8 @@ cask "stolendata-mpv" do
     "~/Library/Preferences/io.mpv.plist",
     "~/Library/Preferences/mpv.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/#{folder}mpv.app"
+  end
 end

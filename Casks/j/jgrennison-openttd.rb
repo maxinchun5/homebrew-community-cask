@@ -12,8 +12,6 @@ cask "jgrennison-openttd" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "OpenTTD.app"
@@ -25,4 +23,8 @@ cask "jgrennison-openttd" do
     "~/Library/Saved Application State/org.openttd.openttd.jgrpp.savedState",
     "~/Library/Saved Application State/org.openttd.openttd.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenTTD.app"
+  end
 end

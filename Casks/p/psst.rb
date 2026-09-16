@@ -7,8 +7,6 @@ cask "psst" do
   desc "Spotify client"
   homepage "https://github.com/jpochyla/psst/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Psst.app"
@@ -21,4 +19,8 @@ cask "psst" do
     "~/Library/Preferences/com.jpochyla.psst.plist",
     "~/Library/Saved Application State/com.jpochyla.psst.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Psst.app"
+  end
 end

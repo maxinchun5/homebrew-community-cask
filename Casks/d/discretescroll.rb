@@ -7,11 +7,13 @@ cask "discretescroll" do
   desc "Utility to fix a common scroll wheel problem"
   homepage "https://github.com/emreyolcu/discrete-scroll"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "DiscreteScroll.app"
 
   zap trash: "~/Library/Preferences/com.emreyolcu.DiscreteScroll.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DiscreteScroll.app"
+  end
 end

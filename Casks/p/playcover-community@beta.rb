@@ -12,8 +12,6 @@ cask "playcover-community@beta" do
     regex(/(\d+(?:\.\d+)+[._-]beta(\.\d+)?)/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   conflicts_with cask: "playcover-community"
   depends_on arch: :arm64
@@ -29,4 +27,8 @@ cask "playcover-community@beta" do
     "~/Library/Preferences/io.playcover.PlayCover.plist",
     "~/Library/Saved Application State/io.playcover.PlayCover.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PlayCover.app"
+  end
 end

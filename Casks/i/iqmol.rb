@@ -12,8 +12,6 @@ cask "iqmol" do
     regex(/href=.*?IQmol[._-]v?(\d+(?:\.\d+)*)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "IQmol.app"
@@ -23,4 +21,8 @@ cask "iqmol" do
     "~/Library/Preferences/org.iqmol.plist",
     "~/Library/Saved Application State/org.iqmol.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/IQmol.app"
+  end
 end

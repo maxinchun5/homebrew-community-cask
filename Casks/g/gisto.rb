@@ -15,8 +15,6 @@ cask "gisto" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Gisto.app"
@@ -29,4 +27,8 @@ cask "gisto" do
     "~/Library/Preferences/com.gistoapp.gisto2.plist",
     "~/Library/Saved Application State/com.gistoapp.gisto2.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Gisto.app"
+  end
 end

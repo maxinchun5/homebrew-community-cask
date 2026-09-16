@@ -12,8 +12,6 @@ cask "therm" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Therm.app"
@@ -23,4 +21,8 @@ cask "therm" do
     "~/Library/Preferences/com.pancake.therm.plist",
     "~/Library/Saved Application State/com.pancake.therm.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Therm.app"
+  end
 end

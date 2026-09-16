@@ -7,8 +7,6 @@ cask "macstroke" do
   desc "Configurable global mouse gestures"
   homepage "https://github.com/mtjo/MacStroke/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "MacStroke.app"
@@ -21,4 +19,8 @@ cask "macstroke" do
     "~/Library/Cookies/net.mtjo.MacStroke.binarycookies",
     "~/Library/Preferences/net.mtjo.MacStroke.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MacStroke.app"
+  end
 end

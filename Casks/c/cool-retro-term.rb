@@ -7,8 +7,6 @@ cask "cool-retro-term" do
   desc "Terminal emulator mimicking the old cathode display"
   homepage "https://github.com/Swordfish90/cool-retro-term"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "cool-retro-term.app"
@@ -23,5 +21,9 @@ cask "cool-retro-term" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/cool-retro-term.app"
   end
 end

@@ -15,8 +15,6 @@ cask "circuitjs1" do
     strategy :extract_plist
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "CircuitJS1.app"
@@ -25,4 +23,8 @@ cask "circuitjs1" do
     "~/Library/Preferences/com.falstad.CircuitJS1.plist",
     "~/Library/Saved Application State/com.falstad.CircuitJS1.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CircuitJS1.app"
+  end
 end

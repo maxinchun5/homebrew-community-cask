@@ -15,7 +15,6 @@ cask "pencil2d" do
       skip "Legacy version"
     end
 
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
   end
 
   name "Pencil2D"
@@ -35,5 +34,9 @@ cask "pencil2d" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pencil2D.app"
   end
 end

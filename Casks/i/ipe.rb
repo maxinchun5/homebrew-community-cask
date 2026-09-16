@@ -15,8 +15,6 @@ cask "ipe" do
     regex(/href=.*?ipe[._-](\d+(?:\.\d+)+)[._-]mac[._-]#{arch}\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Ipe.app"
@@ -28,4 +26,8 @@ cask "ipe" do
     "~/Library/Preferences/org.otfried.ipe.Ipe.plist",
     "~/Library/Saved Application State/org.otfried.ipe.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ipe.app"
+  end
 end

@@ -29,8 +29,6 @@ cask "librecad" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "LibreCAD.app"
@@ -40,4 +38,8 @@ cask "librecad" do
     "~/Library/Preferences/com.librecad.LibreCAD.plist",
     "~/Library/Saved Application State/com.yourcompany.LibreCAD.savedstate",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LibreCAD.app"
+  end
 end

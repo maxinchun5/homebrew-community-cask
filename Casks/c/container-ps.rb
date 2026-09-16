@@ -7,8 +7,6 @@ cask "container-ps" do
   desc "App to show all docker images"
   homepage "https://github.com/Toinane/container-ps"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Container PS.app"
@@ -21,5 +19,9 @@ cask "container-ps" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Container PS.app"
   end
 end

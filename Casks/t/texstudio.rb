@@ -10,8 +10,6 @@ cask "texstudio" do
   desc "LaTeX editor"
   homepage "https://texstudio.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "texstudio-#{version}-osx#{arch}.app"
@@ -23,4 +21,8 @@ cask "texstudio" do
     "~/Library/Preferences/texstudio.plist",
     "~/Library/Saved Application State/texstudio.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/texstudio-#{version}-osx#{arch}.app"
+  end
 end

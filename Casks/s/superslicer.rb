@@ -23,12 +23,14 @@ cask "superslicer" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on formula: "zstd"
   depends_on :macos
 
   app "SuperSlicer.app"
 
   zap trash: "~/Library/Application Support/SuperSlicer"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SuperSlicer.app"
+  end
 end

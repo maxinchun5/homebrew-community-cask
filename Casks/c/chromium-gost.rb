@@ -15,8 +15,6 @@ cask "chromium-gost" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Chromium-Gost.app"
@@ -26,4 +24,8 @@ cask "chromium-gost" do
     "~/Library/Caches/Chromium",
     "~/Library/Preferences/ru.cryptopro.chromium-gost.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Chromium-Gost.app"
+  end
 end

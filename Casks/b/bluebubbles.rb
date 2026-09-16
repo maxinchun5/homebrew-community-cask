@@ -15,8 +15,6 @@ cask "bluebubbles" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "BlueBubbles.app"
@@ -40,4 +38,8 @@ cask "bluebubbles" do
     "~/Library/Preferences/com.BlueBubbles.BlueBubbles-Server.plist",
     "~/Library/Saved Application State/com.BlueBubbles.BlueBubbles-Server.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BlueBubbles.app"
+  end
 end
