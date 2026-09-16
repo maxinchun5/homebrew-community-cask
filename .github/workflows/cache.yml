@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   update:
-    if: github.repository_owner == 'Homebrew'
+    if: github.repository_owner == 'maxinchun5'
     strategy:
       matrix:
         runner:

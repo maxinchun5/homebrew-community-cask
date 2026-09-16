@@ -25,7 +25,7 @@ permissions: {}
 
 jobs:
   workflow_syntax:
-    if: github.repository_owner == 'Homebrew'
+    if: github.repository_owner == 'maxinchun5'
     runs-on: ubuntu-latest
     permissions:
       contents: read

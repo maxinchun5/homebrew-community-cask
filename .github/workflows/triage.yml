@@ -17,13 +17,13 @@ jobs:
       - name: Check commit format
         uses: Homebrew/actions/check-commit-format@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
         with:
-          token: ${{ secrets.HOMEBREW_GITHUB_PUBLIC_REPO_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Label pull request
         uses: Homebrew/actions/label-pull-requests@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
         if: always()
         with:
-          token: ${{secrets.HOMEBREW_GITHUB_PUBLIC_REPO_TOKEN}}
+          token: ${{ secrets.GITHUB_TOKEN }}
           def: |
             - label: cask deprecated
               path: Casks/.+
@@ -32,10 +32,6 @@ jobs:
             - label: cask disabled
               path: Casks/.+
               content: \n  disable!.*\n
-
-            - label: unsigned
-              path: Casks/.+
-              content: \n  (deprecate|disable)!.*:fails_gatekeeper_check\n
 
             - label: new cask
               status: added
@@ -75,7 +71,7 @@ jobs:
       contents: read
       issues: write
       pull-requests: write
-    if: always() && github.repository_owner == 'Homebrew' && github.actor != 'BrewTestBot'
+    if: always() && github.repository_owner == 'maxinchun5' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-slim
     env:
       PR: ${{ github.event.number }}
