@@ -16,16 +16,16 @@ cask "redream" do
 
   app "redream.app"
 
-  zap trash: [
-    "~/Library/Application Support/redream",
-    "~/Library/Saved Application State/io.recompiled.redream.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/redream.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/redream",
+    "~/Library/Saved Application State/io.recompiled.redream.savedState",
+  ]
 end

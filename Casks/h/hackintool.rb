@@ -12,14 +12,14 @@ cask "hackintool" do
 
   app "Hackintool.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/com.apple.helpd/Generated/com.Headsoft.Hackintool.help*",
     "~/Library/Caches/com.Headsoft.Hackintool",
     "~/Library/Cookies/com.Headsoft.Hackintool.binarycookies",
     "~/Library/Preferences/com.Headsoft.Hackintool.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Hackintool.app"
-  end
 end

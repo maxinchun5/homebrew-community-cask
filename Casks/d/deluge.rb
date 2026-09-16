@@ -16,13 +16,13 @@ cask "deluge" do
 
   app "Deluge.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.config/deluge",
     "~/Library/Preferences/org.deluge.plist",
     "~/Library/Saved Application State/org.deluge.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Deluge.app"
-  end
 end

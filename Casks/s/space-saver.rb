@@ -16,12 +16,12 @@ cask "space-saver" do
 
   app "Space Saver.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.mariogt.space-saver.plist",
     "~/Library/Saved Application State/com.mariogt.space-saver.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Space Saver.app"
-  end
 end

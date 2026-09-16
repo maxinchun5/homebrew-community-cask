@@ -12,9 +12,9 @@ cask "ntfstool" do
 
   app "Ntfstool.app"
 
-  zap trash: "~/.ntfstool"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ntfstool.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.ntfstool"
 end

@@ -48,9 +48,9 @@ cask "x-moto" do
 
   app "X-Moto.app"
 
-  zap trash: "~/Library/Saved Application State/net.sourceforge.xmoto.savedState"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/X-Moto.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Saved Application State/net.sourceforge.xmoto.savedState"
 end

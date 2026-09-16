@@ -19,12 +19,12 @@ cask "circuitjs1" do
 
   app "CircuitJS1.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.falstad.CircuitJS1.plist",
     "~/Library/Saved Application State/com.falstad.CircuitJS1.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CircuitJS1.app"
-  end
 end

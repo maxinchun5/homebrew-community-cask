@@ -21,6 +21,14 @@ cask "pb" do
               "de.sidneys.pb-for-desktop.helper.Renderer",
             ]
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/de.sidneys.pb-for-desktop.sfl*",
     "~/Library/Application Support/de.sidneys.pb-for-desktop.ShipIt",
@@ -36,12 +44,4 @@ cask "pb" do
     "~/Library/Saved Application State/de.sidneys.pb-for-desktop.savedState",
     "~/Library/WebKit/de.sidneys.pb-for-desktop",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PB for Desktop.app"
-  end
 end

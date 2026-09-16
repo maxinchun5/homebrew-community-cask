@@ -17,6 +17,14 @@ cask "ryver" do
 
   app "Ryver.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Ryver",
     "~/Library/Logs/Ryver",
@@ -24,12 +32,4 @@ cask "ryver" do
     "~/Library/Preferences/Ryver.plist",
     "~/Library/Saved Application State/Ryver.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ryver.app"
-  end
 end

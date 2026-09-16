@@ -17,9 +17,9 @@ cask "slimhud" do
 
   app "SlimHUD.app"
 
-  zap trash: "~/Library/Preferences/com.alexpera.SlimHUD.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SlimHUD.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.alexpera.SlimHUD.plist"
 end

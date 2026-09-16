@@ -11,14 +11,14 @@ cask "dteoh-devdocs" do
 
   app "DevDocs.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/com.dteoh.devdocs-macos",
     "~/Library/Cookies/com.dteoh.devdocs-macos.binarycookies",
     "~/Library/Preferences/com.dteoh.devdocs-macos.plist",
     "~/Library/WebKit/com.dteoh.devdocs-macos",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DevDocs.app"
-  end
 end

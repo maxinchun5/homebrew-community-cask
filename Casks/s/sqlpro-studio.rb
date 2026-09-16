@@ -20,12 +20,12 @@ cask "sqlpro-studio" do
 
   app "SQLPro Studio.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.hankinsoft.osx.sqlprostudio.sfl*",
     "~/Library/Containers/com.hankinsoft.osx.sqlprostudio",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SQLPro Studio.app"
-  end
 end

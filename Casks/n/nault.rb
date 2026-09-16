@@ -17,18 +17,18 @@ cask "nault" do
 
   app "Nault.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/nault",
     "~/Library/Logs/Nault",
     "~/Library/Preferences/cc.nault.plist",
     "~/Library/Saved Application State/cc.nault.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Nault.app"
-  end
 end

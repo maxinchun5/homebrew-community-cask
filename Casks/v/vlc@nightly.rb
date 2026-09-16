@@ -47,6 +47,10 @@ cask "vlc@nightly" do
   command_wrapper "vlc",
                   executable: "#{appdir}/VLC.app/Contents/MacOS/VLC"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.videolan.vlc.sfl*",
     "~/Library/Application Support/org.videolan.vlc",
@@ -56,8 +60,4 @@ cask "vlc@nightly" do
     "~/Library/Preferences/org.videolan.vlc.plist",
     "~/Library/Saved Application State/org.videolan.vlc.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/VLC.app"
-  end
 end

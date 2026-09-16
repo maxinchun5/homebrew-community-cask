@@ -16,13 +16,13 @@ cask "iqmol" do
 
   app "IQmol.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/org.iqmol.IQmol.plist",
     "~/Library/Preferences/org.iqmol.plist",
     "~/Library/Saved Application State/org.iqmol.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/IQmol.app"
-  end
 end

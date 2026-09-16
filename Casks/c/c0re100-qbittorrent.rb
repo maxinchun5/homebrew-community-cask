@@ -43,7 +43,7 @@ cask "c0re100-qbittorrent" do
     "qbittorrent@lt20",
   ]
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qBittorrent.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

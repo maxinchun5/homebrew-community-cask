@@ -21,6 +21,10 @@ cask "aifun" do
 
   uninstall quit: "com.getaifun"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.getaifun",
     "~/Library/Caches/com.getaifun",
@@ -28,8 +32,4 @@ cask "aifun" do
     "~/Library/Preferences/com.getaifun.plist",
     "~/Library/Saved Application State/com.getaifun.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/AiFun.app"
-  end
 end

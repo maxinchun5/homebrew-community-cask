@@ -16,13 +16,13 @@ cask "therm" do
 
   app "Therm.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Therm",
     "~/Library/Preferences/com.pancake.therm.plist",
     "~/Library/Saved Application State/com.pancake.therm.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Therm.app"
-  end
 end

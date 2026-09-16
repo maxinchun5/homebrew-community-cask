@@ -14,6 +14,14 @@ cask "gas-mask" do
 
   uninstall quit: "ee.clockwise.gmask"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/com.apple.helpd/Generated/Gas Mask Help*",
     "~/Library/Caches/ee.clockwise.gmask",
@@ -21,12 +29,4 @@ cask "gas-mask" do
     "~/Library/Logs/Gas Mask.log",
     "~/Library/Preferences/ee.clockwise.gmask.plist",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Gas Mask.app"
-  end
 end

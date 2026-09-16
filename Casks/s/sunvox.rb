@@ -16,14 +16,14 @@ cask "sunvox" do
 
   app "sunvox/sunvox/macos/SunVox.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "/Applications/sunvox_log.txt",
     "~/Library/Application Support/SunVox",
     "~/Library/Preferences/nightradio.SunVox.plist",
     "~/Library/Saved Application State/nightradio.SunVox.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/sunvox/sunvox/macos/SunVox.app"
-  end
 end

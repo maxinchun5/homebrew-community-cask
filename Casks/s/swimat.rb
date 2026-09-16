@@ -11,13 +11,13 @@ cask "swimat" do
 
   app "Swimat.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "/usr/local/bin/swimat",
     "~/Library/Containers/com.jintin.Swimat.Extension",
     "~/Library/Group Containers/com.jintin.swimat.configuration",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Swimat.app"
-  end
 end

@@ -16,16 +16,16 @@ cask "eiskaltdcpp" do
 
   app "EiskaltDC++.app"
 
-  zap trash: [
-    "~/.config/eiskaltdc++",
-    "~/.local/share/eiskaltdc++",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/EiskaltDC++.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/.config/eiskaltdc++",
+    "~/.local/share/eiskaltdc++",
+  ]
 end

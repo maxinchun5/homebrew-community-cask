@@ -50,13 +50,13 @@ cask "flameshot" do
     end
   end
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.cache/flameshot",
     "~/.config/flameshot",
     "~/Library/Caches/flameshot",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Flameshot.app"
-  end
 end

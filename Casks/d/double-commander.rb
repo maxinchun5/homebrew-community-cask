@@ -19,9 +19,9 @@ cask "double-commander" do
 
   app "Double Commander.app"
 
-  zap trash: "~/Library/Caches/doublecmd"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Double Commander.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Caches/doublecmd"
 end

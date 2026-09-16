@@ -16,9 +16,9 @@ cask "nulloy" do
 
   app "Nulloy.app"
 
-  zap trash: "~/Library/Saved Application State/com.nulloy.savedState"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Nulloy.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Saved Application State/com.nulloy.savedState"
 end

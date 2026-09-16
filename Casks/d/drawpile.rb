@@ -36,14 +36,14 @@ cask "drawpile" do
 
   app "Drawpile.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/drawpile",
     "~/Library/Preferences/net.drawpile.drawpile.plist",
     "~/Library/Preferences/net.drawpile.DrawpileClient.plist",
     "~/Library/Saved Application State/net.drawpile.DrawpileClient.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Drawpile.app"
-  end
 end

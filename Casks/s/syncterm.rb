@@ -11,12 +11,12 @@ cask "syncterm" do
 
   app "SyncTERM.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/SyncTERM",
     "~/Library/Preferences/syncterm.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SyncTERM.app"
-  end
 end

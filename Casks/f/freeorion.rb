@@ -19,12 +19,12 @@ cask "freeorion" do
 
   app "FreeOrion.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/FreeOrion",
     "~/Library/Saved Application State/org.freeorion.FreeOrion.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/FreeOrion.app"
-  end
 end

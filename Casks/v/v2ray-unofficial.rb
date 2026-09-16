@@ -16,16 +16,16 @@ cask "v2ray-unofficial" do
 
   app "V2Ray-Desktop.app"
 
-  zap trash: [
-    "~/Library/Preferences/V2Ray-Desktop",
-    "~/Library/Saved Application State/com.yourcompany.V2Ray-Desktop.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/V2Ray-Desktop.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Preferences/V2Ray-Desktop",
+    "~/Library/Saved Application State/com.yourcompany.V2Ray-Desktop.savedState",
+  ]
 end

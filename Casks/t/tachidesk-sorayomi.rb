@@ -11,12 +11,12 @@ cask "tachidesk-sorayomi" do
 
   app "Sorayomi.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.suwayomi.tachideskSorayomi",
     "~/Library/Containers/com.suwayomi.tachideskSorayomi",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sorayomi.app"
-  end
 end

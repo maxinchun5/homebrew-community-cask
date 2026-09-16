@@ -50,12 +50,12 @@ cask "contour" do
   zsh_completion "#{appdir}/contour.app/Contents/Resources/shell-integration/shell-integration.zsh",
                  target: "_contour"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.config/contour",
     "~/Library/Caches/contour",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/contour.app"
-  end
 end

@@ -32,14 +32,14 @@ cask "alex313031-thorium" do
   command_wrapper "thorium",
                   executable: "#{appdir}/Thorium Browser.app/Contents/MacOS/Thorium"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Thorium",
     "~/Library/Caches/Thorium",
     "~/Library/Preferences/org.chromium.Thorium.plist",
     "~/Library/Saved Application State/org.chromium.Thorium.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Thorium.app"
-  end
 end

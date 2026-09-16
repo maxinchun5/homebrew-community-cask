@@ -19,16 +19,16 @@ cask "davmail-app" do
 
   app "DavMail.app"
 
-  zap trash: [
-    "~/.davmail.properties",
-    "~/Library/Logs/DavMail",
-  ]
-
   caveats do
     depends_on_java
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DavMail.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/.davmail.properties",
+    "~/Library/Logs/DavMail",
+  ]
 end

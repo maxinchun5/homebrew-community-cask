@@ -44,8 +44,6 @@ cask "gstreamer-runtime" do
     "org.freedesktop.gstreamer.darwin.gstreamer-1.0-visualizers",
   ]
 
-  zap trash: "/Library/Frameworks/GStreamer.framework"
-
   caveats <<~EOS
     This cask installs the GStreamer.framework runtime tools into /Library/Frameworks/
 
@@ -53,7 +51,9 @@ cask "gstreamer-runtime" do
       brew install --cask gstreamer-development
   EOS
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/gstreamer-1.0-#{version}-universal.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "/Library/Frameworks/GStreamer.framework"
 end

@@ -16,13 +16,13 @@ cask "1kc-razer" do
 
   app "Razer macOS.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.electron.razer-macos.helper.Renderer.plist",
     "~/Library/Preferences/com.electron.razer-macos.plist",
     "~/Library/Saved Application State/com.electron.razer-macos.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Razer macOS.app"
-  end
 end

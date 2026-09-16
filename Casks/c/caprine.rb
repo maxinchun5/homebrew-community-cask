@@ -20,6 +20,10 @@ cask "caprine" do
 
   app "Caprine.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Caprine",
     "~/Library/Caches/com.sindresorhus.caprine",
@@ -29,8 +33,4 @@ cask "caprine" do
     "~/Library/Preferences/com.sindresorhus.caprine.plist",
     "~/Library/Saved Application State/com.sindresorhus.caprine.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Caprine.app"
-  end
 end

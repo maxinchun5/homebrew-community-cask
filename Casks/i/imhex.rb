@@ -21,13 +21,13 @@ cask "imhex" do
 
   app "ImHex.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/imhex",
     "~/Library/Preferences/net.WerWolv.ImHex.plist",
     "~/Library/Saved Application State/net.WerWolv.ImHex.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ImHex.app"
-  end
 end

@@ -22,13 +22,13 @@ cask "kern" do
     "de.fullbucket.vst3.pkg.Kern",
   ]
 
-  zap trash: "~/Music/FullBucketMusic/kern.ini"
-
   caveats do
     reboot
   end
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/kern_#{version.dots_to_underscores}_mac.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Music/FullBucketMusic/kern.ini"
 end

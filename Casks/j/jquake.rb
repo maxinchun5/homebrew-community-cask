@@ -21,12 +21,12 @@ cask "jquake" do
 
   app "JQuake.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/JQuake",
     "~/Library/Saved Application State/net.jquake.java.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/JQuake.app"
-  end
 end

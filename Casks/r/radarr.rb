@@ -22,9 +22,9 @@ cask "radarr" do
 
   app "Radarr.app"
 
-  zap trash: "~/.config/Radarr"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Radarr.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.config/Radarr"
 end

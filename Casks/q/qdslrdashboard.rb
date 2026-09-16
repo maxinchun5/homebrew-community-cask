@@ -22,16 +22,16 @@ cask "qdslrdashboard" do
 
   app "qDslrDashboard.app"
 
-  zap trash: [
-    "~/Library/Application Support/DslrDashboard/qDslrDashboard",
-    "~/Library/Saved Application State/info.dslrdashboard.qDslrDashboard.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qDslrDashboard.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/DslrDashboard/qDslrDashboard",
+    "~/Library/Saved Application State/info.dslrdashboard.qDslrDashboard.savedState",
+  ]
 end

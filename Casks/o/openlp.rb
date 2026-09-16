@@ -19,6 +19,10 @@ cask "openlp" do
 
   app "OpenLP.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/openlp",
     "~/Library/Caches/com.apple.helpd/Generated/org.openlp.OpenLP.help*",
@@ -26,8 +30,4 @@ cask "openlp" do
     "~/Library/Preferences/org.openlp.plist",
     "~/Library/Saved Application State/org.openlp.OpenLP.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenLP.app"
-  end
 end

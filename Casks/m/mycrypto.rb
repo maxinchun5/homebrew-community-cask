@@ -16,6 +16,14 @@ cask "mycrypto" do
 
   app "MyCrypto.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/MyCrypto",
     "~/Library/Logs/MyCrypto",
@@ -23,12 +31,4 @@ cask "mycrypto" do
     "~/Library/Preferences/com.github.mycrypto.mycryptohq.plist",
     "~/Library/Saved Application State/com.github.mycrypto.mycryptohq.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MyCrypto.app"
-  end
 end

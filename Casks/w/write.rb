@@ -22,16 +22,16 @@ cask "write" do
 
   app "Write.app"
 
-  zap trash: [
-    "~/.config/styluslabs",
-    "~/Library/Saved Application State/com.styluslabs.write3mac.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Write.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/.config/styluslabs",
+    "~/Library/Saved Application State/com.styluslabs.write3mac.savedState",
+  ]
 end

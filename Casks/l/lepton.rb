@@ -14,14 +14,14 @@ cask "lepton" do
 
   app "Lepton.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Lepton",
     "~/Library/Preferences/com.cosmox.lepton.helper.plist",
     "~/Library/Preferences/com.cosmox.lepton.plist",
     "~/Library/Saved Application State/com.cosmox.lepton.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Lepton.app"
-  end
 end

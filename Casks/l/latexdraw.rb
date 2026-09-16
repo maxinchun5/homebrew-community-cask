@@ -16,17 +16,17 @@ cask "latexdraw" do
 
   app "LaTeXDraw.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.latexdraw",
     "~/Library/Preferences/latexdraw.plist",
     "~/Library/Saved Application State/latexdraw.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LaTeXDraw.app"
-  end
 end

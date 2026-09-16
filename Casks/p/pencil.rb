@@ -17,13 +17,13 @@ cask "pencil" do
 
   app "Pencil.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.pencil",
     "~/Library/Application Support/Pencil",
     "~/Library/Preferences/vn.evolus.pencil.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pencil.app"
-  end
 end

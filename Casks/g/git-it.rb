@@ -11,17 +11,17 @@ cask "git-it" do
 
   app "Git-it-Mac-x64/Git-it.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Git-it",
     "~/Library/Preferences/com.electron.git-it.helper.plist",
     "~/Library/Preferences/com.electron.git-it.plist",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Git-it-Mac-x64/Git-it.app"
-  end
 end

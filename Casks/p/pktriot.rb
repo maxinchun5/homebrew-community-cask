@@ -19,9 +19,9 @@ cask "pktriot" do
 
   binary "pktriot-#{version}/pktriot"
 
-  zap trash: "~/.pktriot"
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.pktriot"
 end

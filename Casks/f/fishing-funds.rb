@@ -19,13 +19,13 @@ cask "fishing-funds" do
 
   app "Fishing Funds.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Fishing Funds",
     "~/Library/Logs/Fishing Funds",
     "~/Library/Preferences/com.electron.1zilc.fishing-funds.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Fishing Funds.app"
-  end
 end

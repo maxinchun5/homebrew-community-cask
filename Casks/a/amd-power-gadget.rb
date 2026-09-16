@@ -12,7 +12,7 @@ cask "amd-power-gadget" do
 
   app "AMD Power Gadget.app"
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/AMD Power Gadget.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

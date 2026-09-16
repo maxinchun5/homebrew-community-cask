@@ -27,12 +27,12 @@ cask "texmaker" do
 
   app "texmaker.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/texmaker.plist",
     "~/Library/Saved Application State/texmaker.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/texmaker.app"
-  end
 end

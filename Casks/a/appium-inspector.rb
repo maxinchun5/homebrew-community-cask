@@ -33,6 +33,10 @@ cask "appium-inspector" do
 
   app "Appium Inspector.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/appium-inspector",
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/io.appium.inspector.sfl*",
@@ -40,8 +44,4 @@ cask "appium-inspector" do
     "~/Library/Preferences/io.appium.inspector.plist",
     "~/Library/Saved Application State/io.appium.inspector.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Appium Inspector.app"
-  end
 end

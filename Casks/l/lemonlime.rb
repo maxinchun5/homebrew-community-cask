@@ -27,14 +27,14 @@ cask "lemonlime" do
 
   app "lemon.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Documents/Project_LemonLime",
     "~/Library/Preferences/com.github.lemonlime.plist",
     "~/Library/Preferences/com.lemonlime.lemon.plist",
     "~/Library/Saved Application State/com.github.lemonlime.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/lemon.app"
-  end
 end

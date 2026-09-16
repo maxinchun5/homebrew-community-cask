@@ -18,6 +18,10 @@ cask "encryptme" do
 
   app "EncryptMe.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.bourgeoisbits.cloak.agent",
     "~/Library/Caches/com.bourgeoisbits.cloak.agent",
@@ -26,8 +30,4 @@ cask "encryptme" do
     "~/Library/Preferences/com.bourgeoisbits.cloak.agent.plist",
     "~/Library/WebKit/com.bourgeoisbits.cloak.agent",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/EncryptMe.app"
-  end
 end

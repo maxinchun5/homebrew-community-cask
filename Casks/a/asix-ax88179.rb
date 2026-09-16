@@ -42,7 +42,7 @@ cask "asix-ax88179" do
     reboot
   end
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/ASIX_USB_Device_Installer_v#{version.csv.first}.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

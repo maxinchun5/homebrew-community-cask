@@ -23,18 +23,18 @@ cask "gdat" do
 
   app "Genealogical DNA Analysis Tool.app"
 
-  zap trash: [
-    "/Library/Logs/DiagnosticReports/Genealogical DNA Analysis Tool*.diag",
-    "~/Library/Preferences/BeckinsLLC.GMP64.plist",
-    "~/Library/Saved Application State/BeckinsLLC.GMP64.savedState",
-  ]
-
   caveats do
     requires_rosetta
     license "https://www.getgdat.com/home/download/terms-of-use"
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Genealogical DNA Analysis Tool.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "/Library/Logs/DiagnosticReports/Genealogical DNA Analysis Tool*.diag",
+    "~/Library/Preferences/BeckinsLLC.GMP64.plist",
+    "~/Library/Saved Application State/BeckinsLLC.GMP64.savedState",
+  ]
 end

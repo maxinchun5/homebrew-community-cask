@@ -20,6 +20,10 @@ cask "audiogridder-server" do
     "com.e47.pkg.server",
   ]
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
         "~/.audiogridder/audiogridder.winpos",
         "~/.audiogridder/audiogridderserver*.cache",
@@ -42,8 +46,4 @@ cask "audiogridder-server" do
         "~/.audiogridder",
         "~/Library/Logs/AudioGridder",
       ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/AudioGridderServer_#{version}_macOS-universal.pkg"
-  end
 end

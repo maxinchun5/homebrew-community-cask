@@ -17,6 +17,14 @@ cask "rave" do
 
   app "Rave.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Rave",
     "~/Library/Caches/io.rave.desktop",
@@ -27,12 +35,4 @@ cask "rave" do
     "~/Library/Preferences/io.rave.desktop.plist",
     "~/Library/Saved Application State/io.rave.desktop.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Rave.app"
-  end
 end

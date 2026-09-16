@@ -19,12 +19,12 @@ cask "fedora-media-writer" do
 
   app "FedoraMediaWriter.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/fedoraproject.org",
     "~/Library/Saved Application State/org.fedoraproject.MediaWriter.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/FedoraMediaWriter.app"
-  end
 end

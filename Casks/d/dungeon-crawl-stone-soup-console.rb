@@ -16,9 +16,9 @@ cask "dungeon-crawl-stone-soup-console" do
 
   app "Dungeon Crawl Stone Soup - Console.app"
 
-  zap trash: "~/Library/Application Support/Dungeon Crawl Stone Soup"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Dungeon Crawl Stone Soup - Console.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/Dungeon Crawl Stone Soup"
 end

@@ -38,9 +38,9 @@ cask "texworks" do
 
   app "TeXworks.app"
 
-  zap trash: "~/Library/Preferences/org.tug.TeXworks.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TeXworks.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/org.tug.TeXworks.plist"
 end

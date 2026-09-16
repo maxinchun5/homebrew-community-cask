@@ -20,14 +20,14 @@ cask "volt-app" do
 
   app "Volt.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.volt",
     "~/Library/Caches/Volt",
     "~/Library/HTTPStorages/Volt.binarycookies",
     "~/Library/WebKit/Volt",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Volt.app"
-  end
 end

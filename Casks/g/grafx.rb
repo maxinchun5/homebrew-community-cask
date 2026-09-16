@@ -40,13 +40,13 @@ cask "grafx" do
 
   app "Grafx#{version.major}.app"
 
-  zap trash: "~/Library/Preferences/com.googlecode.grafx2"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Grafx#{version.major}.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.googlecode.grafx2"
 end

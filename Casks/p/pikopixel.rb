@@ -17,16 +17,16 @@ cask "pikopixel" do
 
   app "PikoPixel.app"
 
-  zap trash: [
-    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.twilightedge.pikopixel.sfl*",
-    "~/Library/Preferences/com.twilightedge.PikoPixel.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PikoPixel.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.twilightedge.pikopixel.sfl*",
+    "~/Library/Preferences/com.twilightedge.PikoPixel.plist",
+  ]
 end

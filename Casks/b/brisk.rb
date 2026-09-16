@@ -17,18 +17,18 @@ cask "brisk" do
 
   app "Brisk.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Blisk",
     "~/Library/Caches/Blisk",
     "~/Library/Preferences/org.blisk.Blisk.plist",
     "~/Library/Saved Application State/org.blisk.Blisk.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Brisk.app"
-  end
 end

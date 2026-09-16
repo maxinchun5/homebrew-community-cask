@@ -27,6 +27,10 @@ cask "whale" do
 
   app "Whale.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Whale",
     "~/Library/Caches/net.1000ch.whale",
@@ -35,8 +39,4 @@ cask "whale" do
     "~/Library/Preferences/net.1000ch.whale.plist",
     "~/Library/Saved Application State/net.1000ch.whale.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Whale.app"
-  end
 end

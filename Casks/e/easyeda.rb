@@ -21,6 +21,10 @@ cask "easyeda" do
 
   app "EasyEDA.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/EasyEDA",
     "~/Library/Logs/EasyEDA",
@@ -28,8 +32,4 @@ cask "easyeda" do
     "~/Library/Preferences/com.easyeda.editor.plist",
     "~/Library/Saved Application State/com.easyeda.editor.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/EasyEDA.app"
-  end
 end

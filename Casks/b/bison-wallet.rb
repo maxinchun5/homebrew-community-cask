@@ -28,12 +28,12 @@ cask "bison-wallet" do
 
   app "Bison Wallet.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Dexc",
     "~/Library/Preferences/com.decred.dcrdex.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Bison Wallet.app"
-  end
 end

@@ -11,9 +11,9 @@ cask "semulov" do
 
   app "Semulov.app"
 
-  zap trash: "~/Library/Preferences/com.kainjow.Semulov.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Semulov.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.kainjow.Semulov.plist"
 end

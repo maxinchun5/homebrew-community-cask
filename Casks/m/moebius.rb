@@ -11,16 +11,16 @@ cask "moebius" do
 
   app "Moebius.app"
 
-  zap trash: [
-    "~/Library/Application Support/Moebius",
-    "~/Library/Preferences/org.andyherbert.moebius.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Moebius.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/Moebius",
+    "~/Library/Preferences/org.andyherbert.moebius.plist",
+  ]
 end

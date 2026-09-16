@@ -11,13 +11,13 @@ cask "vnote" do
 
   app "VNote.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/VNote",
     "~/Library/Preferences/com.vnotex.vnote.plist",
     "~/Library/Preferences/VNote",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/VNote.app"
-  end
 end

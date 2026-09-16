@@ -11,17 +11,17 @@ cask "lmms" do
 
   app "LMMS.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
         "~/.lmmsrc.xml",
         "~/Library/Saved Application State/io.lmms.savedState",
       ],
       rmdir: "~/Documents/lmms"
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LMMS.app"
-  end
 end

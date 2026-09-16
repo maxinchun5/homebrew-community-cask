@@ -11,6 +11,14 @@ cask "pine" do
 
   app "Pine.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/io.github.lukakerr.pine.sfl*",
     "~/Library/Application Support/Pine",
@@ -19,12 +27,4 @@ cask "pine" do
     "~/Library/Saved Application State/io.github.lukakerr.Pine.savedState",
     "~/Library/WebKit/io.github.lukakerr.Pine",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pine.app"
-  end
 end

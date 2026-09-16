@@ -21,6 +21,10 @@ cask "xld" do
                   executable: "#{appdir}/XLD.app/Contents/MacOS/XLD",
                   args:       "--cmdline"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/jp.tmkk.xld.sfl*",
     "~/Library/Application Support/XLD",
@@ -29,8 +33,4 @@ cask "xld" do
     "~/Library/Preferences/jp.tmkk.XLD.plist",
     "~/Library/Saved Application State/jp.tmkk.XLD.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/XLD.app"
-  end
 end

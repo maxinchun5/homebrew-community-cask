@@ -11,12 +11,12 @@ cask "vitals" do
 
   app "Vitals.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.hmarr.Vitals-LaunchAtLoginHelper",
     "~/Library/Containers/com.hmarr.Vitals-LaunchAtLoginHelper",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Vitals.app"
-  end
 end

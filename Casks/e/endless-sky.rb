@@ -16,13 +16,13 @@ cask "endless-sky" do
 
   app "Endless Sky.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/endless-sky.sfl",
     "~/Library/Application Support/endless-sky",
     "~/Library/Saved Application State/Endless-Sky.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Endless Sky.app"
-  end
 end

@@ -17,12 +17,12 @@ cask "dmenu-mac" do
   app "dmenu-mac.app"
   binary "#{appdir}/dmenu-mac.app/Contents/Resources/dmenu-mac"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.onaips.dmenu-macos",
     "~/Library/Containers/com.onaips.dmenu-macos",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/dmenu-mac.app"
-  end
 end

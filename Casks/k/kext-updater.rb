@@ -16,14 +16,14 @@ cask "kext-updater" do
 
   app "Kext Updater.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/kextupdater.slsoft.de",
     "~/Library/Preferences/kextupdater.slsoft.de.plist",
     "~/Library/Preferences/kextupdaterhelper.slsoft.de.plist",
     "~/Library/Saved Application State/kextupdater.slsoft.de.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Kext Updater.app"
-  end
 end

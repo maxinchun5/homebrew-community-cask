@@ -15,12 +15,12 @@ cask "lx-music" do
 
   app "lx-music-desktop.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/lx-music-desktop",
     "~/Library/Logs/lx-music-desktop",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/lx-music-desktop.app"
-  end
 end

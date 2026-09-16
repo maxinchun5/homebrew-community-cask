@@ -19,13 +19,13 @@ cask "appgrid" do
 
   uninstall quit: "com.sdegutis.AppGrid"
 
-  zap trash: "~/Library/Preferences/com.sdegutis.AppGrid.plist"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/AppGrid.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.sdegutis.AppGrid.plist"
 end

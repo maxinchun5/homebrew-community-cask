@@ -11,13 +11,13 @@ cask "packet-peeper" do
 
   app "Packet Peeper.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.packetpeeper.sfl*",
     "~/Library/Preferences/org.PacketPeeper.plist",
     "~/Library/Saved Application State/org.PacketPeeper.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Packet Peeper.app"
-  end
 end

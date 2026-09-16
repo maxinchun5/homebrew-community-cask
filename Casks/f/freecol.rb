@@ -14,12 +14,12 @@ cask "freecol" do
 
   app "FreeCol.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/freecol",
     "~/Library/Preferences/freecol",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/FreeCol.app"
-  end
 end

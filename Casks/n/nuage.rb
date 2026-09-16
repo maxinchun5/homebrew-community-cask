@@ -11,6 +11,10 @@ cask "nuage" do
 
   app "Nuage.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/CrashReporter/Nuage*.plist",
     "~/Library/Caches/ch.laurinbrandner.nuage",
@@ -18,8 +22,4 @@ cask "nuage" do
     "~/Library/Logs/DiagnosticReports/Nuage*.crash",
     "~/Library/Preferences/ch.laurinbrandner.nuage.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Nuage.app"
-  end
 end

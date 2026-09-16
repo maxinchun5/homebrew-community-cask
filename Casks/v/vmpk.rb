@@ -17,16 +17,16 @@ cask "vmpk" do
 
   app "vmpk.app"
 
-  zap trash: [
-    "~/Library/Preferences/net.sourceforge.vmpk.VMPK.plist",
-    "~/Library/Saved Application State/net.sourceforge.vmpk.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/vmpk.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Preferences/net.sourceforge.vmpk.VMPK.plist",
+    "~/Library/Saved Application State/net.sourceforge.vmpk.savedState",
+  ]
 end

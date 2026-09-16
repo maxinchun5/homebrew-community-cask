@@ -16,17 +16,17 @@ cask "rockboxutility" do
 
   app "RockboxUtility.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.config/rockbox.org",
     "~/Library/Preferences/org.rockbox.rbutil.plist",
     "~/Library/Saved Application State/org.rockbox.rbutil.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/RockboxUtility.app"
-  end
 end

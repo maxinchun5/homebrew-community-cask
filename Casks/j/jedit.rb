@@ -11,17 +11,17 @@ cask "jedit" do
 
   app "jEdit.app"
 
+  caveats do
+    depends_on_java "11+"
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/jEdit",
     "~/Library/Preferences/org.gjt.sp.jedit.plist",
     "~/Library/Saved Application State/org.gjt.sp.jedit.savedState",
   ]
-
-  caveats do
-    depends_on_java "11+"
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/jEdit.app"
-  end
 end

@@ -16,17 +16,17 @@ cask "valley" do
 
   app "Valley.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/file__0.localstorage",
     "~/Library/Application Support/Valley",
     "~/Library/Saved Application State/com.Unigine.Valley.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Valley.app"
-  end
 end

@@ -16,13 +16,13 @@ cask "galaxybudsclient" do
 
   uninstall pkgutil: "me.timschneeberger.galaxybudsclient"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/GalaxyBudsClient",
     "~/Library/Preferences/me.timschneeberger.galaxybudsclient.plist",
     "~/Library/Saved Application State/me.timschneeberger.galaxybudsclient.savedState",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/GalaxyBudsClient_macOS_#{arch}.pkg"
-  end
 end

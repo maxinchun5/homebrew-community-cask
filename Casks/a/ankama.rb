@@ -19,18 +19,18 @@ cask "ankama" do
 
   uninstall quit: "Ankama Launcher"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Ankama Launcher",
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.ankama.zaap.sfl*",
     "~/Library/Preferences/com.ankama.zaap.plist",
     "~/Library/Saved Application State/com.ankama.zaap.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ankama Launcher.app"
-  end
 end

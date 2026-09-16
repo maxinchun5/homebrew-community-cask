@@ -17,14 +17,14 @@ cask "cncjs" do
 
   app "CNCjs.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.cncjs-sessions",
     "~/Library/Application Support/CNCjs",
     "~/Library/Preferences/org.cncjs.plist",
     "~/Library/Saved Application State/org.cncjs.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CNCjs.app"
-  end
 end

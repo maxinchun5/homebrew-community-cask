@@ -19,14 +19,14 @@ cask "tribler" do
 
   app "tribler-#{version}-#{arch}.app", target: "Tribler.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.Tribler",
     "~/Library/Preferences/com.nl-tudelft-tribler.plist",
     "~/Library/Preferences/nl.tudelft.tribler.plist",
     "~/Library/Saved Application State/nl.tudelft.tribler.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/tribler-#{version}-#{arch}.app"
-  end
 end

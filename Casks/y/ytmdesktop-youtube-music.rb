@@ -33,12 +33,12 @@ cask "ytmdesktop-youtube-music" do
 
   app "YouTube Music Desktop App.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/app.ytmd.plist",
     "~/Library/Saved Application State/app.ytmd.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/YouTube Music Desktop App.app"
-  end
 end

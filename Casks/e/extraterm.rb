@@ -16,16 +16,16 @@ cask "extraterm" do
 
   app "ExtratermQt.app"
 
-  zap trash: [
-    "~/Library/Application Support/extraterm",
-    "~/Library/Preferences/com.electron.extraterm*.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ExtratermQt.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/extraterm",
+    "~/Library/Preferences/com.electron.extraterm*.plist",
+  ]
 end

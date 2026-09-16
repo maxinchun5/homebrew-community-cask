@@ -35,14 +35,14 @@ cask "freetube" do
 
   uninstall quit: "io.freetubeapp.freetube"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/io.freetubeapp.freetube.sfl*",
     "~/Library/Application Support/FreeTube",
     "~/Library/Preferences/io.freetubeapp.freetube.plist",
     "~/Library/Saved Application State/io.freetubeapp.freetube.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/FreeTube.app"
-  end
 end

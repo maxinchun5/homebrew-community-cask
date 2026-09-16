@@ -15,12 +15,12 @@ cask "listen1" do
 
   app "Listen1.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/listen1",
     "~/Library/Preferences/com.listen1.listen1.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Listen1.app"
-  end
 end

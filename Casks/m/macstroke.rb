@@ -11,6 +11,10 @@ cask "macstroke" do
 
   app "MacStroke.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/net.mtjo.MacStroke.FinderSyncExtension",
     "~/Library/Caches/MacStroke",
@@ -19,8 +23,4 @@ cask "macstroke" do
     "~/Library/Cookies/net.mtjo.MacStroke.binarycookies",
     "~/Library/Preferences/net.mtjo.MacStroke.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MacStroke.app"
-  end
 end

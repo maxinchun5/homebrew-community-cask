@@ -28,14 +28,14 @@ cask "nwjs" do
   app "nwjs-sdk-v#{version}-osx-#{arch}/nwjs.app"
   binary "nwjs-sdk-v#{version}-osx-#{arch}/nwjc"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/nwjs",
     "~/Library/Caches/nwjs",
     "~/Library/Preferences/io.nwjs.nwjs.plist",
     "~/Library/Saved Application State/io.nwjs.nwjs.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/nwjs-sdk-v#{version}-osx-#{arch}/nwjs.app"
-  end
 end

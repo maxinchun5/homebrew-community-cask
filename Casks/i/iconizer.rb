@@ -17,9 +17,9 @@ cask "iconizer" do
 
   app "Iconizer.app"
 
-  zap trash: "~/Library/Preferences/com.raphaelhanneken.iconizer.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Iconizer.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.raphaelhanneken.iconizer.plist"
 end

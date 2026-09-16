@@ -27,9 +27,9 @@ cask "quickapp-studio" do
               "com.mygreatcompany.pkg.quickAppIde",
             ]
 
-  zap trash: "~/.快应用开发工具"
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/QuickApp_Studio_#{arch}-#{version}.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.快应用开发工具"
 end

@@ -12,11 +12,6 @@ cask "little-navmap" do
   app "Little Navconnect.app"
   app "Little Navmap.app"
 
-  zap trash: [
-    "~/.config/ABarthel",
-    "~/Library/Saved Application State/com.yourcompany.littlenavmap.savedState",
-  ]
-
   caveats do
     requires_rosetta
     <<~EOS
@@ -24,7 +19,12 @@ cask "little-navmap" do
     EOS
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Little Navconnect.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/.config/ABarthel",
+    "~/Library/Saved Application State/com.yourcompany.littlenavmap.savedState",
+  ]
 end

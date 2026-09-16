@@ -19,6 +19,14 @@ cask "editaro" do
 
   app "Editaro.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Editaro",
     "~/Library/Caches/com.electron.editaro",
@@ -29,12 +37,4 @@ cask "editaro" do
     "~/Library/Preferences/com.electron.editaro.plist",
     "~/Library/Saved Application State/com.electron.editaro.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Editaro.app"
-  end
 end

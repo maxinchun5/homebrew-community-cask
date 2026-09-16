@@ -11,18 +11,18 @@ cask "wintertime" do
 
   app "Wintertime.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Wintertime",
     "~/Library/Logs/Wintertime",
     "~/Library/Preferences/com.electron.wintertime.plist",
     "~/Library/Saved Application State/com.electron.wintertime.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Wintertime.app"
-  end
 end

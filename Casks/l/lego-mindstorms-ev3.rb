@@ -29,13 +29,13 @@ cask "lego-mindstorms-ev3" do
     "com.xamarin.mono-MDK.pkg",
   ]
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap pkgutil: [
     "com.microsoft.silverlight.plugin",
     "com.ni.pkg.legodriver",
     "com.ximian.mono-*",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/LEGO MINDSTORMS EV3 Home Edition.pkg"
-  end
 end

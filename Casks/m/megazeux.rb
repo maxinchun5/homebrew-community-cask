@@ -17,12 +17,12 @@ cask "megazeux" do
   app "MegaZeux.app"
   artifact "Documentation", target: "~/Library/Application Support/MegaZeux/Documentation"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.megazeux-config",
     "~/Library/Application Support/MegaZeux",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MegaZeux.app"
-  end
 end

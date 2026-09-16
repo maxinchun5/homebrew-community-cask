@@ -14,6 +14,10 @@ cask "electronmail" do
 
   app "electron-mail.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/github.comvladimiryelectronmail.sfl*",
     "~/Library/Application Support/electron-mail",
@@ -21,8 +25,4 @@ cask "electronmail" do
     "~/Library/Preferences/github.comvladimiryElectronMail.plist",
     "~/Library/Saved Application State/github.comvladimiryElectronMail.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/electron-mail.app"
-  end
 end

@@ -15,7 +15,7 @@ cask "gdisk" do
 
   # No zap stanza required
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/gdisk-#{version}.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

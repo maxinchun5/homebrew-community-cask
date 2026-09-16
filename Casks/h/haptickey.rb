@@ -13,12 +13,12 @@ cask "haptickey" do
 
   uninstall quit: "at.niw.HapticKey"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/at.niw.HapticKey",
     "~/Library/Preferences/at.niw.HapticKey.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/HapticKey.app"
-  end
 end

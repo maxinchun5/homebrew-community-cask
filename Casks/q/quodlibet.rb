@@ -17,13 +17,13 @@ cask "quodlibet" do
 
   app "QuodLibet.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.quodlibet",
     "~/Library/Preferences/io.github.quodlibet.quodlibet.plist",
     "~/Library/Saved Application State/io.github.quodlibet.quodlibet.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/QuodLibet.app"
-  end
 end

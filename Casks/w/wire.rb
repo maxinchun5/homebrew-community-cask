@@ -34,9 +34,9 @@ cask "wire" do
             ],
             pkgutil: "com.wearezeta.zclient.mac"
 
-  zap trash: "~/Library/Containers/com.wearezeta.zclient.mac"
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/Wire.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Containers/com.wearezeta.zclient.mac"
 end

@@ -14,14 +14,14 @@ cask "tiddly" do
 
   app "TiddlyDesktop-mac#{arch}-v#{version}/TiddlyDesktop.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/TiddlyDesktop",
     "~/Library/Caches/TiddlyDesktop",
     "~/Library/Preferences/com.tiddlywiki.plist",
     "~/Library/Saved Application State/com.tiddlywiki.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TiddlyDesktop-mac#{arch}-v#{version}/TiddlyDesktop.app"
-  end
 end

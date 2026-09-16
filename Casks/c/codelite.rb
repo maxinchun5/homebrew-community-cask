@@ -68,12 +68,12 @@ cask "codelite" do
 
   app "codelite.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/codelite",
     "~/Library/Preferences/codelite.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/codelite.app"
-  end
 end

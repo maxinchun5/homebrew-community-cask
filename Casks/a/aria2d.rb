@@ -18,14 +18,14 @@ cask "aria2d" do
 
   app "Aria2D.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Aria2D",
     "~/Library/Application Support/com.xjbeta.Aria2D",
     "~/Library/Preferences/com.xjbeta.Aria2D.plist",
     "~/Library/Saved Application State/com.xjbeta.Aria2D.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Aria2D.app"
-  end
 end

@@ -11,6 +11,10 @@ cask "psst" do
 
   app "Psst.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Psst",
     "~/Library/Caches/com.jpochyla.psst",
@@ -19,8 +23,4 @@ cask "psst" do
     "~/Library/Preferences/com.jpochyla.psst.plist",
     "~/Library/Saved Application State/com.jpochyla.psst.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Psst.app"
-  end
 end

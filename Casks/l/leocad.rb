@@ -11,17 +11,17 @@ cask "leocad" do
 
   app "LeoCAD.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/LeoCAD Software",
     "~/Library/Preferences/org.leocad.LeoCAD.plist",
     "~/Library/Saved Application State/org.leozide.LeoCAD.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LeoCAD.app"
-  end
 end

@@ -24,12 +24,12 @@ cask "dosbox-x-app" do
 
   app "dosbox-x/dosbox-x.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.dosbox-x.plist",
     "~/Library/Preferences/mapper-dosbox-x.map",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/dosbox-x/dosbox-x.app"
-  end
 end

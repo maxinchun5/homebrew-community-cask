@@ -17,6 +17,14 @@ cask "mumble" do
 
   app "Mumble.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "/Library/ScriptingAdditions/MumbleOverlay.osax",
     "~/Library/Application Support/Mumble",
@@ -24,12 +32,4 @@ cask "mumble" do
     "~/Library/Preferences/net.sourceforge.mumble.Mumble.plist",
     "~/Library/Saved Application State/net.sourceforge.mumble.Mumble.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Mumble.app"
-  end
 end

@@ -29,6 +29,10 @@ cask "jasp" do
 
   app "JASP.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.JASP",
     "~/Library/Application Support/JASP",
@@ -36,8 +40,4 @@ cask "jasp" do
     "~/Library/Preferences/org.jasp-stats.JASP.plist",
     "~/Library/Saved Application State/org.jasp-stats.jasp.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/JASP.app"
-  end
 end

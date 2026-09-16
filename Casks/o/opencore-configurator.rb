@@ -18,6 +18,14 @@ cask "opencore-configurator" do
 
   app "OpenCore Configurator.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.altervista.mackie100projects.opencore-configurator.sfl*",
     "~/Library/Application Support/org.altervista.mackie100projects.OpenCore-Configurator",
@@ -25,12 +33,4 @@ cask "opencore-configurator" do
     "~/Library/HTTPStorages/org.altervista.mackie100projects.OpenCore-Configurator",
     "~/Library/Preferences/org.altervista.mackie100projects.OpenCore-Configurator.plist",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenCore Configurator.app"
-  end
 end

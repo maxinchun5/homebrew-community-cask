@@ -12,14 +12,14 @@ cask "iina+" do
 
   app "IINA+.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.xjbeta.iina-plus",
     "~/Library/Caches/com.xjbeta.iina-plus",
     "~/Library/Preferences/com.xjbeta.iina-plus.plist",
     "~/Library/WebKit/com.xjbeta.iina-plus",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/IINA+.app"
-  end
 end

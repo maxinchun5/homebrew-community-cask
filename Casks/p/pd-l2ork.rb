@@ -22,17 +22,17 @@ cask "pd-l2ork" do
     set_permissions "Purr-Data.app", "0777", base: :appdir
   end
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Purr-Data",
     "~/Library/Logs/Purr-Data",
     "~/Library/Purr-Data",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Purr-Data.app"
-  end
 end

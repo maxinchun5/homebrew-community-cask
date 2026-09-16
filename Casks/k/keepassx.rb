@@ -20,13 +20,13 @@ cask "keepassx" do
     set_ownership "KeePassX.app", base: :appdir
   end
 
-  zap trash: "~/.keepassx"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/KeePassX.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.keepassx"
 end

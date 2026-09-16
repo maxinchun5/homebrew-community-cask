@@ -25,13 +25,13 @@ cask "finalshell" do
             ],
             delete:  "/Applications/FinalShell.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/fsdownload",
     "~/Library/FinalShell",
     "~/Library/Saved Application State/myssh.savedState",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/finalshell_macos_#{arch}.pkg"
-  end
 end

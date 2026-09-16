@@ -20,13 +20,13 @@ cask "teamspeak-client@beta" do
 
   app "TeamSpeak.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.teamspeak.#{version.major}.client.plist*",
     "~/Library/Preferences/TeamSpeak",
     "~/Library/Saved Application State/com.teamspeak.#{version.major}.client.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TeamSpeak.app"
-  end
 end

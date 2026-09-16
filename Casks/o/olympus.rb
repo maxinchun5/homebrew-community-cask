@@ -21,12 +21,12 @@ cask "olympus" do
 
   app "Olympus.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Olympus",
     "~/Library/Saved Application State/everest.olympus.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Olympus.app"
-  end
 end

@@ -16,12 +16,12 @@ cask "coolterm" do
 
   app "CoolTerm.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/CoolTerm_Prefs.plist",
     "~/Library/Saved Application State/org.the-meiers.coolterm.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CoolTerm.app"
-  end
 end

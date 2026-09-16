@@ -22,6 +22,10 @@ cask "tidgi" do
 
   uninstall quit: "com.tidgi"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/TidGi",
     "~/Library/Caches/com.tidgi.app",
@@ -30,8 +34,4 @@ cask "tidgi" do
     "~/Library/Preferences/com.tidgi.plist",
     "~/Library/Saved Application State/com.microsoft.VSCode.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TidGi.app"
-  end
 end

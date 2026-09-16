@@ -41,13 +41,13 @@ cask "metasploit" do
             },
             rmdir:  "/opt/metasploit-framework"
 
-  zap trash: "~/.msf4"
-
   caveats do
     requires_rosetta
   end
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.msf4"
 end

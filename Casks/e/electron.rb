@@ -20,6 +20,10 @@ cask "electron" do
   app "Electron.app"
   binary "#{appdir}/Electron.app/Contents/MacOS/Electron", target: "electron"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.github.electron.sfl*",
     "~/Library/Application Support/Electron",
@@ -28,8 +32,4 @@ cask "electron" do
     "~/Library/Preferences/com.github.electron.plist",
     "~/Library/Saved Application State/com.github.Electron.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Electron.app"
-  end
 end

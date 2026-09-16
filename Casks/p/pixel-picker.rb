@@ -11,12 +11,12 @@ cask "pixel-picker" do
 
   app "Pixel Picker.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Logs/Pixel Picker",
     "~/Library/Preferences/Pixel Picker",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pixel Picker.app"
-  end
 end

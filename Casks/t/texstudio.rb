@@ -16,13 +16,13 @@ cask "texstudio" do
 
   uninstall quit: "texstudio"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/texstudio.sfl*",
     "~/Library/Preferences/texstudio.plist",
     "~/Library/Saved Application State/texstudio.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/texstudio-#{version}-osx#{arch}.app"
-  end
 end

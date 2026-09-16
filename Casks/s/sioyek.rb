@@ -19,16 +19,16 @@ cask "sioyek" do
   command_wrapper "sioyek",
                   executable: "#{appdir}/sioyek.app/Contents/MacOS/sioyek"
 
-  zap trash: [
-    "~/Library/Application Support/sioyek",
-    "~/Library/Saved Application State/com.yourcompany.sioyek.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/sioyek.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/sioyek",
+    "~/Library/Saved Application State/com.yourcompany.sioyek.savedState",
+  ]
 end

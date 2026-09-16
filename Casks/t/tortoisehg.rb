@@ -16,13 +16,13 @@ cask "tortoisehg" do
 
   app "TortoiseHg.app"
 
-  zap trash: "~/.config/tortoisehg.org"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TortoiseHg.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.config/tortoisehg.org"
 end

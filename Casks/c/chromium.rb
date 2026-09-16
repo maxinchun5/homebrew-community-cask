@@ -16,6 +16,10 @@ cask "chromium" do
   command_wrapper "chromium",
                   executable: "#{appdir}/Chromium.app/Contents/MacOS/Chromium"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Chromium",
     "~/Library/Application Support/CrashReporter/Chromium_*.plist",
@@ -24,8 +28,4 @@ cask "chromium" do
     "~/Library/Preferences/org.chromium.Chromium.plist",
     "~/Library/Saved Application State/org.chromium.Chromium.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/chrome-mac/Chromium.app"
-  end
 end

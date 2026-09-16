@@ -17,12 +17,12 @@ cask "arkiwi" do
 
   app "ArKiwi.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Containers/com.mariogt.arkiwi/Data/Library/Application Support/ArKiwi",
     "~/Library/Containers/com.mariogt.arkiwi/Data/Library/Preferences/com.mariogt.arkiwi.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ArKiwi.app"
-  end
 end

@@ -17,13 +17,13 @@ cask "jazz2-resurrection" do
 
   uninstall quit: "jazz2.resurrection"
 
-  zap trash: "~/Library/Application Support/Jazz² Resurrection"
-
   caveats <<~EOS
     Game data should be installed to ~/Library/Application Support/Jazz² Resurrection/Source/
   EOS
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Jazz² Resurrection.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/Jazz² Resurrection"
 end

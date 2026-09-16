@@ -19,6 +19,10 @@ cask "ipe" do
 
   app "Ipe.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.ipe",
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.otfried.ipe.ipe.sfl*",
@@ -26,8 +30,4 @@ cask "ipe" do
     "~/Library/Preferences/org.otfried.ipe.Ipe.plist",
     "~/Library/Saved Application State/org.otfried.ipe.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ipe.app"
-  end
 end

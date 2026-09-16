@@ -17,9 +17,9 @@ cask "spaceid" do
 
   uninstall login_item: "SpaceId"
 
-  zap trash: "~/Library/Preferences/com.dshnkao.SpaceId.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SpaceId.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.dshnkao.SpaceId.plist"
 end

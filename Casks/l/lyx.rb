@@ -28,6 +28,10 @@ cask "lyx" do
 
   uninstall quit: "org.lyx.lyx"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/LyX-#{version.major_minor}",
     "~/Library/Caches/com.apple.python/Applications/LyX.app",
@@ -35,8 +39,4 @@ cask "lyx" do
     "~/Library/Preferences/org.lyx.lyx.plist",
     "~/Library/Saved Application State/org.lyx.lyx.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LyX.app"
-  end
 end

@@ -30,9 +30,9 @@ cask "veusz" do
 
   app "Veusz.app"
 
-  zap trash: "~/Library/Preferences/org.veusz.veusz*.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Veusz.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/org.veusz.veusz*.plist"
 end

@@ -11,12 +11,12 @@ cask "tempbox" do
 
   app "TempBox.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.waseem.TempBox",
     "~/Library/Containers/com.waseem.TempBox",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TempBox.app"
-  end
 end

@@ -13,12 +13,12 @@ cask "atlauncher" do
 
   uninstall quit: "com.atlauncher.App"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.atlauncher.App.plist",
     "~/Library/Saved Application State/com.atlauncher.App.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ATLauncher.app"
-  end
 end

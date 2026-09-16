@@ -11,16 +11,16 @@ cask "airtrash" do
 
   app "Airtrash.app"
 
-  zap trash: [
-    "~/Library/Application Support/airtrash",
-    "~/Library/Preferences/maciejczyzewski.airtrash.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Airtrash.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/airtrash",
+    "~/Library/Preferences/maciejczyzewski.airtrash.plist",
+  ]
 end

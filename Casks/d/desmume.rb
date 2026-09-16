@@ -19,14 +19,14 @@ cask "desmume" do
 
   app "DeSmuME.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.desmume.desmume.sfl*",
     "~/Library/Application Support/DeSmuME",
     "~/Library/Preferences/org.desmume.DeSmuME.plist",
     "~/Library/Saved Application State/org.desmume.DeSmuME.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DeSmuME.app"
-  end
 end

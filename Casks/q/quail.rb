@@ -27,6 +27,10 @@ cask "quail" do
 
   app "Quail.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Quail",
     "~/Library/Caches/net.1000ch.quail",
@@ -35,8 +39,4 @@ cask "quail" do
     "~/Library/Preferences/net.1000ch.quail.plist",
     "~/Library/Saved Application State/net.1000ch.quail.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Quail.app"
-  end
 end

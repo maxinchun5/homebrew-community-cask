@@ -11,13 +11,13 @@ cask "openkey" do
 
   app "OpenKey.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/com.tuyenmai.openkey",
     "~/Library/HTTPStorages/com.tuyenmai.openkey",
     "~/Library/Preferences/com.tuyenmai.openkey.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenKey.app"
-  end
 end

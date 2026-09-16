@@ -19,12 +19,12 @@ cask "time-to-leave" do
 
   app "Time To Leave.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.electron.time-to-leave.plist",
     "~/Library/Saved Application State/com.electron.time-to-leave.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Time To Leave.app"
-  end
 end

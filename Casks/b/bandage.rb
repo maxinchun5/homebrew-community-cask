@@ -16,12 +16,12 @@ cask "bandage" do
   command_wrapper "bandage",
                   executable: "#{appdir}/Bandage.app/Contents/MacOS/Bandage"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.rrwick.Bandage.plist",
     "~/Library/Saved Application State/com.rrwick.Bandage.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Bandage.app"
-  end
 end

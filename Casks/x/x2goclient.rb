@@ -16,18 +16,18 @@ cask "x2goclient" do
 
   app "x2goclient.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.x2go",
     "~/.x2goclient",
     "~/Library/Application Support/CrashReporter/x2goclient_*.plist",
     "~/Library/Preferences/x2goclient.plist",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/x2goclient.app"
-  end
 end

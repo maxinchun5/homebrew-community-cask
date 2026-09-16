@@ -11,13 +11,13 @@ cask "exist-db" do
 
   app "eXist-db.app"
 
-  zap trash: "~/Library/Application Support/org.exist"
-
   caveats do
     depends_on_java "8"
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/eXist-db.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/org.exist"
 end

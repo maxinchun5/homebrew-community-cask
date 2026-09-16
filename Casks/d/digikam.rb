@@ -28,6 +28,10 @@ cask "digikam" do
               "/Applications/digiKam.org/showfoto.app",
             ]
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/digikam",
     "~/Library/Caches/digikam",
@@ -35,8 +39,4 @@ cask "digikam" do
     "~/Library/Preferences/digikamrc",
     "~/Library/Saved Application State/digikam.savedState",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/digiKam-#{version}-#{arch}.pkg"
-  end
 end

@@ -17,6 +17,10 @@ cask "macjournal" do
 
   app "MacJournal.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.danschimpf.macjournal.sfl*",
     "~/Library/Application Support/MacJournal",
@@ -24,8 +28,4 @@ cask "macjournal" do
     "~/Library/Preferences/com.DanSchimpf.MacJournal.plist",
     "~/Library/Saved Application State/com.DanSchimpf.MacJournal.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MacJournal.app"
-  end
 end

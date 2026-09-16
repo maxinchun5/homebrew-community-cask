@@ -19,13 +19,13 @@ cask "wireframe-sketcher" do
 
   app "WireframeSketcher.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Documents/WireframeSketcher",
     "~/Library/Preferences/com.wireframesketcher.studio.plist",
     "~/Library/Saved Application State/com.wireframesketcher.studio.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/WireframeSketcher.app"
-  end
 end

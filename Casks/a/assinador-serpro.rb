@@ -18,9 +18,9 @@ cask "assinador-serpro" do
 
   uninstall pkgutil: "br.gov.serpro.desktop.assinador"
 
-  zap trash: "~/Library/Preferences/org.demoiselle.signer.serpro.desktop.Main.plist"
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/AssinadorSerpro-#{version}.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/org.demoiselle.signer.serpro.desktop.Main.plist"
 end

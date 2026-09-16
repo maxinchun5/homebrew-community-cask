@@ -13,9 +13,9 @@ cask "simsim" do
 
   uninstall quit: "com.dsmelov.SimSim"
 
-  zap trash: "~/Library/Preferences/com.dsmelov.SimSim.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SimSim.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.dsmelov.SimSim.plist"
 end

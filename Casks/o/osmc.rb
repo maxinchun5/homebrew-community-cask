@@ -17,16 +17,16 @@ cask "osmc" do
   # Original discussion: https://github.com/Homebrew/homebrew-cask/pull/9420
   app "qt_host_installer.app", target: "OSMC.app"
 
-  zap trash: [
-    "~/Library/Saved Application State/tv.osmc.installer.savedState",
-    "~/omsc_installer_log.txt",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qt_host_installer.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Saved Application State/tv.osmc.installer.savedState",
+    "~/omsc_installer_log.txt",
+  ]
 end

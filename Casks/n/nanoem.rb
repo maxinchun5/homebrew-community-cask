@@ -11,6 +11,10 @@ cask "nanoem" do
 
   app "nanoem.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.github.nanoem",
     "~/Library/Caches/com.github.nanoem",
@@ -18,8 +22,4 @@ cask "nanoem" do
     "~/Library/Preferences/com.github.nanoem.plist",
     "~/Library/Saved Application State/com.github.nanoem.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/nanoem.app"
-  end
 end

@@ -30,14 +30,14 @@ cask "salesforce-cli" do
               "/usr/local/bin/sfdx",
             ]
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.cache/sf",
     "~/.config/sf",
     "~/.local/share/sf",
     "~/.sf",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/sf-v#{version.csv.first}-#{version.csv.second}-#{arch}.pkg"
-  end
 end

@@ -32,12 +32,12 @@ cask "unison-app" do
     run "/usr/bin/defaults", args: ["write", "edu.upenn.cis.Unison", "CheckCltool", "-bool", "false"]
   end
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Unison",
     "~/Library/Preferences/edu.upenn.cis.Unison.plist",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
-  end
 end

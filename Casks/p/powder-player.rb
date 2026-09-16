@@ -11,18 +11,18 @@ cask "powder-player" do
 
   app "Powder Player.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Powder-Player",
     "~/Library/Caches/Powder-Player",
     "~/Library/Preferences/media.powder.player.plist",
     "~/Library/Saved Application State/media.powder.player.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Powder Player.app"
-  end
 end

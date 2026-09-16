@@ -18,9 +18,9 @@ cask "worldpainter" do
 
   uninstall quit: "com.install4j.4144-4862-0472-7103.67"
 
-  zap trash: "~/Library/Application Support/WorldPainter"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/WorldPainter.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/WorldPainter"
 end

@@ -17,6 +17,14 @@ cask "copytranslator" do
 
   app "copytranslator.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
         "~/copytranslator/copytranslator.json",
         "~/copytranslator/localShortcuts.json",
@@ -27,12 +35,4 @@ cask "copytranslator" do
         "~/Library/Saved Application State/com.copytranslator.copytranslator.savedState",
       ],
       rmdir: "~/copytranslator/locales"
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/copytranslator.app"
-  end
 end

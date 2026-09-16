@@ -12,12 +12,12 @@ cask "spotify4bigsur" do
   # Renamed for clarity: app name is inconsistent with its branding.
   app "SpotifyMain.app", target: "Spotify4BigSur.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/backert.SpotifyMain.SpotifyWidget",
     "~/Library/Containers/backert.SpotifyMain.SpotifyWidget",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SpotifyMain.app"
-  end
 end

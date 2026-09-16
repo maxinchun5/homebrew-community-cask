@@ -24,6 +24,10 @@ cask "quaternion" do
 
   app "quaternion.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Quotient/quaternion",
     "~/Library/Containers/com.github.quaternion",
@@ -32,8 +36,4 @@ cask "quaternion" do
     "~/Library/Preferences/com.quotient.quaternion.plist",
     "~/Library/Saved Application State/com.github.quaternion.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/quaternion.app"
-  end
 end

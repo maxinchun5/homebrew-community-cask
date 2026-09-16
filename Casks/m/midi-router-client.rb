@@ -16,6 +16,10 @@ cask "midi-router-client" do
 
   app "midi-router-client.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Midi router client",
     "~/Library/Caches/midi-router-client",
@@ -24,8 +28,4 @@ cask "midi-router-client" do
     "~/Library/Preferences/com.shemeshg.MidiRouter.plist",
     "~/Library/Preferences/com.shemeshg.midirouterclient.midi-router-client.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/midi-router-client.app"
-  end
 end

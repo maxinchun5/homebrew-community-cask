@@ -18,13 +18,13 @@ cask "repoz" do
 
   uninstall pkgutil: "net.sodacore.RepoZ"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.config/RepoZ",
     "~/.config/sodacore studios",
     "~/Library/Preferences/net.sodacore.repoz.plist",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/RepoZ.#{version}.pkg"
-  end
 end

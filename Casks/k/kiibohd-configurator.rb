@@ -14,18 +14,18 @@ cask "kiibohd-configurator" do
 
   uninstall quit: "club.input.KiibohdConfigurator"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/kiibohd-configurator",
     "~/Library/Logs/Kiibohd Configurator",
     "~/Library/Preferences/club.input.KiibohdConfigurator.plist",
     "~/Library/Saved Application State/club.input.KiibohdConfigurator.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Kiibohd Configurator.app"
-  end
 end

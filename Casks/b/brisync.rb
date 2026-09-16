@@ -11,9 +11,9 @@ cask "brisync" do
 
   app "Brisync.app"
 
-  zap trash: "~/.brisync.json"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Brisync.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.brisync.json"
 end

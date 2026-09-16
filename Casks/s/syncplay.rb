@@ -16,6 +16,10 @@ cask "syncplay" do
 
   app "Syncplay.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.syncplay",
     "~/Library/Preferences/com.syncplay.Interface.plist",
@@ -25,8 +29,4 @@ cask "syncplay" do
     "~/Library/Preferences/pl.syncplay.Syncplay.plist",
     "~/Library/Saved Application State/pl.syncplay.Syncplay.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Syncplay.app"
-  end
 end

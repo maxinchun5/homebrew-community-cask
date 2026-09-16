@@ -19,6 +19,14 @@ cask "conferences" do
 
   app "Conferences.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/digital.conferences.macos",
     "~/Library/Caches/digital.conferences.macos",
@@ -27,12 +35,4 @@ cask "conferences" do
     "~/Library/Saved Application State/digital.conferences.macos.savedState",
     "~/Library/WebKit/digital.conferences.macos",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Conferences.app"
-  end
 end

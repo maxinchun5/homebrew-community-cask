@@ -16,13 +16,13 @@ cask "gingko" do
 
   app "Gingko.app"
 
-  zap trash: "~/Library/Application Support/Gingko"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Gingko.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/Gingko"
 end

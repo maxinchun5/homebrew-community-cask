@@ -26,13 +26,13 @@ cask "openrgb" do
 
   app "OpenRGB.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.config/OpenRGB",
     "~/Library/Preferences/com.yourcompany.OpenRGB.plist",
     "~/Library/Saved Application State/com.yourcompany.OpenRGB.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenRGB.app"
-  end
 end

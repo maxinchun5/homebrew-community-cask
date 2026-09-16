@@ -16,14 +16,14 @@ cask "qutebrowser" do
   command_wrapper "qutebrowser",
                   executable: "#{appdir}/qutebrowser.app/Contents/MacOS/qutebrowser"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
         "~/Library/Application Support/qutebrowser",
         "~/Library/Caches/qutebrowser",
         "~/Library/Preferences/qutebrowser",
       ],
       rmdir: "~/.qutebrowser"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qutebrowser.app"
-  end
 end

@@ -11,13 +11,13 @@ cask "fertigt-slate" do
 
   app "Slate.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.slate",
     "~/.slate.js",
     "~/Library/Application Support/com.tobiasfertig.Slate",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Slate.app"
-  end
 end

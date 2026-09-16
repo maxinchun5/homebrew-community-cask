@@ -26,14 +26,14 @@ cask "shadowsocksx-ng" do
             },
             delete:    "/Library/Application Support/ShadowsocksX-NG"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.ShadowsocksX-NG",
     "~/Library/Application Support/ShadowsocksX-NG",
     "~/Library/Caches/com.qiuyuzhou.ShadowsocksX-NG",
     "~/Library/Preferences/com.qiuyuzhou.ShadowsocksX-NG.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ShadowsocksX-NG.app"
-  end
 end

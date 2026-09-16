@@ -10,9 +10,9 @@ cask "switchkey" do
 
   app "SwitchKey.app"
 
-  zap trash: "~/Library/Preferences/itsuhane.tools.SwitchKey.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SwitchKey.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/itsuhane.tools.SwitchKey.plist"
 end

@@ -16,18 +16,18 @@ cask "manuskript" do
 
   app "manuskript.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/manuskript",
     "~/Library/Preferences/ch.theologeek.www.manuskript.plist",
     "~/Library/Preferences/com.manuskript.manuskript.plist",
     "~/Library/Saved Application State/ch.theologeek.manuskript.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/manuskript.app"
-  end
 end

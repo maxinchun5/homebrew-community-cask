@@ -12,14 +12,14 @@ cask "betterdiscord-installer" do
 
   app "BetterDiscord Installer.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/BetterDiscord Installer",
     "~/Library/Application Support/BetterDiscord",
     "~/Library/Preferences/app.betterdiscord.installer.plist",
     "~/Library/Saved Application State/app.betterdiscord.installer.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BetterDiscord Installer.app"
-  end
 end

@@ -14,6 +14,10 @@ cask "ballast" do
   uninstall launchctl: "nz.jamsinclair.ballast-LaunchAtLoginHelper",
             quit:      "nz.jamsinclair.ballast"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/nz.jamsinclair.ballast",
     "~/Library/Application Scripts/nz.jamsinclair.ballast-LaunchAtLoginHelper",
@@ -21,8 +25,4 @@ cask "ballast" do
     "~/Library/Containers/nz.jamsinclair.ballast-LaunchAtLoginHelper",
     "~/Library/Preferences/nz.jamsinclair.ballast.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ballast.app"
-  end
 end

@@ -16,16 +16,16 @@ cask "subtools" do
 
   app "subtools#{version}/SUBtools.app"
 
-  zap trash: [
-    "~/Library/Application Support/EmmGunn",
-    "~/Library/Preferences/com.emmgunn.SUBtools.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/subtools#{version}/SUBtools.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/EmmGunn",
+    "~/Library/Preferences/com.emmgunn.SUBtools.plist",
+  ]
 end

@@ -11,6 +11,14 @@ cask "alpha" do
 
   app "Alpha.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Alpha",
     "~/Library/Caches/net.sourceforge.alphacocoa",
@@ -18,12 +26,4 @@ cask "alpha" do
     "~/Library/Preferences/net.sourceforge.alphacocoa.plist",
     "~/Library/Saved Application State/net.sourceforge.alphacocoa.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Alpha.app"
-  end
 end

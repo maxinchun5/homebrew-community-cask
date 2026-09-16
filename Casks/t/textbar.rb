@@ -17,17 +17,17 @@ cask "textbar" do
 
   app "TextBar.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/TextBar",
     "~/Library/Caches/com.RichSomerfield.TextBar",
     "~/Library/Preferences/com.RichSomerfield.TextBar.plist",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TextBar.app"
-  end
 end

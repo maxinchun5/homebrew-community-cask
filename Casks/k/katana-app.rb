@@ -11,18 +11,18 @@ cask "katana-app" do
 
   app "Katana.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.katana",
     "~/Library/Application Support/Katana",
     "~/Library/Logs/Katana",
     "~/Library/Preferences/com.electron.katana.plist",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Katana.app"
-  end
 end

@@ -11,9 +11,9 @@ cask "jd-gui" do
 
   app "jd-gui-osx-#{version}/JD-GUI.app"
 
-  zap trash: "~/Library/Saved Application State/jd.jd-gui.savedState"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/jd-gui-osx-#{version}/JD-GUI.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Saved Application State/jd.jd-gui.savedState"
 end

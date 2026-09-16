@@ -16,16 +16,16 @@ cask "evkey" do
 
   app "EVKeyMac.app"
 
-  zap trash: [
-    "~/Library/Containers/com.lamquangminh.evkey",
-    "~/Library/Containers/com.lamquangminh.evkeyhelper",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/EVKeyMac.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Containers/com.lamquangminh.evkey",
+    "~/Library/Containers/com.lamquangminh.evkeyhelper",
+  ]
 end

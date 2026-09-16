@@ -20,14 +20,14 @@ cask "makemkv" do
   binary "#{appdir}/MakeMKV.app/Contents/MacOS/mmgplsrv"
   binary "#{appdir}/MakeMKV.app/Contents/MacOS/sdftool"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/MakeMKV",
     "~/Library/Preferences/com.makemkv.MakeMKV.plist",
     "~/Library/Saved Application State/com.makemkv.MakeMKV.savedState",
     "~/Movies/.MakeMKV",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MakeMKV.app"
-  end
 end

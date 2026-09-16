@@ -33,13 +33,13 @@ cask "librecad" do
 
   app "LibreCAD.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/LibreCAD",
     "~/Library/Preferences/com.librecad.LibreCAD.plist",
     "~/Library/Saved Application State/com.yourcompany.LibreCAD.savedstate",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LibreCAD.app"
-  end
 end

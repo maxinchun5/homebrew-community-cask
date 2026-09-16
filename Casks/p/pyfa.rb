@@ -16,17 +16,17 @@ cask "pyfa" do
 
   app "pyfa.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/org.pyfaorg.pyfa",
     "~/Library/Preferences/org.pyfaorg.pyfa.plist",
     "~/Library/Saved Application State/org.pyfaorg.pyfa.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/pyfa.app"
-  end
 end

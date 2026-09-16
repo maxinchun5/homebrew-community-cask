@@ -11,16 +11,16 @@ cask "thyme" do
 
   app "Thyme.app"
 
-  zap trash: [
-    "~/Library/Application Support/Thyme",
-    "~/Library/Preferences/com.joaomoreno.Thyme.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Thyme.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/Thyme",
+    "~/Library/Preferences/com.joaomoreno.Thyme.plist",
+  ]
 end

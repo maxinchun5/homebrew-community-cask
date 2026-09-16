@@ -20,12 +20,12 @@ cask "panwriter" do
 
   app "PanWriter.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/PanWriter",
     "~/Library/Preferences/com.panwriter.app.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PanWriter.app"
-  end
 end

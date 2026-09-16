@@ -24,18 +24,18 @@ cask "mechvibes" do
 
   app "Mechvibes.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
         "~/Library/Application Support/Mechvibes",
         "~/Library/Preferences/com.electron.mechvibes.plist",
         "~/Library/Saved Application State/com.electron.mechvibes.savedState",
       ],
       rmdir: "~/mechvibes_custom"
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Mechvibes.app"
-  end
 end

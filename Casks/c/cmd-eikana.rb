@@ -11,13 +11,13 @@ cask "cmd-eikana" do
 
   app "⌘英かな.app"
 
-  zap trash: "~/Library/Preferences/io.github.imasanari.cmd-eikana.plist"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/⌘英かな.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/io.github.imasanari.cmd-eikana.plist"
 end

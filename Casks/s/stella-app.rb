@@ -24,9 +24,9 @@ cask "stella-app" do
 
   app "Stella.app"
 
-  zap trash: "~/Library/Application Support/Stella"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Stella.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/Stella"
 end

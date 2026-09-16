@@ -18,9 +18,9 @@ cask "far2l" do
 
   app "far2l.app"
 
-  zap trash: "~/Library/Saved Application State/com.far2l.savedState"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/far2l.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Saved Application State/com.far2l.savedState"
 end

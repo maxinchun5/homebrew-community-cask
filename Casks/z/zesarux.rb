@@ -20,12 +20,12 @@ cask "zesarux" do
 
   app "ZEsarUX.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.zesaruxrc",
     "~/Library/Saved Application State/com.cesarhernandez.zesarux.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ZEsarUX.app"
-  end
 end

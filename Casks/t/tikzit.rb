@@ -11,17 +11,17 @@ cask "tikzit" do
 
   app "TikZiT.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.tikzit.tikzit.plist",
     "~/Library/Preferences/io.github.tikzit.plist",
     "~/Library/Saved Application State/io.github.tikzit.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TikZiT.app"
-  end
 end

@@ -40,6 +40,14 @@ cask "keepassxc@snapshot" do
 
   uninstall quit: "org.keepassxc.keepassxc"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.keepassxc",
     "~/Library/Application Support/CrashReporter/KeePassXC_*.plist",
@@ -50,12 +58,4 @@ cask "keepassxc@snapshot" do
     "~/Library/Preferences/org.keepassx.keepassxc.plist",
     "~/Library/Saved Application State/org.keepassx.keepassxc.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/KeePassXC.app"
-  end
 end

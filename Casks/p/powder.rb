@@ -19,12 +19,12 @@ cask "powder" do
 
   app "The Powder Toy.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/The Powder Toy",
     "~/Library/Saved Application State/uk.co.powdertoy.tpt.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/The Powder Toy.app"
-  end
 end

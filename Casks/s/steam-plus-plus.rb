@@ -16,14 +16,14 @@ cask "steam-plus-plus" do
 
   app "Steam++.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/Steam++",
     "~/Library/Preferences/net.steampp.app.plist",
     "~/Library/Saved Application State/net.steampp.app.savedState",
     "~/Library/Steam++",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Steam++.app"
-  end
 end

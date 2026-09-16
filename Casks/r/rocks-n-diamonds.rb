@@ -16,16 +16,16 @@ cask "rocks-n-diamonds" do
 
   app "Rocks'n'Diamonds.app"
 
-  zap trash: [
-    "~/Documents/Rocks'n'Diamonds",
-    "~/Library/Saved Application State/org.artsoft.rocksndiamonds.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Rocks'n'Diamonds.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Documents/Rocks'n'Diamonds",
+    "~/Library/Saved Application State/org.artsoft.rocksndiamonds.savedState",
+  ]
 end

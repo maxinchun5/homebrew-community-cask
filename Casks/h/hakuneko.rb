@@ -16,16 +16,16 @@ cask "hakuneko" do
 
   app "HakuNeko Desktop.app"
 
-  zap trash: [
-    "~/Library/Application Support/hakuneko-desktop",
-    "~/Library/Preferences/https:/git.io/hakuneko.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/HakuNeko Desktop.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/hakuneko-desktop",
+    "~/Library/Preferences/https:/git.io/hakuneko.plist",
+  ]
 end

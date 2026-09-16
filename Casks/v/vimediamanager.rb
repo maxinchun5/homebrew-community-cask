@@ -24,14 +24,14 @@ cask "vimediamanager" do
 
   app "ViMediaManager.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/ViMediaManager",
     "~/Library/Caches/com.vidalvanbergen.vimediamanager-alpha",
     "~/Library/Preferences/com.vidalvanbergen.vimediamanager-alpha.plist",
     "~/Library/Saved Application State/com.vidalvanbergen.vimediamanager-alpha.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ViMediaManager.app"
-  end
 end

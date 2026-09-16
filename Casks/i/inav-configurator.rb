@@ -19,14 +19,14 @@ cask "inav-configurator" do
 
   app "INAV Configurator.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/inav-configurator",
     "~/Library/Caches/inav-configurator",
     "~/Library/Preferences/com.nw-builder.inav-configurator.plist",
     "~/Library/Saved Application State/com.nw-builder.inav-configurator.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/INAV Configurator.app"
-  end
 end

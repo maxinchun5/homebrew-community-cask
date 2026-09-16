@@ -16,16 +16,16 @@ cask "sigdigger" do
 
   app "SigDigger.app"
 
-  zap trash: [
-    "~/Library/Preferences/org.actinid.SigDigger.plist",
-    "~/Library/Saved Application State/org.actinid.SigDigger.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SigDigger.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Preferences/org.actinid.SigDigger.plist",
+    "~/Library/Saved Application State/org.actinid.SigDigger.savedState",
+  ]
 end

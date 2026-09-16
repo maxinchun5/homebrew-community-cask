@@ -32,12 +32,6 @@ cask "the-unofficial-homestuck-collection" do
 
   app "The Unofficial Homestuck Collection.app"
 
-  zap trash: [
-    "~/Library/Application Support/unofficial-homestuck-collection",
-    "~/Library/Preferences/com.bambosh.unofficialhomestuckcollection.plist",
-    "~/Library/Saved Application State/com.bambosh.unofficialhomestuckcollection.savedState",
-  ]
-
   caveats do
     requires_rosetta
     <<~EOS
@@ -46,7 +40,13 @@ cask "the-unofficial-homestuck-collection" do
     EOS
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/The Unofficial Homestuck Collection.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/unofficial-homestuck-collection",
+    "~/Library/Preferences/com.bambosh.unofficialhomestuckcollection.plist",
+    "~/Library/Saved Application State/com.bambosh.unofficialhomestuckcollection.savedState",
+  ]
 end

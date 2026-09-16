@@ -25,13 +25,13 @@ cask "openbci" do
 
   app "OpenBCI_GUI.app"
 
-  zap trash: "~/Documents/OpenBCI_GUI"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenBCI_GUI.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Documents/OpenBCI_GUI"
 end

@@ -18,9 +18,9 @@ cask "tuxguitar" do
 
   uninstall quit: "app.tuxguitar"
 
-  zap trash: "~/Library/Application Support/tuxguitar"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/tuxguitar-#{version}-macosx-swt-cocoa-x86_64.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/tuxguitar"
 end

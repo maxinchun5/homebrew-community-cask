@@ -16,17 +16,17 @@ cask "valkyrie" do
 
   app "Valkyrie.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/CrashReporter/Valkyrie_*.plist",
     "~/Library/Preferences/unity.NA.Valkyrie.plist",
     "~/Library/Saved Application State/unity.NA.Valkyrie.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Valkyrie.app"
-  end
 end

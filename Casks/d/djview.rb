@@ -21,13 +21,13 @@ cask "djview" do
 
   app "DjView.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.djvu.djview.sfl*",
     "~/Library/Preferences/org.djvu.DjView.plist",
     "~/Library/Saved Application State/org.djvu.DjView.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DjView.app"
-  end
 end

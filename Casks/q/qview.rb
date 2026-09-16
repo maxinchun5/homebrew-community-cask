@@ -16,14 +16,14 @@ cask "qview" do
 
   app "qView.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.interversehq.qview.sfl*",
     "~/Library/Preferences/com.interversehq.qView.plist",
     "~/Library/Preferences/com.qview.qView.plist",
     "~/Library/Saved Application State/com.interversehq.qView.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qView.app"
-  end
 end

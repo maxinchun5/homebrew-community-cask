@@ -28,6 +28,10 @@ cask "audiogridder-plugin" do
     "com.e47.pkg.vst3",
   ]
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
         "~/.audiogridder/audiogridder.winpos",
         "~/.audiogridder/audiogridderplugin.cfg",
@@ -41,8 +45,4 @@ cask "audiogridder-plugin" do
         "~/.audiogridder",
         "~/Library/Logs/AudioGridder",
       ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/AudioGridderPlugin_#{version}_macOS-universal.pkg"
-  end
 end

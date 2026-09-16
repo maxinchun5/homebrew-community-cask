@@ -19,13 +19,13 @@ cask "chromium-gost" do
 
   app "Chromium-Gost.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Chromium",
     "~/Library/Caches/Chromium",
     "~/Library/Preferences/ru.cryptopro.chromium-gost.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Chromium-Gost.app"
-  end
 end

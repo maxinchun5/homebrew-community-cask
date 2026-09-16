@@ -16,13 +16,13 @@ cask "openvisualtraceroute" do
 
   app "OpenVisualTraceroute.app"
 
-  zap trash: "~/ovtr"
-
   caveats do
     depends_on_java "8"
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenVisualTraceroute.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/ovtr"
 end

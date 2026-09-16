@@ -17,12 +17,12 @@ cask "textadept" do
   app "Textadept.app"
   binary "ta"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.textadept",
     "~/Library/Saved Application State/com.textadept.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Textadept.app"
-  end
 end

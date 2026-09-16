@@ -17,15 +17,6 @@ cask "zandronum" do
   app "Zandronum.app"
   app "Doomseeker.app"
 
-  zap trash: [
-    "~/Library/Application Support/Doomseeker",
-    "~/Library/Application Support/Zandronum",
-    "~/Library/Preferences/Doomseeker",
-    "~/Library/Preferences/org.doomseeker.app.plist",
-    "~/Library/Preferences/zandronum.ini",
-    "~/Library/Saved Application State/org.doomseeker.app.savedState",
-  ]
-
   caveats do
     requires_rosetta
     <<~EOS
@@ -37,7 +28,16 @@ cask "zandronum" do
     EOS
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Zandronum.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/Doomseeker",
+    "~/Library/Application Support/Zandronum",
+    "~/Library/Preferences/Doomseeker",
+    "~/Library/Preferences/org.doomseeker.app.plist",
+    "~/Library/Preferences/zandronum.ini",
+    "~/Library/Saved Application State/org.doomseeker.app.savedState",
+  ]
 end

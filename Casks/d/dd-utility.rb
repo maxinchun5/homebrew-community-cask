@@ -17,13 +17,13 @@ cask "dd-utility" do
 
   app "dd Utility.app"
 
-  zap trash: "~/Library/Saved Application State/co.za.thefanclub.ddUtility.savedState"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/dd Utility.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Saved Application State/co.za.thefanclub.ddUtility.savedState"
 end

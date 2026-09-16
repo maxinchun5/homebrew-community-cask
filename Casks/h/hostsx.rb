@@ -17,12 +17,12 @@ cask "hostsx" do
 
   app "HostsX.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/HTTPStorages/com.alpha.hostsx",
     "~/Library/Preferences/com.alpha.hostsx.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/HostsX.app"
-  end
 end

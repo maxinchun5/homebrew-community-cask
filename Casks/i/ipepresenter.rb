@@ -19,12 +19,12 @@ cask "ipepresenter" do
 
   app "IpePresenter.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/org.otfried.ipe.IpePresenter.plist",
     "~/Library/Saved Application State/org.otfried.ipe.IpePresenter.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/IpePresenter.app"
-  end
 end

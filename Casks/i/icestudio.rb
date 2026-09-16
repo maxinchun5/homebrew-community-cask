@@ -37,6 +37,10 @@ cask "icestudio" do
 
   app "icestudio.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.icestudio",
     "~/icestudio.log",
@@ -45,8 +49,4 @@ cask "icestudio" do
     "~/Library/Preferences/com.nw-builder.icestudio.plist",
     "~/Library/Saved Application State/com.nw-builder.icestudio.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/icestudio.app"
-  end
 end

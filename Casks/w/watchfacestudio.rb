@@ -24,12 +24,12 @@ cask "watchfacestudio" do
 
   uninstall pkgutil: "WatchFaceStudio"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/watchfacestudio",
     "~/Library/Preferences/WatchFaceStudio.plist",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/WatchFaceStudio_#{version.csv.first}.pkg"
-  end
 end

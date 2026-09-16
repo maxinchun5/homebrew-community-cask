@@ -20,14 +20,14 @@ cask "electorrent" do
 
   app "Electorrent.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.github.tympanix.electorrent.sfl*",
     "~/Library/Application Support/Electorrent",
     "~/Library/Preferences/com.github.tympanix.Electorrent.plist",
     "~/Library/Saved Application State/com.github.tympanix.Electorrent.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Electorrent.app"
-  end
 end

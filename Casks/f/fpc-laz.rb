@@ -31,7 +31,7 @@ cask "fpc-laz" do
     files_in_usr_local
   end
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/fpc-#{version.csv.first}-intelarm64-macosx.mpkg/Contents/Packages/fpc-#{version.csv.first}-intelarm64-macosx.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

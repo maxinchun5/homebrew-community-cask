@@ -11,13 +11,13 @@ cask "objektiv" do
 
   app "Objektiv.app"
 
-  zap trash: "~/Library/Preferences/com.nthloop.Objektiv.plist"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Objektiv.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.nthloop.Objektiv.plist"
 end

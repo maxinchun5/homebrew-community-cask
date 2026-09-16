@@ -11,12 +11,12 @@ cask "silicon-info" do
 
   app "Silicon Info.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.wcastelli.silicon-info",
     "~/Library/Containers/com.wcastelli.silicon-info",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Silicon Info.app"
-  end
 end

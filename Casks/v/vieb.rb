@@ -16,12 +16,12 @@ cask "vieb" do
   command_wrapper "vieb",
                   executable: "#{appdir}/Vieb.app/Contents/MacOS/Vieb"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Vieb",
     "~/Library/Caches/Vieb",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Vieb.app"
-  end
 end

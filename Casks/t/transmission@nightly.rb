@@ -23,6 +23,10 @@ cask "transmission@nightly" do
 
   app "Transmission.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.m0k.transmission.sfl*",
     "~/Library/Application Support/Transmission",
@@ -34,8 +38,4 @@ cask "transmission@nightly" do
     "~/Library/Preferences/org.m0k.transmission.plist",
     "~/Library/Saved Application State/org.m0k.transmission.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Transmission.app"
-  end
 end

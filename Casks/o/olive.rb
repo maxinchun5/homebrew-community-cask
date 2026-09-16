@@ -35,16 +35,16 @@ cask "olive" do
 
   uninstall rmdir: "~/Library/Application Support/olivevideoeditor.org{/Olive,}"
 
-  zap trash: [
-    "~/Library/Preferences/com.*.Olive.plist",
-    "~/Library/Preferences/olivevideoeditor.org",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Olive.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Preferences/com.*.Olive.plist",
+    "~/Library/Preferences/olivevideoeditor.org",
+  ]
 end

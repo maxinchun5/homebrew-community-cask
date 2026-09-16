@@ -16,14 +16,14 @@ cask "lynkeos" do
 
   app "Lynkeos-App-#{version.dots_to_hyphens}/Lynkeos.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/net.sourceforge.lynkeos.sfl*",
     "~/Library/Caches/com.apple.helpd/Generated/Lynkeos help*",
     "~/Library/Preferences/net.sourceforge.lynkeos.plist",
     "~/Library/Saved Application State/net.sourceforge.lynkeos.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Lynkeos-App-#{version.dots_to_hyphens}/Lynkeos.app"
-  end
 end

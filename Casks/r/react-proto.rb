@@ -11,16 +11,16 @@ cask "react-proto" do
 
   app "React-Proto.app"
 
-  zap trash: [
-    "~/Library/Application Support/react-proto",
-    "~/Library/Preferences/com.react.proto*.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/React-Proto.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/react-proto",
+    "~/Library/Preferences/com.react.proto*.plist",
+  ]
 end

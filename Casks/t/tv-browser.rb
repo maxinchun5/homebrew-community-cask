@@ -18,14 +18,14 @@ cask "tv-browser" do
 
   app "TV-Browser.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/TV-Browser",
     "~/Library/Preferences/TV-Browser",
     "~/Library/Preferences/tvbrowser.TVBrowser.plist",
     "~/Library/Saved Application State/tvbrowser.TVBrowser.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TV-Browser.app"
-  end
 end

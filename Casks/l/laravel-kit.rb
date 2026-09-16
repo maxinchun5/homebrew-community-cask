@@ -14,13 +14,13 @@ cask "laravel-kit" do
 
   app "Laravel Kit.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/laravel-kit",
     "~/Library/Preferences/com.tmdh.laravel-kit.plist",
     "~/Library/Saved Application State/com.tmdh.laravel-kit.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Laravel Kit.app"
-  end
 end

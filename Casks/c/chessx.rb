@@ -22,18 +22,18 @@ cask "chessx" do
 
   app "ChessX.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.config/chessx",
     "~/Library/Application Support/chessx",
     "~/Library/Preferences/net.sourceforge.chessx.plist",
     "~/Library/Saved Application State/net.sourceforge.chessx.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ChessX.app"
-  end
 end

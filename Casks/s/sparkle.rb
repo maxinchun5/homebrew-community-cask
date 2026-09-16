@@ -16,6 +16,10 @@ cask "sparkle" do
 
   app "Sparkle Test App.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/org.sparkle-project.Downloader",
     "~/Library/Application Scripts/org.sparkle-project.SparkleTestApp",
@@ -24,8 +28,4 @@ cask "sparkle" do
     "~/Library/Containers/org.sparkle-project.SparkleTestApp",
     "~/Library/Preferences/org.sparkle-project.SparkleTestApp.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sparkle Test App.app"
-  end
 end

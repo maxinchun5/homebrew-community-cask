@@ -11,12 +11,12 @@ cask "chai" do
 
   app "Chai.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/me.villani.lorenzo.Chai",
     "~/Library/Containers/me.villani.lorenzo.Chai",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Chai.app"
-  end
 end

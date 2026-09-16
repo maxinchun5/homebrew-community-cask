@@ -16,9 +16,9 @@ cask "ultrastardeluxe" do
 
   uninstall quit: "org.ultrastardeluxe.ultrastardeluxe"
 
-  zap trash: "~/Library/Application Support/UltraStarDeluxe1.3"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/UltraStarDeluxe.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/UltraStarDeluxe1.3"
 end

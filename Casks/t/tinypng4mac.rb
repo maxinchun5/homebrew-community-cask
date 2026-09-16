@@ -39,9 +39,9 @@ cask "tinypng4mac" do
 
   depends_on :macos
 
-  zap trash: "~/Library/Preferences/com.kyleduo.tinypngmac.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TinyPNG4Mac.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.kyleduo.tinypngmac.plist"
 end

@@ -12,17 +12,17 @@ cask "bilimini" do
 
   app "bilimini.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/bilimini",
     "~/Library/Preferences/com.electron.bilimini.plist",
     "~/Library/Saved Application State/com.electron.bilimini.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/bilimini.app"
-  end
 end

@@ -15,12 +15,12 @@ cask "uvtools" do
 
   app "UVtools.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/com.UVtools.plist",
     "~/Library/Saved Application State/com.UVtools.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/UVtools.app"
-  end
 end

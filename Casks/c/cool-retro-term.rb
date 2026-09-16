@@ -11,6 +11,14 @@ cask "cool-retro-term" do
 
   app "cool-retro-term.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/cool-retro-term",
     "~/Library/Caches/cool-retro-term",
@@ -18,12 +26,4 @@ cask "cool-retro-term" do
     "~/Library/Preferences/com.yourcompany.cool-retro-term.plist",
     "~/Library/Saved Application State/com.yourcompany.cool-retro-term.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/cool-retro-term.app"
-  end
 end

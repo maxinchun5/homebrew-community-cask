@@ -11,6 +11,14 @@ cask "xcodeclangformat" do
 
   app "XcodeClangFormat.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.mapbox.XcodeClangFormat",
     "~/Library/Application Scripts/com.mapbox.XcodeClangFormat.clang-format",
@@ -18,12 +26,4 @@ cask "xcodeclangformat" do
     "~/Library/Containers/com.mapbox.XcodeClangFormat.clang-format",
     "~/Library/Group Containers/XcodeClangFormat",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/XcodeClangFormat.app"
-  end
 end

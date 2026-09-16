@@ -12,6 +12,10 @@ cask "welly" do
 
   app "Welly.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Welly",
     "~/Library/Caches/org.net9.Welly",
@@ -19,8 +23,4 @@ cask "welly" do
     "~/Library/Cookies/org.net9.Welly.binarycookies",
     "~/Library/Preferences/org.net9.Welly.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Welly.app"
-  end
 end

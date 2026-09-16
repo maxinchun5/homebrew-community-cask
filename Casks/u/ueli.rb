@@ -16,13 +16,13 @@ cask "ueli" do
 
   uninstall quit: "ueli"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/ueli",
     "~/Library/Logs/ueli",
     "~/Library/Preferences/com.electron.ueli.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ueli.app"
-  end
 end

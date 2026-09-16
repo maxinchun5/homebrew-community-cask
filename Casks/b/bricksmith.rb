@@ -17,12 +17,12 @@ cask "bricksmith" do
 
   app "Bricksmith/Bricksmith.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/HTTPStorages/com.AllenSmith.Bricksmith",
     "~/Library/Preferences/com.AllenSmith.Bricksmith.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Bricksmith/Bricksmith.app"
-  end
 end

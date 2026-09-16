@@ -66,6 +66,10 @@ cask "cockatrice" do
     "com.cockatrice.servatrice",
   ]
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Cockatrice",
     "~/Library/Preferences/com.cockatrice.Cockatrice.plist",
@@ -74,8 +78,4 @@ cask "cockatrice" do
     "~/Library/Saved Application State/com.cockatrice.cockatrice.savedState",
     "~/Library/Saved Application State/com.cockatrice.oracle.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/cockatrice.app"
-  end
 end

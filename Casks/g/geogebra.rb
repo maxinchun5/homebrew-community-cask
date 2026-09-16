@@ -26,6 +26,10 @@ cask "geogebra" do
             login_item: "GeoGebra",
             pkgutil:    "org.geogebra#{version.major}.mac"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/org.geogebra#{version.major}.mac",
     "~/Library/Application Scripts/W5S878FTRC.org.geogebra#{version.major}.mac",
@@ -37,8 +41,4 @@ cask "geogebra" do
     "~/Library/Preferences/org.geogebra.mathapps.plist",
     "~/Library/Saved Application State/org.geogebra.mathapps.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/GeoGebra Classic #{version.major}.app"
-  end
 end

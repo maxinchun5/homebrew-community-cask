@@ -11,13 +11,13 @@ cask "retroactive" do
 
   app "Retroactive #{version}/Retroactive.app"
 
-  zap delete: "~/Library/Caches/com.retroactive.Retroactive"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Retroactive #{version}/Retroactive.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap delete: "~/Library/Caches/com.retroactive.Retroactive"
 end

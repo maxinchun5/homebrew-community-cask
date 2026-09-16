@@ -19,6 +19,14 @@ cask "mockplus" do
 
   app "Mockplus Classic.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/com.mockplus.desktop.chinese",
     "~/Library/HTTPStorages/com.mockplus.desktop.chinese",
@@ -26,12 +34,4 @@ cask "mockplus" do
     "~/Library/Mockplus2",
     "~/Library/Saved Application State/com.mockplus.desktop.chinese.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Mockplus Classic.app"
-  end
 end

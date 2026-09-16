@@ -13,6 +13,10 @@ cask "openrct2" do
 
   app "OpenRCT2.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/CrashReporter/OpenRCT2*",
     "~/Library/Application Support/OpenRCT2",
@@ -20,8 +24,4 @@ cask "openrct2" do
     "~/Library/Preferences/website.openrct2.OpenRCT2.plist",
     "~/Library/Saved Application State/io.openrct2.OpenRCT2.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenRCT2.app"
-  end
 end

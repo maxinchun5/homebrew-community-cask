@@ -16,13 +16,13 @@ cask "stretchly" do
 
   uninstall quit: "net.hovancik.stretchly"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Stretchly",
     "~/Library/Logs/Stretchly",
     "~/Library/Preferences/net.hovancik.stretchly.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Stretchly.app"
-  end
 end

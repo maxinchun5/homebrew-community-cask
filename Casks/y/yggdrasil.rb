@@ -22,12 +22,12 @@ cask "yggdrasil" do
   uninstall launchctl: "yggdrasil",
             pkgutil:   "io.github.yggdrasil-network.pkg"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap delete: [
     "/etc/yggdrasil.conf",
     "/Library/Preferences/Yggdrasil",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/yggdrasil-#{version}-macos-#{arch}.pkg"
-  end
 end

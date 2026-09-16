@@ -11,13 +11,13 @@ cask "yippy" do
 
   app "Yippy.app"
 
-  zap trash: "~/Library/Application Support/MatthewDavidson.Yippy"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Yippy.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/MatthewDavidson.Yippy"
 end

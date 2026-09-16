@@ -17,6 +17,14 @@ cask "knuff" do
 
   app "Knuff.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.madebybowtie.knuff-osx.sfl*",
     "~/Library/Application Support/com.makebybowtie.Knuff-OSX",
@@ -24,12 +32,4 @@ cask "knuff" do
     "~/Library/HTTPStorages/com.madebybowtie.Knuff-OSX",
     "~/Library/Preferences/com.madebybowtie.Knuff-OSX.plist",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Knuff.app"
-  end
 end

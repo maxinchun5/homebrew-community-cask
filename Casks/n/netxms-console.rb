@@ -16,9 +16,9 @@ cask "netxms-console" do
 
   app "NetXMS #{version.major_minor}.app"
 
-  zap trash: "~/.nxmc"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/NetXMS #{version.major_minor}.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.nxmc"
 end

@@ -16,16 +16,16 @@ cask "zettelkasten" do
 
   app "Zettelkasten.app"
 
-  zap trash: [
-    "~/.Zettelkasten",
-    "~/Library/Saved Application State/de.danielluedecke.zettelkasten.ZettelkastenApp.savedState",
-  ]
-
   caveats do
     depends_on_java "8"
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Zettelkasten.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/.Zettelkasten",
+    "~/Library/Saved Application State/de.danielluedecke.zettelkasten.ZettelkastenApp.savedState",
+  ]
 end

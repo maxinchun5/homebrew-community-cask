@@ -17,14 +17,14 @@ cask "platypus" do
 
   app "Platypus.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.sveinbjorn.platypus.sfl*",
     "~/Library/Application Support/Platypus",
     "~/Library/Caches/org.sveinbjorn.Platypus",
     "~/Library/Preferences/org.sveinbjorn.Platypus.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Platypus.app"
-  end
 end

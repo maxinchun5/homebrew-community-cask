@@ -11,6 +11,10 @@ cask "lightproxy" do
 
   app "LightProxy.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   uninstall_postflight_steps do
     delete_keychain_certificates "LightProxy"
   end

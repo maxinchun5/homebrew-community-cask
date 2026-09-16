@@ -16,13 +16,13 @@ cask "angband-app" do
 
   app "Angband.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Documents/Angband",
     "~/Library/Preferences/org.rephial.angband.plist",
     "~/Library/Saved Application State/org.rephial.angband.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Angband.app"
-  end
 end

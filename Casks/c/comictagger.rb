@@ -16,17 +16,17 @@ cask "comictagger" do
 
   app "ComicTagger.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.ComicTagger",
     "~/Library/Preferences/ComicTagger.plist",
     "~/Library/Saved Application State/ComicTagger.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ComicTagger.app"
-  end
 end

@@ -20,9 +20,9 @@ cask "kindle-comic-converter" do
 
   app "Kindle Comic Converter.app"
 
-  zap trash: "~/Library/Preferences/com.kindlecomicconverter.KindleComicConverter.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Kindle Comic Converter.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/com.kindlecomicconverter.KindleComicConverter.plist"
 end

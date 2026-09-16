@@ -16,6 +16,10 @@ cask "jgrennison-openttd" do
 
   app "OpenTTD.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Documents/OpenTTD",
     "~/Library/Application Support/CrashReporter/openttd_*.plist",
@@ -23,8 +27,4 @@ cask "jgrennison-openttd" do
     "~/Library/Saved Application State/org.openttd.openttd.jgrpp.savedState",
     "~/Library/Saved Application State/org.openttd.openttd.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenTTD.app"
-  end
 end

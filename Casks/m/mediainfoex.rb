@@ -11,6 +11,10 @@ cask "mediainfoex" do
 
   app "MediaInfoEx.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/org.sbarex.MediaInfo",
     "~/Library/Application Scripts/org.sbarex.MediaInfo.Finder-Extension",
@@ -18,8 +22,4 @@ cask "mediainfoex" do
     "~/Library/Containers/org.sbarex.MediaInfo",
     "~/Library/Preferences/org.sbarex.MediaInfo.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MediaInfoEx.app"
-  end
 end

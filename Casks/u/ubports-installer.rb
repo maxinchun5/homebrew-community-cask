@@ -36,13 +36,13 @@ cask "ubports-installer" do
 
   app "ubports-installer.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/ubports-installer",
     "~/Library/Preferences/com.ubports.installer.plist",
     "~/Library/Saved Application State/com.ubports.installer.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ubports-installer.app"
-  end
 end

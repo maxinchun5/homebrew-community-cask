@@ -16,6 +16,10 @@ cask "chainner" do
 
   app "chaiNNer.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/chaiNNer",
     "~/Library/Caches/chainner_pip",
@@ -23,8 +27,4 @@ cask "chainner" do
     "~/Library/Preferences/com.electron.chainner.plist",
     "~/Library/Saved Application State/com.electron.chainner.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/chaiNNer.app"
-  end
 end

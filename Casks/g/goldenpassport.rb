@@ -17,12 +17,12 @@ cask "goldenpassport" do
 
   app "GoldenPassport.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/GoldenPassport",
     "~/Library/Preferences/site.stanzhai.GoldenPassport.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/GoldenPassport.app"
-  end
 end

@@ -12,13 +12,13 @@ cask "helium" do
 
   uninstall quit: "com.koushikdutta.Helium"
 
-  zap trash: "~/Library/Saved Application State/com.koushikdutta.Helium.savedState"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Helium.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Saved Application State/com.koushikdutta.Helium.savedState"
 end

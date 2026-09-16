@@ -16,12 +16,12 @@ cask "dungeon-crawl-stone-soup-tiles" do
 
   app "Dungeon Crawl Stone Soup - Tiles.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Dungeon Crawl Stone Soup",
     "~/Library/Saved Application State/net.sourceforge.crawl-ref.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Dungeon Crawl Stone Soup - Tiles.app"
-  end
 end

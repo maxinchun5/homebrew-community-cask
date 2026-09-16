@@ -16,13 +16,13 @@ cask "scidvsmac" do
 
   app "ScidvsMac.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.scidvspc",
     "~/Library/Preferences/net.sf.scid.plist",
     "~/Library/Saved Application State/net.sf.scid.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ScidvsMac.app"
-  end
 end

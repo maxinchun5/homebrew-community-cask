@@ -30,12 +30,12 @@ cask "todometer" do
 
   depends_on :macos
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/todometer",
     "~/Library/Preferences/com.electron.todometer.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/todometer.app"
-  end
 end

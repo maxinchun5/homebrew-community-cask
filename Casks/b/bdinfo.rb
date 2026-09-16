@@ -17,16 +17,16 @@ cask "bdinfo" do
 
   app "BDInfo OSX.app"
 
-  zap trash: [
-    "~/Library/Preferences/com.yourcompany.BDInfo-OSX.plist",
-    "~/Library/Saved Application State/com.yourcompany.BDInfo-OSX.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BDInfo OSX.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Preferences/com.yourcompany.BDInfo-OSX.plist",
+    "~/Library/Saved Application State/com.yourcompany.BDInfo-OSX.savedState",
+  ]
 end

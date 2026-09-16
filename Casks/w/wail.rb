@@ -16,14 +16,14 @@ cask "wail" do
 
   app "WAIL.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/WAIL",
     "~/Library/Preferences/com.matkelly.wail.plist",
     "~/Library/Preferences/WAIL_cli.plist",
     "~/Library/Saved Application State/com.matkelly.wail.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/WAIL.app"
-  end
 end

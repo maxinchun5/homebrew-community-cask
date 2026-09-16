@@ -16,16 +16,16 @@ cask "persepolis-download-manager" do
 
   app "Persepolis Download Manager.app"
 
-  zap trash: [
-    "~/.persepolis",
-    "~/Library/Application Support/persepolis_download_manager",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Persepolis Download Manager.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/.persepolis",
+    "~/Library/Application Support/persepolis_download_manager",
+  ]
 end

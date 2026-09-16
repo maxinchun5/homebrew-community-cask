@@ -16,16 +16,16 @@ cask "imagex" do
 
   app "ImageX.app"
 
-  zap trash: [
-    "~/Library/Preferences/de.htw.lcs.imagex.plist",
-    "~/Library/Saved Application State/de.htw.lcs.imagex.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ImageX.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Preferences/de.htw.lcs.imagex.plist",
+    "~/Library/Saved Application State/de.htw.lcs.imagex.savedState",
+  ]
 end

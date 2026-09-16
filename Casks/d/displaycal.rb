@@ -19,15 +19,6 @@ cask "displaycal" do
 
   uninstall pkgutil: "net.displaycal.*.DisplayCAL.*"
 
-  zap trash: [
-    "~/Library/Application Support/dispcalGUI",
-    "~/Library/Application Support/DisplayCAL",
-    "~/Library/Logs/dispcalGUI",
-    "~/Library/Logs/DisplayCAL",
-    "~/Library/Preferences/dispcalGUI",
-    "~/Library/Preferences/DisplayCAL",
-  ]
-
   caveats do
     requires_rosetta
     <<~EOS
@@ -36,7 +27,16 @@ cask "displaycal" do
     EOS
   end
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/DisplayCAL-#{version}.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/dispcalGUI",
+    "~/Library/Application Support/DisplayCAL",
+    "~/Library/Logs/dispcalGUI",
+    "~/Library/Logs/DisplayCAL",
+    "~/Library/Preferences/dispcalGUI",
+    "~/Library/Preferences/DisplayCAL",
+  ]
 end

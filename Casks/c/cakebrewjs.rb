@@ -16,6 +16,10 @@ cask "cakebrewjs" do
 
   app "cakebrewjs.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/cakebrewjs",
     "~/Library/Caches/cakebrewjs",
@@ -25,8 +29,4 @@ cask "cakebrewjs" do
     "~/Library/Preferences/com.electron.cakebrewjs.plist",
     "~/Library/Preferences/com.shemeshg.Cakebrewjs2.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/cakebrewjs.app"
-  end
 end

@@ -18,6 +18,10 @@ cask "ultimate" do
 
   uninstall pkgutil: "EpuborStudioUltimate2"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.Epubor_Keys",
     "~/.Ultimate",
@@ -25,8 +29,4 @@ cask "ultimate" do
     "~/Library/Preferences/Ultimate.plist",
     "~/Library/Saved Application State/Ultimate.savedState",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/Ultimate.pkg"
-  end
 end

@@ -18,16 +18,16 @@ cask "clover-configurator" do
 
   app "Clover Configurator.app"
 
-  zap trash: [
-    "~/Library/Caches/org.altervista.mackie100projects.Clover-Configurator",
-    "~/Library/Preferences/org.altervista.mackie100projects.Clover-Configurator.plist",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Clover Configurator.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Caches/org.altervista.mackie100projects.Clover-Configurator",
+    "~/Library/Preferences/org.altervista.mackie100projects.Clover-Configurator.plist",
+  ]
 end

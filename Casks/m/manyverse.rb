@@ -17,13 +17,13 @@ cask "manyverse" do
 
   app "Manyverse.app"
 
-  zap trash: "~/Library/Application Support/manyverse"
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Manyverse.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Application Support/manyverse"
 end

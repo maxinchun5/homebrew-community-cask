@@ -16,16 +16,16 @@ cask "smplayer" do
 
   app "SMPlayer.app"
 
-  zap trash: [
-    "~/Library/Preferences/info.smplayer.SMPlayer.plist",
-    "~/Library/Saved Application State/info.smplayer.SMPlayer.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SMPlayer.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Preferences/info.smplayer.SMPlayer.plist",
+    "~/Library/Saved Application State/info.smplayer.SMPlayer.savedState",
+  ]
 end

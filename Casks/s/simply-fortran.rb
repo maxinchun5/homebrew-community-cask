@@ -43,13 +43,13 @@ cask "simply-fortran" do
 
   app "Simply Fortran.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.simplyfortran",
     "~/Library/Caches/com.apple.helpd/Generated/com.approximatrix.simplyfortran.help*",
     "~/Library/Saved Application State/com.approximatrix.simplyfortran.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Simply Fortran.app"
-  end
 end

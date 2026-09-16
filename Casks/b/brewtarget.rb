@@ -16,13 +16,13 @@ cask "brewtarget" do
 
   app "brewtarget_#{version}_MacOS.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/brewtarget",
     "~/Library/Preferences/com.brewtarget.Brewtarget.plist",
     "~/Library/Saved Application State/com.brewtarget.Brewtarget.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/brewtarget_#{version}_MacOS.app"
-  end
 end

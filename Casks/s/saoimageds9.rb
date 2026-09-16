@@ -37,13 +37,13 @@ cask "saoimageds9" do
 
   app "SAOImageDS9.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.ds9",
     "~/Library/Preferences/com.sao.SAOImageDS9.plist",
     "~/Library/Saved Application State/com.sao.SAOImageDS9.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SAOImageDS9.app"
-  end
 end

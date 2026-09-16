@@ -20,9 +20,9 @@ cask "pages-data-merge" do
 
   app "Pages Data Merge.app"
 
-  zap trash: "~/Library/Saved Application State/com.NyhthawkProductions.Pages-Data-Merge.savedState"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pages Data Merge.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Saved Application State/com.NyhthawkProductions.Pages-Data-Merge.savedState"
 end

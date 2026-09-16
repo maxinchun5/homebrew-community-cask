@@ -19,6 +19,10 @@ cask "playcover-community@beta" do
 
   app "PlayCover.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/io.playcover.PlayCover",
     "~/Library/Caches/io.playcover.PlayCover",
@@ -27,8 +31,4 @@ cask "playcover-community@beta" do
     "~/Library/Preferences/io.playcover.PlayCover.plist",
     "~/Library/Saved Application State/io.playcover.PlayCover.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PlayCover.app"
-  end
 end

@@ -16,13 +16,13 @@ cask "metaz" do
 
   app "MetaZ.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Caches/org.maven-group.MetaZ",
     "~/Library/Logs/MetaZ.log",
     "~/Library/Preferences/org.maven-group.MetaZ.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MetaZ.app"
-  end
 end

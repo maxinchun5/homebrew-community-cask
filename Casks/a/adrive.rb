@@ -26,13 +26,13 @@ cask "adrive" do
 
   app "aDrive.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/aDrive",
     "~/Library/Preferences/com.alicloud.smartdrive.plist",
     "~/Library/Saved Application State/com.alicloud.smartdrive.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/aDrive.app"
-  end
 end

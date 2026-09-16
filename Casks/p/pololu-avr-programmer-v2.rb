@@ -24,9 +24,9 @@ cask "pololu-avr-programmer-v2" do
     "com.pololu.pavr2.path",
   ]
 
-  zap trash: "~/Library/Saved Application State/com.pololu.pavr2.app.savedState"
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/pololu-usb-avr-programmer-v2-#{version.csv.second}-macos.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Saved Application State/com.pololu.pavr2.app.savedState"
 end

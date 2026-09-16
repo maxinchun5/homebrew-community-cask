@@ -16,12 +16,12 @@ cask "schism-tracker" do
 
   app "Schism Tracker.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Schism Tracker",
     "~/Library/Saved Application State/org.schismtracker.SchismTracker.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Schism Tracker.app"
-  end
 end

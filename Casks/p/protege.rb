@@ -11,13 +11,13 @@ cask "protege" do
 
   app "Protege-#{version}/Protégé.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.Protege",
     "~/Library/Preferences/protege_preferences.*",
     "~/Library/Saved Application State/edu.stanford.protege.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Protege-#{version}/Protégé.app"
-  end
 end

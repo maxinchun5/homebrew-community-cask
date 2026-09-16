@@ -25,12 +25,12 @@ cask "zenmap" do
             ],
             delete:  "/Applications/Zenmap.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.zenmap",
     "~/Library/Saved Application State/org.insecure.Zenmap.savedState",
   ]
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/nmap-#{version}.mpkg"
-  end
 end

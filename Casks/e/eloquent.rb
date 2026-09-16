@@ -12,6 +12,10 @@ cask "eloquent" do
 
   app "Eloquent.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Eloquent",
     "~/Library/Logs/Eloquent.log",
@@ -19,8 +23,4 @@ cask "eloquent" do
     "~/Library/Preferences/org.crosswire.Eloquent.plist.lockfile",
     "~/Library/Saved Application State/org.crosswire.Eloquent.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Eloquent.app"
-  end
 end

@@ -16,13 +16,13 @@ cask "loungy" do
 
   app "Loungy.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.config/loungy",
     "~/Library/Application Support/loungy",
     "~/Library/Caches/loungy",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Loungy.app"
-  end
 end

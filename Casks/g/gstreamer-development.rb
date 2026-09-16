@@ -43,9 +43,9 @@ cask "gstreamer-development" do
     "org.freedesktop.gstreamer.darwin.gstreamer-1.0-visualizers-devel",
   ]
 
-  zap trash: "/Library/Frameworks/GStreamer.framework"
-  
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/gstreamer-1.0-devel-#{version}-universal.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "/Library/Frameworks/GStreamer.framework"
 end

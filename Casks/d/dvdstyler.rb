@@ -16,17 +16,17 @@ cask "dvdstyler" do
 
   app "DVDStyler.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/DVDStyler Preferences",
     "~/Library/Preferences/org.dvdstyler.DVDStyler.plist",
     "~/Library/Saved Application State/org.dvdstyler.DVDStyler.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DVDStyler.app"
-  end
 end

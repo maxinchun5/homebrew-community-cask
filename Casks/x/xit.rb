@@ -54,14 +54,14 @@ cask "xit" do
 
   depends_on :macos
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.uncommonplace.xit.sfl*",
     "~/Library/Caches/com.uncommonplace.Xit",
     "~/Library/Preferences/com.uncommonplace.Xit.plist",
     "~/Library/Saved Application State/com.uncommonplace.Xit.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Xit.app"
-  end
 end

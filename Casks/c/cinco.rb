@@ -19,18 +19,18 @@ cask "cinco" do
   uninstall quit:    "de.jabc.cinco.meta.product.product",
             pkgutil: "de.jabc.cinco.meta.product.product.cinco.pkg.component"
 
-  zap trash: [
-    "~/Library/Preferences/de.jabc.cinco.meta.product.product.plist",
-    "~/Library/Saved Application State/de.jabc.cinco.meta.product.product.savedState",
-  ]
-
   caveats do
     license "https://www.eclipse.org/legal/epl-v10.html"
     depends_on_java "11"
     requires_rosetta
   end
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/Install Cinco.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Preferences/de.jabc.cinco.meta.product.product.plist",
+    "~/Library/Saved Application State/de.jabc.cinco.meta.product.product.savedState",
+  ]
 end

@@ -16,6 +16,14 @@ cask "oss-browser" do
 
   app "oss-browser-darwin-x64/oss-browser.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.oss-browser",
     "~/Library/Application Support/oss-browser",
@@ -24,12 +32,4 @@ cask "oss-browser" do
     "~/Library/Preferences/com.electron.oss-browser.plist",
     "~/Library/Saved Application State/com.electron.oss-browser.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/oss-browser-darwin-x64/oss-browser.app"
-  end
 end

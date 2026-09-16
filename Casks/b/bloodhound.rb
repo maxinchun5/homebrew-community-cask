@@ -14,13 +14,13 @@ cask "bloodhound" do
 
   app "BloodHound-darwin-#{arch}/BloodHound.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/bloodhound",
     "~/Library/Preferences/com.electron.bloodhound.plist",
     "~/Library/Saved Application State/com.electron.bloodhound.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BloodHound-darwin-#{arch}/BloodHound.app"
-  end
 end

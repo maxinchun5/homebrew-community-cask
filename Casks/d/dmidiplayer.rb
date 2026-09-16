@@ -17,17 +17,17 @@ cask "dmidiplayer" do
 
   app "dmidiplayer.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/net.sourceforge.dmidiplayer.plist",
     "~/Library/Preferences/net.sourceforge.drumstick.Drumstick MIDI File Multiplatform Player.plist",
     "~/Library/Saved Application State/net.sourceforge.dmidiplayer.savedState",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/dmidiplayer.app"
-  end
 end

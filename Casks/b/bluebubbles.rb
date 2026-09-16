@@ -30,6 +30,10 @@ cask "bluebubbles" do
             ],
             login_item: "BlueBubbles"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/@bluebubbles",
     "~/Library/Application Support/bluebubbles-server",
@@ -38,8 +42,4 @@ cask "bluebubbles" do
     "~/Library/Preferences/com.BlueBubbles.BlueBubbles-Server.plist",
     "~/Library/Saved Application State/com.BlueBubbles.BlueBubbles-Server.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BlueBubbles.app"
-  end
 end

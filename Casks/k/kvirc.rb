@@ -29,13 +29,13 @@ cask "kvirc" do
 
   app "KVIrc.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.kvirc*.rc",
     "~/Library/Preferences/com.kvirc.kvirc.plist",
     "~/Library/Saved Application State/com.kvirc.kvirc.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/KVIrc.app"
-  end
 end

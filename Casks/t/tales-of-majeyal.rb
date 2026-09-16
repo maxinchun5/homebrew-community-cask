@@ -17,16 +17,16 @@ cask "tales-of-majeyal" do
   # Renamed for clarity: app name is inconsistent with its branding.
   app "T-Engine.app", target: "Tales-of-Maj'Eyal.app"
 
-  zap trash: [
-    "~/Library/Application Support/T-Engine",
-    "~/Library/Saved Application State/org.te4.T-Engine.savedState",
-  ]
-
   caveats do
     requires_rosetta
   end
 
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/T-Engine.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: [
+    "~/Library/Application Support/T-Engine",
+    "~/Library/Saved Application State/org.te4.T-Engine.savedState",
+  ]
 end

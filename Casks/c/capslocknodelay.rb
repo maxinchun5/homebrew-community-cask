@@ -13,9 +13,9 @@ cask "capslocknodelay" do
 
   uninstall quit: "gkpln3.CapsLockNoDelay"
 
-  zap trash: "~/Library/Containers/gkpln3.CapsLockNoDelay"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CapsLockNoDelay.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Containers/gkpln3.CapsLockNoDelay"
 end

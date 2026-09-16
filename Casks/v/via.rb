@@ -11,18 +11,18 @@ cask "via" do
 
   app "VIA.app"
 
+  caveats do
+    requires_rosetta
+  end
+
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/VIA",
     "~/Library/Application Support/via-nativia",
     "~/Library/Logs/VIA",
     "~/Library/Preferences/org.via.configurator.plist",
   ]
-
-  caveats do
-    requires_rosetta
-  end
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/VIA.app"
-  end
 end

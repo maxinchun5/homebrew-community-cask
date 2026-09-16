@@ -24,9 +24,9 @@ cask "vine-server" do
 
   uninstall delete: "/Library/Application Support/VineServer"
 
-  zap trash: "~/Library/Preferences/de.uni-mannheim.VineServer.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Vine Server.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/de.uni-mannheim.VineServer.plist"
 end

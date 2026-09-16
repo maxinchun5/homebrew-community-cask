@@ -11,12 +11,12 @@ cask "tomatobar" do
 
   app "TomatoBar.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.github.ivoronin.TomatoBar",
     "~/Library/Containers/com.github.ivoronin.TomatoBar",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TomatoBar.app"
-  end
 end

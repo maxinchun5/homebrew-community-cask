@@ -26,7 +26,7 @@ cask "obs-advanced-scene-switcher" do
 
   # No zap stanza required
   
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/advanced-scene-switcher-#{version}-macos-universal.pkg"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 end

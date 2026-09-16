@@ -16,6 +16,10 @@ cask "keyboardholder" do
 
   app "KeyboardHolder.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/cn.leaves.KeyboardHolderLaunchHelper",
     "~/Library/Application Support/cn.leaves.KeyboardHolder",
@@ -25,8 +29,4 @@ cask "keyboardholder" do
     "~/Library/Logs/cn.leaves.KeyboardHolder",
     "~/Library/Preferences/cn.leaves.KeyboardHolder.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/KeyboardHolder.app"
-  end
 end

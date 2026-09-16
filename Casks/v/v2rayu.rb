@@ -27,6 +27,10 @@ cask "v2rayu" do
     "yanue.v2rayu.v2ray-core",
   ]
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/.V2rayU",
     "~/Library/Application Support/net.yanue.V2rayU",
@@ -37,8 +41,4 @@ cask "v2rayu" do
     "~/Library/Logs/V2rayU.log",
     "~/Library/Preferences/net.yanue.V2rayU.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/V2rayU.app"
-  end
 end

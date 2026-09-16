@@ -15,9 +15,9 @@ cask "blobsaver" do
   app "blobsaver.app"
   binary "#{appdir}/blobsaver.app/Contents/MacOS/blobsaver"
 
-  zap trash: "~/Library/Preferences/airsquared.blobsaver.app.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/blobsaver.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/airsquared.blobsaver.app.plist"
 end

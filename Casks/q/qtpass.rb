@@ -11,12 +11,12 @@ cask "qtpass" do
 
   app "QtPass.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Preferences/org.ijhack.QtPass.plist",
     "~/Library/Saved Application State/org.qtpass.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/QtPass.app"
-  end
 end

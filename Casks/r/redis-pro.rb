@@ -16,6 +16,10 @@ cask "redis-pro" do
 
   app "redis-pro.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Scripts/com.cmushroom.redis-pro",
     "~/Library/Application Support/com.cmushroom.redis-pro",
@@ -24,8 +28,4 @@ cask "redis-pro" do
     "~/Library/Preferences/com.cmushroom.redis-pro.plist",
     "~/Library/Saved Application State/com.cmushroom.redis-pro.savedState",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/redis-pro.app"
-  end
 end

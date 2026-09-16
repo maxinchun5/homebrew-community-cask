@@ -20,9 +20,9 @@ cask "routeconverter" do
 
   app "RouteConverter.app"
 
-  zap trash: "~/.routeconverter"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/RouteConverter.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.routeconverter"
 end

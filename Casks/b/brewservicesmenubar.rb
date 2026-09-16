@@ -13,9 +13,9 @@ cask "brewservicesmenubar" do
 
   uninstall quit: "andrewnicolaou.BrewServicesMenubar"
 
-  zap trash: "~/Library/Preferences/andrewnicolaou.BrewServicesMenubar.plist"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BrewServicesMenubar.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/Library/Preferences/andrewnicolaou.BrewServicesMenubar.plist"
 end

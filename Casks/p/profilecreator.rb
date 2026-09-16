@@ -11,13 +11,13 @@ cask "profilecreator" do
 
   app "ProfileCreator.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/ProfileCreator",
     "~/Library/Application Support/ProfilePayloads",
     "~/Library/Preferences/com.github.ProfileCreator.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ProfileCreator.app"
-  end
 end

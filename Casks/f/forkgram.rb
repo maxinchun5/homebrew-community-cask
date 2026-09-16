@@ -34,12 +34,12 @@ cask "forkgram" do
 
   app "Forkgram.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Forkgram Desktop",
     "~/Library/Preferences/com.tdesktop.Telegram.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Forkgram.app"
-  end
 end

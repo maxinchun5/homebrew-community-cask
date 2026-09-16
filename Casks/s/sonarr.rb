@@ -21,9 +21,9 @@ cask "sonarr" do
 
   app "Sonarr.app"
 
-  zap trash: "~/.config/Sonarr"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sonarr.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.config/Sonarr"
 end

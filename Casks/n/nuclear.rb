@@ -19,6 +19,10 @@ cask "nuclear" do
 
   app "Nuclear.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.nuclearplayer",
     "~/Library/Application Support/nuclear",
@@ -29,8 +33,4 @@ cask "nuclear" do
     "~/Library/Saved Application State/nuclear.savedState",
     "~/Library/WebKit/com.nuclearplayer",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Nuclear.app"
-  end
 end

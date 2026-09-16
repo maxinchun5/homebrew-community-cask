@@ -17,12 +17,12 @@ cask "tabtopus" do
 
   app "TabTopus.app"
 
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+  end
+
   zap trash: [
     "~/Library/HTTPStorages/com.mariogt.tabtopus",
     "~/Library/Preferences/com.mariogt.tabtopus.plist",
   ]
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TabTopus.app"
-  end
 end

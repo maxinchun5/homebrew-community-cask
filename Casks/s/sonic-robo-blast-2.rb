@@ -17,9 +17,9 @@ cask "sonic-robo-blast-2" do
 
   app "Sonic Robo Blast 2.app"
 
-  zap trash: "~/srb2"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sonic Robo Blast 2.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/srb2"
 end

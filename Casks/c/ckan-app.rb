@@ -17,9 +17,9 @@ cask "ckan-app" do
 
   app "CKAN.app"
 
-  zap trash: "~/.local/share/CKAN"
-
-  postflight do
-    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CKAN.app"
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  zap trash: "~/.local/share/CKAN"
 end
