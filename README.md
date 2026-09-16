@@ -1,72 +1,70 @@
-# Homebrew Cask
+# Homebrew Cask — Community Tap
 
-_“To install, drag this icon…” no more!_
+This repository is a **community-driven tap** built on top of [Homebrew Cask](https://github.com/Homebrew/homebrew-cask). It has one clear mission: to keep software installable when the official tap can't.
 
-Homebrew Cask extends [Homebrew](https://brew.sh) and brings its elegance, simplicity, and speed to the installation and management of prebuilt software artifacts distributed by upstream vendors, including GUI applications, CLI tools, fonts, plugins, and other packaged software.
+## Why This Tap Exists
 
-We do this by providing a friendly CLI workflow for the administration of these artifacts on macOS and Linux.
+There are two kinds of casks that end up here:
 
-[![Join us on GitHub discussions](https://img.shields.io/badge/github-discussions-informational)](https://github.com/orgs/Homebrew/discussions/categories/casks)
+### **1. Casks disabled by the official tap.**
 
-## Let’s try it!
+When Gatekeeper checks cause a cask to be removed from `homebrew/cask`, it would normally be lost — no more installs, no more version bumps. This tap catches those casks and keeps them alive. They are still monitored for new releases, so you stay up to date even after the official tap moves on.
 
-To start using Homebrew Cask, you just need [Homebrew](https://brew.sh) installed.
+### **2. Unsigned apps from the community.**
 
-<div align="center">
-  <img src="./doc/readme/readme-gif.gif" width="450" alt="Installing and uninstalling Alfred (animated gif)">
-</div>
+Independent developers and community members often ship great software that isn't signed or notarized. The official tap won't take it. This tap will. It's an open space for those apps to be published, installed, and maintained through Homebrew.
 
-Slower, now:
+In short: if it works, and you want to install it with `brew`, this tap is for you.
+
+## Getting Started
+
+First, add the tap:
 
 ```console
-% brew install alfred
-==> Fetching downloads for: alfred
-✔︎ Cask alfred (5.7.2,2312)                                           Verified      5.6MB/  5.6MB
-==> Installing Cask alfred
-==> Moving App 'Alfred 5.app' to '/Applications/Alfred 5.app'
-🍺  alfred was successfully installed!
+% brew tap maxinchun5/community-cask
 ```
 
-And there we have it. An application installed with one quick command: no clicking, no dragging, no dropping.
+Then install any cask from it:
 
-## Learn More
+```console
+% brew install --cask appium-inspector
+==> Fetching downloads for: appium-inspector
+✔︎ Cask appium-inspector (1.0.0)                                           Verified      5.6MB/  5.6MB
+==> Installing Cask appium-inspector
+==> Moving App 'Appium Inspector.app' to '/Applications/Appium Inspector.app'
+🍺  appium-inspector was successfully installed!
+```
 
-* Find basic documentation on using Homebrew Cask in [USAGE.md](USAGE.md).
-* Want to contribute a cask? Awesome! See [CONTRIBUTING.md](CONTRIBUTING.md).
-* More project-related details and discussion are available in the [documentation](https://docs.brew.sh/Adding-Software-to-Homebrew#casks).
+One tap, one command, no dialogs. No dragging icons into folders.
 
-## Reporting Bugs
+## Something Broke?
 
-[**If you ignore this guide, your issue may be closed without review**](doc/faq/closing_issues_without_review.md)
+Start here: run `brew update-reset && brew update`, then try again. This resets all your taps to a clean state and fixes most problems caused by stale local data.
 
-Before reporting a bug, run `brew update-reset && brew update` and try your command again. This is a fix-all that will reset the state of all your taps, ensuring the problem isn’t an outdated setup on your side.
+If that doesn't help:
 
-If your issue persists, [search for it](https://github.com/Homebrew/homebrew-cask/search?type=Issues) before opening a new one. If you find an open issue and have any new information, add it in a comment. If you find a closed issue, try the solutions there.
+- **Search first.** Your issue may already exist [here](https://github.com/maxinchun5/homebrew-community-cask/search?type=Issues). Add a comment if you have new details. If it's closed, check whether the solution applies to you.
+- **Still stuck?** Walk through the [common error examples](doc/reporting_bugs/error_examples.md) — they cover `curl` failures, permission errors, checksum mismatches, missing sources, and bad arguments.
+- **Other known cases:**
+  - [Why an app might be missing from `brew upgrade`](https://docs.brew.sh/FAQ#why-arent-some-apps-included-during-brew-upgrade)
+  - [Why macOS blocks an app from an unidentified developer](https://docs.brew.sh/FAQ#why-cant-i-open-a-mac-app-from-an-unidentified-developer)
+- **None of the above?** [Open a bug report](https://github.com/maxinchun5/homebrew-community-cask/issues/new?template=01_bug_report.yml) — but please read [this note](doc/faq/closing_issues_without_review.md) first, or your issue may be closed without review.
 
-If the issue is still not solved, see the guides for common problems:
+## Want to Add Something?
 
-* [Examples of common errors and their solutions](doc/reporting_bugs/error_examples.md)
-  * [`curl` error](doc/reporting_bugs/error_examples.md#curl-error)
-  * [`Permission denied` error](doc/reporting_bugs/error_examples.md#permission-denied-error)
-  * [`Checksum does not match` error](doc/reporting_bugs/error_examples.md#checksum-does-not-match-error)
-  * [`source is not there` error](doc/reporting_bugs/error_examples.md#source-is-not-there-error)
-  * [`wrong number of arguments` error](doc/reporting_bugs/error_examples.md#wrong-number-of-arguments-error)
-* [App isn’t included in `upgrade`](https://docs.brew.sh/FAQ#why-arent-some-apps-included-during-brew-upgrade)
-* [The app can’t be opened because it is from an unidentified developer](https://docs.brew.sh/FAQ#why-cant-i-open-a-mac-app-from-an-unidentified-developer)
-* [My problem isn’t listed](https://github.com/Homebrew/homebrew-cask/issues/new?template=01_bug_report.yml)
+New casks are added through **pull requests**, not issues. Requests opened as issues will be closed. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full process and the [cask submission guide](https://github.com/maxinchun5/homebrew-community-cask/blob/HEAD/CONTRIBUTING.md#adding-a-cask).
 
-## Requests
+For feature requests, use [this template](https://github.com/Homebrew/brew/issues/new?assignees=&labels=features&projects=&template=feature.yml).
 
-* Issues requesting new casks will be closed. If you want a cask added to the main repositories, [submit a pull request](https://github.com/Homebrew/homebrew-cask/blob/HEAD/CONTRIBUTING.md#adding-a-cask).
-* For a feature request, [use this template](https://github.com/Homebrew/brew/issues/new?assignees=&labels=features&projects=&template=feature.yml).
+## Talk to Us
 
-## Questions? Wanna chat?
+- [Open an issue](https://github.com/maxinchun5/homebrew-community-cask/issues/new/choose)
 
-We’re really rather friendly! Here are the best places to talk about the project:
+## Going Deeper
 
-* [Open an issue](https://github.com/Homebrew/homebrew-cask/issues/new/choose).
-* Join us on [GitHub discussions (forum)](https://github.com/orgs/Homebrew/discussions/categories/casks).
+- [USAGE.md](USAGE.md) — day-to-day usage of Homebrew Cask
+- [Homebrew Cask documentation](https://docs.brew.sh/Adding-Software-to-Homebrew#casks) — background and project details
 
 ## License
 
-Code is under the [BSD 2 Clause (NetBSD) license](LICENSE).
+Released under the [BSD 2 Clause (NetBSD) license](LICENSE).
