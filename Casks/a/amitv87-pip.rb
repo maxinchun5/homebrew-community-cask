@@ -7,11 +7,13 @@ cask "amitv87-pip" do
   desc "Always on top window preview"
   homepage "https://github.com/amitv87/PiP"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "PiP.app"
 
   zap trash: "~/Library/Saved Application State/com.boggyb.PiP.savedState"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PiP.app"
+  end
 end

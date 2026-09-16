@@ -39,8 +39,6 @@ cask "openoffice" do
   desc "Free and open-source productivity suite"
   homepage "https://www.openoffice.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "OpenOffice.app"
@@ -49,5 +47,9 @@ cask "openoffice" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenOffice.app"
   end
 end

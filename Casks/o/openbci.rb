@@ -20,8 +20,6 @@ cask "openbci" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -31,5 +29,9 @@ cask "openbci" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenBCI_GUI.app"
   end
 end

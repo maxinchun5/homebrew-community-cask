@@ -7,8 +7,6 @@ cask "gdisk" do
   desc "Disk partitioning tool"
   homepage "https://sourceforge.net/projects/gptfdisk/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "gdisk-#{version}.pkg"
@@ -16,4 +14,8 @@ cask "gdisk" do
   uninstall pkgutil: "com.rodsbooks.pkg.gdisk"
 
   # No zap stanza required
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/gdisk-#{version}.pkg"
+  end
 end

@@ -7,8 +7,6 @@ cask "glance-chamburr" do
   desc "Utility to provide quick look previews for files that aren't natively supported"
   homepage "https://github.com/chamburr/glance"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Glance.app"
@@ -23,4 +21,8 @@ cask "glance-chamburr" do
   caveats <<~EOS
     You must start #{appdir}/Glance.app once manually to setup the Quick Look plugin.
   EOS
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Glance.app"
+  end
 end

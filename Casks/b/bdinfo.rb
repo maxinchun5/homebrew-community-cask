@@ -13,8 +13,6 @@ cask "bdinfo" do
     regex(/BDInfo\s+(\d+(?:\.\d+)+)\s+Mac/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "BDInfo OSX.app"
@@ -26,5 +24,9 @@ cask "bdinfo" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BDInfo OSX.app"
   end
 end

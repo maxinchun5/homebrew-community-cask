@@ -7,8 +7,6 @@ cask "timelapze" do
   desc "Record screen and camera time lapses in a menu bar interface"
   homepage "https://github.com/wkaisertexas/ScreenTimeLapse"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on macos: :sonoma
 
@@ -21,4 +19,8 @@ cask "timelapze" do
     "~/Library/Containers/com.smartservices.TimeLapze",
     "~/Library/Preferences/com.smartservices.TimeLapze.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TimeLapze.app"
+  end
 end

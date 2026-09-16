@@ -7,8 +7,6 @@ cask "haptickey" do
   desc "Trigger haptic feedback when tapping Touch Bar"
   homepage "https://github.com/niw/HapticKey"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "HapticKey.app"
@@ -19,4 +17,8 @@ cask "haptickey" do
     "~/Library/Caches/at.niw.HapticKey",
     "~/Library/Preferences/at.niw.HapticKey.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/HapticKey.app"
+  end
 end

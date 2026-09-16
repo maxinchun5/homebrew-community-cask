@@ -15,8 +15,6 @@ cask "powder" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "The Powder Toy.app"
@@ -25,4 +23,8 @@ cask "powder" do
     "~/Library/Application Support/The Powder Toy",
     "~/Library/Saved Application State/uk.co.powdertoy.tpt.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/The Powder Toy.app"
+  end
 end

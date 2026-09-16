@@ -12,8 +12,6 @@ cask "pomotroid" do
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Pomotroid.app"
@@ -23,4 +21,8 @@ cask "pomotroid" do
     "~/Library/Preferences/com.splode.pomotroid.plist",
     "~/Library/Saved Application State/com.splode.pomotroid.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pomotroid.app"
+  end
 end

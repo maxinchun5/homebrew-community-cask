@@ -23,8 +23,6 @@ cask "whale" do
   desc "Unofficial Trello app"
   homepage "https://github.com/1000ch/whale"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Whale.app"
@@ -37,4 +35,8 @@ cask "whale" do
     "~/Library/Preferences/net.1000ch.whale.plist",
     "~/Library/Saved Application State/net.1000ch.whale.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Whale.app"
+  end
 end

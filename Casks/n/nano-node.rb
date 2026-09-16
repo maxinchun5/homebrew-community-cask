@@ -12,8 +12,6 @@ cask "nano-node" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "Nano.app"
@@ -23,4 +21,8 @@ cask "nano-node" do
     "~/Library/RaiBlocks",
     "~/Library/Saved Application State/net.raiblocks.rai_wallet.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Nano.app"
+  end
 end

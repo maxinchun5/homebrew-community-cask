@@ -33,8 +33,6 @@ cask "icestudio" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "icestudio.app"
@@ -47,4 +45,8 @@ cask "icestudio" do
     "~/Library/Preferences/com.nw-builder.icestudio.plist",
     "~/Library/Saved Application State/com.nw-builder.icestudio.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/icestudio.app"
+  end
 end

@@ -7,8 +7,6 @@ cask "pivy-app" do
   desc "Client for PIV cards"
   homepage "https://github.com/joyent/pivy"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   # pkg cannot be installed automatically

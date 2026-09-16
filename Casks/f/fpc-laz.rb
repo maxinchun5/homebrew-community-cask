@@ -15,8 +15,6 @@ cask "fpc-laz" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "fpc-#{version.csv.first}-intelarm64-macosx.mpkg/Contents/Packages/fpc-#{version.csv.first}-intelarm64-macosx.pkg"
@@ -31,5 +29,9 @@ cask "fpc-laz" do
 
   caveats do
     files_in_usr_local
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/fpc-#{version.csv.first}-intelarm64-macosx.mpkg/Contents/Packages/fpc-#{version.csv.first}-intelarm64-macosx.pkg"
   end
 end

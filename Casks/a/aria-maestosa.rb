@@ -12,8 +12,6 @@ cask "aria-maestosa" do
     regex(%r{url=.*?/AriaMaestosa[._-]osx[._-]64bits[._-]v?(\d+(?:\.\d+)+[a-z]?)\.zip}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Aria Maestosa.app"
@@ -27,5 +25,9 @@ cask "aria-maestosa" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Aria Maestosa.app"
   end
 end

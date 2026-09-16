@@ -7,8 +7,6 @@ cask "pusher" do
   desc "Send push notifications through Apple Push Notification Service"
   homepage "https://github.com/noodlewerk/NWPusher"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Pusher.app"
@@ -20,5 +18,9 @@ cask "pusher" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pusher.app"
   end
 end

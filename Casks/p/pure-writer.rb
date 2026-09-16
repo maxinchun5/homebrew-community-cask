@@ -20,8 +20,6 @@ cask "pure-writer" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "Pure Writer-#{version.csv.second}.pkg"
@@ -29,4 +27,8 @@ cask "pure-writer" do
   uninstall pkgutil: "com.drakeet.purewriter"
 
   zap trash: "~/Library/Preferences/com.drakeet.purewriter.plist"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/Pure Writer-#{version.csv.second}.pkg"
+  end
 end

@@ -12,8 +12,6 @@ cask "redquits" do
     regex(/RedQuits\s+v?(\d+(?:\.\d+)+)/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "RedQuits_v#{version.major}.pkg"
@@ -21,4 +19,8 @@ cask "redquits" do
   uninstall pkgutil: "com.carsten-mielke.RedQuits"
 
   zap trash: "~/Library/Preferences/com.carsten-mielke.RedQuits.plist"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/RedQuits_v#{version.major}.pkg"
+  end
 end

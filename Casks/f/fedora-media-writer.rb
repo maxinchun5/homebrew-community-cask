@@ -15,8 +15,6 @@ cask "fedora-media-writer" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "FedoraMediaWriter.app"
@@ -25,4 +23,8 @@ cask "fedora-media-writer" do
     "~/Library/Caches/fedoraproject.org",
     "~/Library/Saved Application State/org.fedoraproject.MediaWriter.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/FedoraMediaWriter.app"
+  end
 end

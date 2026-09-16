@@ -7,8 +7,6 @@ cask "exist-db" do
   desc "Native XML database and application platform"
   homepage "https://exist-db.org/exist/apps/homepage/index.html"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "eXist-db.app"
@@ -17,5 +15,9 @@ cask "exist-db" do
 
   caveats do
     depends_on_java "8"
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/eXist-db.app"
   end
 end

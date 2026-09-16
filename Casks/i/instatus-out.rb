@@ -7,8 +7,6 @@ cask "instatus-out" do
   desc "Monitor services in your menu bar"
   homepage "https://instatus.com/out"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Instatus Out.app"
@@ -21,5 +19,9 @@ cask "instatus-out" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Instatus Out.app"
   end
 end

@@ -12,8 +12,6 @@ cask "tales-of-majeyal" do
     regex(/href=.*?t-engine4[._-]osx[._-]v?(\d+(?:\.\d+)+)\.zip/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   # Renamed for clarity: app name is inconsistent with its branding.
@@ -26,5 +24,9 @@ cask "tales-of-majeyal" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/T-Engine.app"
   end
 end

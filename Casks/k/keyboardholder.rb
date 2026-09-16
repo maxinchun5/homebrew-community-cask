@@ -12,8 +12,6 @@ cask "keyboardholder" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "KeyboardHolder.app"
@@ -27,4 +25,8 @@ cask "keyboardholder" do
     "~/Library/Logs/cn.leaves.KeyboardHolder",
     "~/Library/Preferences/cn.leaves.KeyboardHolder.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/KeyboardHolder.app"
+  end
 end

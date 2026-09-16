@@ -15,8 +15,6 @@ cask "lyx" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "LyX.app"
@@ -37,4 +35,8 @@ cask "lyx" do
     "~/Library/Preferences/org.lyx.lyx.plist",
     "~/Library/Saved Application State/org.lyx.lyx.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LyX.app"
+  end
 end

@@ -7,8 +7,6 @@ cask "chronos" do
   desc "Desktop client for JIRA and Trello"
   homepage "https://github.com/web-pal/chronos-timetracker"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Chronos.app"
@@ -21,5 +19,9 @@ cask "chronos" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Chronos.app"
   end
 end

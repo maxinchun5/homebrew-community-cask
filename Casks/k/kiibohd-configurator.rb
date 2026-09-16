@@ -7,8 +7,6 @@ cask "kiibohd-configurator" do
   desc "Modular community keyboard firmware"
   homepage "https://kiibohd.com/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on formula: "dfu-util"
   depends_on :macos
 
@@ -25,5 +23,9 @@ cask "kiibohd-configurator" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Kiibohd Configurator.app"
   end
 end

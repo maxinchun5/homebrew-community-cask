@@ -12,8 +12,6 @@ cask "checkra1n" do
     regex(%r{href=.*?/checkra1n%20beta%20(\d+(?:\.\d+)+)\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "checkra1n.app"
@@ -23,5 +21,9 @@ cask "checkra1n" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/checkra1n.app"
   end
 end

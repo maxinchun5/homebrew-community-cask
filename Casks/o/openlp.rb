@@ -15,8 +15,6 @@ cask "openlp" do
     regex(%r{href=['"]?(\d+(?:\.\d+)+)(?!rc\d+)/['"]?}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "OpenLP.app"
@@ -28,4 +26,8 @@ cask "openlp" do
     "~/Library/Preferences/org.openlp.plist",
     "~/Library/Saved Application State/org.openlp.OpenLP.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenLP.app"
+  end
 end

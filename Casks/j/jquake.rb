@@ -17,8 +17,6 @@ cask "jquake" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "JQuake.app"
@@ -27,4 +25,8 @@ cask "jquake" do
     "~/Library/Application Support/JQuake",
     "~/Library/Saved Application State/net.jquake.java.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/JQuake.app"
+  end
 end

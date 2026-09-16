@@ -7,8 +7,6 @@ cask "atlauncher" do
   desc "Minecraft launcher"
   homepage "https://atlauncher.com/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "ATLauncher.app"
@@ -19,4 +17,8 @@ cask "atlauncher" do
     "~/Library/Preferences/com.atlauncher.App.plist",
     "~/Library/Saved Application State/com.atlauncher.App.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ATLauncher.app"
+  end
 end

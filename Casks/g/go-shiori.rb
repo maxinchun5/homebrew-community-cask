@@ -10,8 +10,6 @@ cask "go-shiori" do
   desc "Shiori is a simple bookmarks manager written in the Go language"
   homepage "https://github.com/go-shiori/shiori"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   binary "shiori"
@@ -25,5 +23,9 @@ cask "go-shiori" do
         shiori migrate
 
     EOS
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
   end
 end

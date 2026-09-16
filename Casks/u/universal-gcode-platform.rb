@@ -15,8 +15,6 @@ cask "universal-gcode-platform" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Universal Gcode Sender.app"
@@ -31,4 +29,8 @@ cask "universal-gcode-platform" do
     For more information, see:
       https://github.com/winder/Universal-G-Code-Sender/issues/1351#issuecomment-579110056
   EOS
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Universal Gcode Sender.app"
+  end
 end

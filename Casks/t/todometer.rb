@@ -19,8 +19,6 @@ cask "todometer" do
       skip "Legacy version"
     end
 
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
     depends_on macos: :big_sur
 
     app "mac/todometer.app"
@@ -36,4 +34,8 @@ cask "todometer" do
     "~/Library/Application Support/todometer",
     "~/Library/Preferences/com.electron.todometer.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/todometer.app"
+  end
 end

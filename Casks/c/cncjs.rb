@@ -12,8 +12,6 @@ cask "cncjs" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on arch: :arm64
   depends_on :macos
 
@@ -25,4 +23,8 @@ cask "cncjs" do
     "~/Library/Preferences/org.cncjs.plist",
     "~/Library/Saved Application State/org.cncjs.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CNCjs.app"
+  end
 end

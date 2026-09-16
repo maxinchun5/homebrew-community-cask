@@ -10,8 +10,6 @@ cask "freecol" do
   desc "Turn-based strategy game"
   homepage "https://www.freecol.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "FreeCol.app"
@@ -20,4 +18,8 @@ cask "freecol" do
     "~/Library/Application Support/freecol",
     "~/Library/Preferences/freecol",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/FreeCol.app"
+  end
 end

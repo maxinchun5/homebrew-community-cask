@@ -12,11 +12,13 @@ cask "milkytracker" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :sequoia
 
   app "MilkyTracker.app"
 
   zap trash: "~/Library/Preferences/com.Titan.MilkyTracker.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MilkyTracker.app"
+  end
 end

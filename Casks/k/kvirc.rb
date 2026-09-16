@@ -24,8 +24,6 @@ cask "kvirc" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on arch: :arm64
   depends_on macos: :sonoma
 
@@ -36,4 +34,8 @@ cask "kvirc" do
     "~/Library/Preferences/com.kvirc.kvirc.plist",
     "~/Library/Saved Application State/com.kvirc.kvirc.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/KVIrc.app"
+  end
 end

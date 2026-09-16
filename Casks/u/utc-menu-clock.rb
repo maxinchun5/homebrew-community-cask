@@ -13,8 +13,6 @@ cask "utc-menu-clock" do
     strategy :page_match
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :sequoia
 
   app "UTCMenuClock.app"
@@ -22,4 +20,8 @@ cask "utc-menu-clock" do
   uninstall launchctl: "application.UTCMenuClock.app.*"
 
   zap trash: "~/Library/Preferences/net.retina.UTCMenuClock.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/UTCMenuClock.app"
+  end
 end

@@ -9,8 +9,6 @@ cask "chromium" do
   desc "Free and open-source web browser"
   homepage "https://www.chromium.org/Home"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: "ungoogled-chromium"
   depends_on macos: :monterey
 
@@ -26,4 +24,8 @@ cask "chromium" do
     "~/Library/Preferences/org.chromium.Chromium.plist",
     "~/Library/Saved Application State/org.chromium.Chromium.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/chrome-mac/Chromium.app"
+  end
 end

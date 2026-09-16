@@ -7,8 +7,6 @@ cask "google-assistant" do
   desc "Cross-platform unofficial Google Assistant Client for Desktop"
   homepage "https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Client"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Google Assistant.app"
@@ -23,5 +21,9 @@ cask "google-assistant" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Google Assistant.app"
   end
 end

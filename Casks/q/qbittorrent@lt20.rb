@@ -21,7 +21,6 @@ cask "qbittorrent@lt20" do
     end
   end
   on_macos do
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
 
     # Renamed for consistency: app name is different in the Finder and in a shell.
     app "qbittorrent.app", target: "qBittorrent.app"
@@ -58,4 +57,8 @@ cask "qbittorrent@lt20" do
     "c0re100-qbittorrent",
     "qbittorrent",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qbittorrent.app"
+  end
 end

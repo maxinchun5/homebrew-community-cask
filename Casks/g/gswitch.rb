@@ -7,8 +7,6 @@ cask "gswitch" do
   desc "Set which graphics card to use"
   homepage "https://codyschrank.github.io/gSwitch/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "gSwitch.app"
@@ -20,5 +18,9 @@ cask "gswitch" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/gSwitch.app"
   end
 end

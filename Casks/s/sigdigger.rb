@@ -12,8 +12,6 @@ cask "sigdigger" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "SigDigger.app"
@@ -25,5 +23,9 @@ cask "sigdigger" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SigDigger.app"
   end
 end

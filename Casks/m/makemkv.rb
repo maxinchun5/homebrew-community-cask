@@ -12,8 +12,6 @@ cask "makemkv" do
     regex(%r{href=.*?/makemkv[._-]v?(\d+(?:\.\d+)+)[._-]osx\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "MakeMKV.app"
@@ -28,4 +26,8 @@ cask "makemkv" do
     "~/Library/Saved Application State/com.makemkv.MakeMKV.savedState",
     "~/Movies/.MakeMKV",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MakeMKV.app"
+  end
 end

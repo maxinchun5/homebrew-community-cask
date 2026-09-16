@@ -29,8 +29,6 @@ cask "ytmdesktop-youtube-music" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "YouTube Music Desktop App.app"
@@ -39,4 +37,8 @@ cask "ytmdesktop-youtube-music" do
     "~/Library/Preferences/app.ytmd.plist",
     "~/Library/Saved Application State/app.ytmd.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/YouTube Music Desktop App.app"
+  end
 end

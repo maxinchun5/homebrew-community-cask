@@ -12,8 +12,6 @@ cask "kext-updater" do
     strategy :sparkle, &:short_version
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Kext Updater.app"
@@ -24,4 +22,8 @@ cask "kext-updater" do
     "~/Library/Preferences/kextupdaterhelper.slsoft.de.plist",
     "~/Library/Saved Application State/kextupdater.slsoft.de.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Kext Updater.app"
+  end
 end

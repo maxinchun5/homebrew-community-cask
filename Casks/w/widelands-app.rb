@@ -42,11 +42,13 @@ cask "widelands-app" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Widelands.app"
 
   zap trash: "~/.widelands"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Widelands.app"
+  end
 end

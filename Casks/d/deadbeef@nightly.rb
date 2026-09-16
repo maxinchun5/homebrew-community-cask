@@ -7,8 +7,6 @@ cask "deadbeef@nightly" do
   desc "Modular audio player"
   homepage "https://deadbeef.sourceforge.io/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "DeaDBeeF.app"
@@ -18,4 +16,8 @@ cask "deadbeef@nightly" do
     "~/Library/Preferences/deadbeef",
     "~/Library/Saved Application State/com.deadbeef.deadbeef.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DeaDBeeF.app"
+  end
 end

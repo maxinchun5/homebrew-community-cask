@@ -12,8 +12,6 @@ cask "coolterm" do
     regex(/^\s*v?(\d+(?:\.\d+)+)\s*$/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "CoolTerm.app"
@@ -22,4 +20,8 @@ cask "coolterm" do
     "~/Library/Preferences/CoolTerm_Prefs.plist",
     "~/Library/Saved Application State/org.the-meiers.coolterm.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CoolTerm.app"
+  end
 end

@@ -6,7 +6,7 @@ cask "adrive" do
          intel: "a0273748eda47b69f621e281a8228fd2791c4f8615ce041a3f248eec629941b2"
 
   on_intel do
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
+
   end
 
   url "https://cdn.aliyundrive.net/downloads/apps/desktop/aDrive-#{version}#{arch}.dmg",
@@ -31,4 +31,8 @@ cask "adrive" do
     "~/Library/Preferences/com.alicloud.smartdrive.plist",
     "~/Library/Saved Application State/com.alicloud.smartdrive.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/aDrive.app"
+  end
 end

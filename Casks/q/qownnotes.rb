@@ -12,8 +12,6 @@ cask "qownnotes" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on macos: :ventura
 
@@ -25,4 +23,8 @@ cask "qownnotes" do
     "~/Library/Preferences/com.pbe.QOwnNotes.plist",
     "~/Library/Saved Application State/com.PBE.QOwnNotes.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/QOwnNotes.app"
+  end
 end

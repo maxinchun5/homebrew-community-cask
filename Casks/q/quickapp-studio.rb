@@ -16,8 +16,6 @@ cask "quickapp-studio" do
     regex(/QuickApp[._-]Studio[._-]#{arch}[._-]v?(\d+(?:\.\d+)+)\.pkg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "QuickApp_Studio_#{arch}-#{version}.pkg"
@@ -30,4 +28,8 @@ cask "quickapp-studio" do
             ]
 
   zap trash: "~/.快应用开发工具"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/QuickApp_Studio_#{arch}-#{version}.pkg"
+  end
 end

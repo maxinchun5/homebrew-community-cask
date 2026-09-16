@@ -7,8 +7,6 @@ cask "thyme" do
   desc "Task timer"
   homepage "https://joaomoreno.github.io/thyme/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Thyme.app"
@@ -20,5 +18,9 @@ cask "thyme" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Thyme.app"
   end
 end

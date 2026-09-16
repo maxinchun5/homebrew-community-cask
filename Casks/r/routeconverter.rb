@@ -15,12 +15,14 @@ cask "routeconverter" do
     regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
   app "RouteConverter.app"
 
   zap trash: "~/.routeconverter"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/RouteConverter.app"
+  end
 end

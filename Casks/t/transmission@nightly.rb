@@ -15,8 +15,6 @@ cask "transmission@nightly" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: [
     "transmission",
     "transmission@beta",
@@ -36,4 +34,8 @@ cask "transmission@nightly" do
     "~/Library/Preferences/org.m0k.transmission.plist",
     "~/Library/Saved Application State/org.m0k.transmission.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Transmission.app"
+  end
 end

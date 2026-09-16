@@ -12,8 +12,6 @@ cask "warzone-2100" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Warzone 2100.app"
@@ -22,4 +20,8 @@ cask "warzone-2100" do
     "~/Library/Application Support/Warzone 2100*",
     "~/Library/Saved Application State/net.wz2100.Warzone2100.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Warzone 2100.app"
+  end
 end

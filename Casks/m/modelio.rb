@@ -7,8 +7,6 @@ cask "modelio" do
   desc "Extensible modelling environment"
   homepage "https://www.modelio.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Modelio #{version.major_minor}.app"
@@ -17,5 +15,9 @@ cask "modelio" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Modelio #{version.major_minor}.app"
   end
 end

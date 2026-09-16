@@ -7,8 +7,6 @@ cask "via" do
   desc "Keyboard configurator"
   homepage "https://caniusevia.com/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "VIA.app"
@@ -22,5 +20,9 @@ cask "via" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/VIA.app"
   end
 end

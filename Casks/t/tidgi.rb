@@ -16,8 +16,6 @@ cask "tidgi" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "TidGi.app"
@@ -32,4 +30,8 @@ cask "tidgi" do
     "~/Library/Preferences/com.tidgi.plist",
     "~/Library/Saved Application State/com.microsoft.VSCode.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TidGi.app"
+  end
 end

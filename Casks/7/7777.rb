@@ -12,8 +12,6 @@ cask "7777" do
     regex(/(\d+(?:\.\d+)+)/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   binary "7777"
@@ -22,5 +20,9 @@ cask "7777" do
 
   caveats do
     requires_rosetta
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
   end
 end

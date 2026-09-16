@@ -12,11 +12,13 @@ cask "orangedrangon-android-messages" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Android Messages.app"
 
   zap trash: "~/Library/Application Support/android-messages-desktop"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Android Messages.app"
+  end
 end

@@ -12,12 +12,14 @@ cask "slimhud" do
     strategy :sparkle
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
   app "SlimHUD.app"
 
   zap trash: "~/Library/Preferences/com.alexpera.SlimHUD.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SlimHUD.app"
+  end
 end

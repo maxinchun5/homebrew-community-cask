@@ -7,11 +7,13 @@ cask "brisync" do
   desc "Utility to automatically control the brightness of external displays"
   homepage "https://github.com/czarny/Brisync/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Brisync.app"
 
   zap trash: "~/.brisync.json"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Brisync.app"
+  end
 end

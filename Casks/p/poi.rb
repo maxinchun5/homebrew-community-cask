@@ -10,8 +10,6 @@ cask "poi" do
   desc "Scalable KanColle browser and tool"
   homepage "https://poi.moe/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "poi.app"
@@ -20,4 +18,8 @@ cask "poi" do
     "~/Library/Application Support/poi",
     "~/Library/Preferences/org.poooi.poi.helper.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/poi.app"
+  end
 end

@@ -7,8 +7,6 @@ cask "shadowsocksx-ng" do
   desc "Tunneling proxy"
   homepage "https://github.com/shadowsocks/ShadowsocksX-NG/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: "shadowsocksx"
   depends_on :macos
 
@@ -34,4 +32,8 @@ cask "shadowsocksx-ng" do
     "~/Library/Caches/com.qiuyuzhou.ShadowsocksX-NG",
     "~/Library/Preferences/com.qiuyuzhou.ShadowsocksX-NG.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ShadowsocksX-NG.app"
+  end
 end

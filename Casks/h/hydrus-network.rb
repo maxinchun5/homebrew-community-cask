@@ -17,7 +17,6 @@ cask "hydrus-network" do
   # Version 636 was the last version with a macOS app (see:
   # https://github.com/hydrusnetwork/hydrus/releases/tag/v636).
   deprecate! date: "2025-09-03", because: :discontinued
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
 
   depends_on :macos
 
@@ -27,5 +26,9 @@ cask "hydrus-network" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Hydrus Network.app"
   end
 end

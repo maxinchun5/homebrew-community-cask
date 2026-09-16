@@ -10,8 +10,6 @@ cask "qutebrowser" do
   desc "Keyboard-driven, vim-like browser based on PyQt5"
   homepage "https://www.qutebrowser.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "qutebrowser.app"
@@ -24,4 +22,8 @@ cask "qutebrowser" do
         "~/Library/Preferences/qutebrowser",
       ],
       rmdir: "~/.qutebrowser"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qutebrowser.app"
+  end
 end

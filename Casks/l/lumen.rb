@@ -7,8 +7,6 @@ cask "lumen" do
   desc "Magic auto brightness based on screen contents"
   homepage "https://github.com/anishathalye/lumen"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :sonoma
 
   app "Lumen.app"
@@ -17,4 +15,8 @@ cask "lumen" do
     "~/Library/Caches/com.anishathalye.Lumen",
     "~/Library/Preferences/com.anishathalye.Lumen.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Lumen.app"
+  end
 end

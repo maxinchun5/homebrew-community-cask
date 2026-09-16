@@ -11,8 +11,6 @@ cask "osmc" do
     skip "unversioned QT application"
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   # Renamed for clarity: app name is inconsistent with its branding.
@@ -26,5 +24,9 @@ cask "osmc" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qt_host_installer.app"
   end
 end

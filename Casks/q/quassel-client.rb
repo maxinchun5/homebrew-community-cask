@@ -12,8 +12,6 @@ cask "quassel-client" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Quassel Client.app"
@@ -22,5 +20,9 @@ cask "quassel-client" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Quassel Client.app"
   end
 end

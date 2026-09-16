@@ -12,8 +12,6 @@ cask "dungeon-crawl-stone-soup-tiles" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Dungeon Crawl Stone Soup - Tiles.app"
@@ -22,4 +20,8 @@ cask "dungeon-crawl-stone-soup-tiles" do
     "~/Library/Application Support/Dungeon Crawl Stone Soup",
     "~/Library/Saved Application State/net.sourceforge.crawl-ref.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Dungeon Crawl Stone Soup - Tiles.app"
+  end
 end

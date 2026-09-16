@@ -10,11 +10,13 @@ cask "logisim-evolution" do
   desc "Digital logic designer and simulator"
   homepage "https://github.com/logisim-evolution/logisim-evolution"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Logisim-evolution.app"
 
   zap trash: "~/Library/Preferences/com.cburch.logisim.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Logisim-evolution.app"
+  end
 end

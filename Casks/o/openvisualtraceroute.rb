@@ -12,8 +12,6 @@ cask "openvisualtraceroute" do
     regex(%r{url=.*?/OpenVisualTraceRoute[._-]?v?(\d+(?:\.\d+)+)\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "OpenVisualTraceroute.app"
@@ -22,5 +20,9 @@ cask "openvisualtraceroute" do
 
   caveats do
     depends_on_java "8"
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenVisualTraceroute.app"
   end
 end

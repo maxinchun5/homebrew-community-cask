@@ -7,8 +7,6 @@ cask "nuage" do
   desc "Free and open-source SoundCloud client"
   homepage "https://github.com/lbrndnr/nuage-macos"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "Nuage.app"
@@ -20,4 +18,8 @@ cask "nuage" do
     "~/Library/Logs/DiagnosticReports/Nuage*.crash",
     "~/Library/Preferences/ch.laurinbrandner.nuage.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Nuage.app"
+  end
 end

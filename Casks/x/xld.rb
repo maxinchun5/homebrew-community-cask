@@ -13,8 +13,6 @@ cask "xld" do
     strategy :sparkle, &:short_version
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -31,4 +29,8 @@ cask "xld" do
     "~/Library/Preferences/jp.tmkk.XLD.plist",
     "~/Library/Saved Application State/jp.tmkk.XLD.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/XLD.app"
+  end
 end

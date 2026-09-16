@@ -23,8 +23,6 @@ cask "lemonlime" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "lemon.app"
@@ -35,4 +33,8 @@ cask "lemonlime" do
     "~/Library/Preferences/com.lemonlime.lemon.plist",
     "~/Library/Saved Application State/com.github.lemonlime.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/lemon.app"
+  end
 end

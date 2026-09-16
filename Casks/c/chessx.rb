@@ -18,8 +18,6 @@ cask "chessx" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "ChessX.app"
@@ -33,5 +31,9 @@ cask "chessx" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ChessX.app"
   end
 end

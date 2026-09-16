@@ -12,8 +12,6 @@ cask "vassal" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "VASSAL.app"
@@ -21,4 +19,8 @@ cask "vassal" do
   uninstall quit: "org.vassalengine.vassal"
 
   zap trash: "~/Library/Application Support/VASSAL"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/VASSAL.app"
+  end
 end

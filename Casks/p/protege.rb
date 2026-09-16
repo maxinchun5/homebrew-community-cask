@@ -7,8 +7,6 @@ cask "protege" do
   desc "Ontology editor"
   homepage "https://protege.stanford.edu/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Protege-#{version}/Protégé.app"
@@ -18,4 +16,8 @@ cask "protege" do
     "~/Library/Preferences/protege_preferences.*",
     "~/Library/Saved Application State/edu.stanford.protege.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Protege-#{version}/Protégé.app"
+  end
 end

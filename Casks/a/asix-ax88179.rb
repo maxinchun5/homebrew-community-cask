@@ -17,8 +17,6 @@ cask "asix-ax88179" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
   container nested: "ASIX_USB_Device_Installer_v#{version.csv.first}.dmg"
 
@@ -42,5 +40,9 @@ cask "asix-ax88179" do
 
   caveats do
     reboot
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/ASIX_USB_Device_Installer_v#{version.csv.first}.pkg"
   end
 end

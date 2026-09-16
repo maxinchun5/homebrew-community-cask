@@ -7,11 +7,13 @@ cask "milkman" do
   desc "Extensible request and response workbench"
   homepage "https://github.com/warmuuh/milkman"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Milkman.app"
 
   zap trash: "~/Library/Application Support/Milkman"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Milkman.app"
+  end
 end

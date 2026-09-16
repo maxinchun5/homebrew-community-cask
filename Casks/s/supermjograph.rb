@@ -12,8 +12,6 @@ cask "supermjograph" do
     regex(%r{url=.*?/SuperMjograph[._-]v?(\d+(?:\.\d+)+)\.zip}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "SuperMjograph.app"
@@ -25,5 +23,9 @@ cask "supermjograph" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/SuperMjograph.app"
   end
 end

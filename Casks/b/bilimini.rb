@@ -7,8 +7,6 @@ cask "bilimini" do
   desc "Small window bilibili client"
   homepage "https://github.com/chitosai/bilimini"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -22,5 +20,9 @@ cask "bilimini" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/bilimini.app"
   end
 end

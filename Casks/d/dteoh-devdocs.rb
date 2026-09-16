@@ -7,8 +7,6 @@ cask "dteoh-devdocs" do
   desc "API documentation viewer"
   homepage "https://github.com/dteoh/devdocs-macos/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "DevDocs.app"
@@ -19,4 +17,8 @@ cask "dteoh-devdocs" do
     "~/Library/Preferences/com.dteoh.devdocs-macos.plist",
     "~/Library/WebKit/com.dteoh.devdocs-macos",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DevDocs.app"
+  end
 end

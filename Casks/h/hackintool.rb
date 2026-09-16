@@ -7,8 +7,6 @@ cask "hackintool" do
   desc "Hackintosh patching tool"
   homepage "https://github.com/headkaze/Hackintool"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -20,4 +18,8 @@ cask "hackintool" do
     "~/Library/Cookies/com.Headsoft.Hackintool.binarycookies",
     "~/Library/Preferences/com.Headsoft.Hackintool.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Hackintool.app"
+  end
 end

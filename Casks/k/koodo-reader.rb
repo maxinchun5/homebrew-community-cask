@@ -9,7 +9,6 @@ cask "koodo-reader" do
          x86_64_linux: "0b6b6236953e2d974fca5d630615855a5587cf75341177e14c98bd07c02421cd"
 
   on_macos do
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
 
     app "Koodo Reader.app"
 
@@ -28,4 +27,8 @@ cask "koodo-reader" do
   name "Koodo Reader"
   desc "Open-source e-book reader"
   homepage "https://www.koodoreader.com/en"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Koodo Reader.app"
+  end
 end

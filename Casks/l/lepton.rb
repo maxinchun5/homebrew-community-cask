@@ -10,8 +10,6 @@ cask "lepton" do
   desc "Snippet management app"
   homepage "https://hackjutsu.com/Lepton/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Lepton.app"
@@ -22,4 +20,8 @@ cask "lepton" do
     "~/Library/Preferences/com.cosmox.lepton.plist",
     "~/Library/Saved Application State/com.cosmox.lepton.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Lepton.app"
+  end
 end

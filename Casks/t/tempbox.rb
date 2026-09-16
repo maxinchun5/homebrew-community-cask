@@ -7,8 +7,6 @@ cask "tempbox" do
   desc "Disposable email client"
   homepage "https://tempbox.waseem.works/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "TempBox.app"
@@ -17,4 +15,8 @@ cask "tempbox" do
     "~/Library/Application Scripts/com.waseem.TempBox",
     "~/Library/Containers/com.waseem.TempBox",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TempBox.app"
+  end
 end

@@ -64,8 +64,6 @@ cask "codelite" do
   desc "IDE for C, C++, PHP and Node.js"
   homepage "https://codelite.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "codelite.app"
@@ -74,4 +72,8 @@ cask "codelite" do
     "~/Library/Application Support/codelite",
     "~/Library/Preferences/codelite.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/codelite.app"
+  end
 end

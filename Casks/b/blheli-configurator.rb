@@ -6,13 +6,15 @@ cask "blheli-configurator" do
   name "BLHeli Configurator"
   homepage "https://github.com/blheli-configurator/blheli-configurator"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "BLHeli Configurator.app"
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BLHeli Configurator.app"
   end
 end

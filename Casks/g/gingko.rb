@@ -12,8 +12,6 @@ cask "gingko" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Gingko.app"
@@ -22,5 +20,9 @@ cask "gingko" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Gingko.app"
   end
 end

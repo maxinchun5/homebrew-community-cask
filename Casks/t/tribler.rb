@@ -15,8 +15,6 @@ cask "tribler" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "tribler-#{version}-#{arch}.app", target: "Tribler.app"
@@ -27,4 +25,8 @@ cask "tribler" do
     "~/Library/Preferences/nl.tudelft.tribler.plist",
     "~/Library/Saved Application State/nl.tudelft.tribler.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/tribler-#{version}-#{arch}.app"
+  end
 end

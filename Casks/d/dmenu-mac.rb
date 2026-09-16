@@ -12,8 +12,6 @@ cask "dmenu-mac" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "dmenu-mac.app"
@@ -23,4 +21,8 @@ cask "dmenu-mac" do
     "~/Library/Application Scripts/com.onaips.dmenu-macos",
     "~/Library/Containers/com.onaips.dmenu-macos",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/dmenu-mac.app"
+  end
 end

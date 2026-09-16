@@ -12,8 +12,6 @@ cask "worldpainter" do
     regex(%r{href=.*?/files/worldpainter[._-]v?(\d+(?:\.\d+)+)\.t}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "WorldPainter.app"
@@ -21,4 +19,8 @@ cask "worldpainter" do
   uninstall quit: "com.install4j.4144-4862-0472-7103.67"
 
   zap trash: "~/Library/Application Support/WorldPainter"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/WorldPainter.app"
+  end
 end

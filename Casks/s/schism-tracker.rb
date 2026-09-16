@@ -12,8 +12,6 @@ cask "schism-tracker" do
     regex(/^v?(\d+(?:\.\d+)*)$/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Schism Tracker.app"
@@ -22,4 +20,8 @@ cask "schism-tracker" do
     "~/Library/Application Support/Schism Tracker",
     "~/Library/Saved Application State/org.schismtracker.SchismTracker.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Schism Tracker.app"
+  end
 end

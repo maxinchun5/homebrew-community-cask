@@ -44,11 +44,13 @@ cask "x-moto" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "X-Moto.app"
 
   zap trash: "~/Library/Saved Application State/net.sourceforge.xmoto.savedState"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/X-Moto.app"
+  end
 end

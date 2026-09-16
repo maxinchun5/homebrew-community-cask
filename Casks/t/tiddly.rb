@@ -10,8 +10,6 @@ cask "tiddly" do
   desc "Browser for TiddlyWiki"
   homepage "https://github.com/Jermolene/TiddlyDesktop"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "TiddlyDesktop-mac#{arch}-v#{version}/TiddlyDesktop.app"
@@ -22,4 +20,8 @@ cask "tiddly" do
     "~/Library/Preferences/com.tiddlywiki.plist",
     "~/Library/Saved Application State/com.tiddlywiki.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TiddlyDesktop-mac#{arch}-v#{version}/TiddlyDesktop.app"
+  end
 end

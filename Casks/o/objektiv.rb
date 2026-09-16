@@ -7,8 +7,6 @@ cask "objektiv" do
   desc "Browser switcher utility"
   homepage "https://github.com/nthloop/Objektiv"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Objektiv.app"
@@ -17,5 +15,9 @@ cask "objektiv" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Objektiv.app"
   end
 end

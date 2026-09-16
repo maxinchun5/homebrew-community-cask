@@ -12,8 +12,6 @@ cask "todour" do
     regex(/href=.*?Todour[._-]v?(\d+(?:\.\d+)+)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Todour.app"
@@ -22,5 +20,9 @@ cask "todour" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Todour.app"
   end
 end

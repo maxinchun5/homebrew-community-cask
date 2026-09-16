@@ -12,8 +12,6 @@ cask "vmpk" do
     regex(/url=.*?vmpk[._-]?v?(\d+(?:\.\d+)+)-mac-x64\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on formula: "fluid-synth"
   depends_on :macos
 
@@ -26,5 +24,9 @@ cask "vmpk" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/vmpk.app"
   end
 end

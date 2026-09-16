@@ -48,8 +48,6 @@ cask "spaceradar" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   uninstall quit: "com.electron.spaceradar"
 
   zap trash: [
@@ -58,4 +56,8 @@ cask "spaceradar" do
     "~/Library/Preferences/com.electron.spaceradar.plist",
     "~/Library/Saved Application State/com.electron.spaceradar.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Space Radar.app"
+  end
 end

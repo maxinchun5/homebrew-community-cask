@@ -12,8 +12,6 @@ cask "steam-plus-plus" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Steam++.app"
@@ -24,4 +22,8 @@ cask "steam-plus-plus" do
     "~/Library/Saved Application State/net.steampp.app.savedState",
     "~/Library/Steam++",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Steam++.app"
+  end
 end

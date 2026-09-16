@@ -15,8 +15,6 @@ cask "time-to-leave" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Time To Leave.app"
@@ -25,4 +23,8 @@ cask "time-to-leave" do
     "~/Library/Preferences/com.electron.time-to-leave.plist",
     "~/Library/Saved Application State/com.electron.time-to-leave.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Time To Leave.app"
+  end
 end

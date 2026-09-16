@@ -9,8 +9,6 @@ cask "mark-text" do
 
     url "https://github.com/marktext/marktext/releases/download/v#{version}/marktext-mac-#{arch}-#{version}.dmg"
 
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
     depends_on macos: :monterey
 
     app "MarkText.app"
@@ -40,4 +38,8 @@ cask "mark-text" do
   homepage "https://github.com/marktext/marktext"
 
   auto_updates true
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MarkText.app"
+  end
 end

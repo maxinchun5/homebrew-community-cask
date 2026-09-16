@@ -7,11 +7,13 @@ cask "localizationeditor" do
   desc "iOS app localization manager"
   homepage "https://github.com/igorkulman/iOSLocalizationEditor/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "LocalizationEditor.app"
 
   # No zap stanza required
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LocalizationEditor.app"
+  end
 end

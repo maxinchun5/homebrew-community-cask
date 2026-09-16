@@ -18,8 +18,6 @@ cask "geogebra" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "GeoGebra Classic #{version.major}.app"
@@ -39,4 +37,8 @@ cask "geogebra" do
     "~/Library/Preferences/org.geogebra.mathapps.plist",
     "~/Library/Saved Application State/org.geogebra.mathapps.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/GeoGebra Classic #{version.major}.app"
+  end
 end

@@ -37,9 +37,11 @@ cask "tinypng4mac" do
   desc "TinyPNG client"
   homepage "https://github.com/kyleduo/TinyPNG4Mac"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   zap trash: "~/Library/Preferences/com.kyleduo.tinypngmac.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TinyPNG4Mac.app"
+  end
 end

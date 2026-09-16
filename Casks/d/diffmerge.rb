@@ -12,8 +12,6 @@ cask "diffmerge" do
     regex(/href=.*?DiffMerge[._-]v?(\d+(?:\.\d+)+)\.intel\.stable\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "DiffMerge.app"
@@ -28,5 +26,9 @@ cask "diffmerge" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/DiffMerge.app"
   end
 end

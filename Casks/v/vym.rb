@@ -12,8 +12,6 @@ cask "vym" do
     regex(%r{url=.*?/vym[._-]v?(\d+(?:\.\d+)+)\.(?:dmg|pkg)}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :sequoia
 
   app "vym.app"
@@ -22,5 +20,9 @@ cask "vym" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/vym.app"
   end
 end

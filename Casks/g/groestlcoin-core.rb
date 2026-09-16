@@ -10,8 +10,6 @@ cask "groestlcoin-core" do
   desc "Groestlcoin client and wallet"
   homepage "https://www.groestlcoin.org/groestlcoin-core-wallet/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :sonoma
 
   # Renamed for consistency: app name is different in the Finder and in a shell.
@@ -22,4 +20,8 @@ cask "groestlcoin-core" do
   end
 
   zap trash: "~/Library/Preferences/org.groestlcoin.Groestlcoin-Qt.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Groestlcoin-Qt.app"
+  end
 end

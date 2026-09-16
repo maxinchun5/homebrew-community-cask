@@ -7,8 +7,6 @@ cask "wintertime" do
   desc "Utility to freeze apps running in the background to save battery"
   homepage "https://github.com/actuallymentor/wintertime-mac-background-freezer"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Wintertime.app"
@@ -22,5 +20,9 @@ cask "wintertime" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Wintertime.app"
   end
 end

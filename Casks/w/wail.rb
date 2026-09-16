@@ -12,8 +12,6 @@ cask "wail" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "WAIL.app"
@@ -24,4 +22,8 @@ cask "wail" do
     "~/Library/Preferences/WAIL_cli.plist",
     "~/Library/Saved Application State/com.matkelly.wail.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/WAIL.app"
+  end
 end

@@ -12,8 +12,6 @@ cask "oss-browser" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "oss-browser-darwin-x64/oss-browser.app"
@@ -29,5 +27,9 @@ cask "oss-browser" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/oss-browser-darwin-x64/oss-browser.app"
   end
 end

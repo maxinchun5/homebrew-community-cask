@@ -15,8 +15,6 @@ cask "papyrus" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: "morkro-papyrus"
   depends_on :macos
 
@@ -30,5 +28,9 @@ cask "papyrus" do
   caveats do
     depends_on_java "11+"
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Papyrus.app"
   end
 end

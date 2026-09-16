@@ -7,8 +7,6 @@ cask "brewservicesmenubar" do
   desc "Menu item for starting and stopping homebrew services"
   homepage "https://github.com/andrewn/brew-services-menubar"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "BrewServicesMenubar.app"
@@ -16,4 +14,8 @@ cask "brewservicesmenubar" do
   uninstall quit: "andrewnicolaou.BrewServicesMenubar"
 
   zap trash: "~/Library/Preferences/andrewnicolaou.BrewServicesMenubar.plist"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/BrewServicesMenubar.app"
+  end
 end

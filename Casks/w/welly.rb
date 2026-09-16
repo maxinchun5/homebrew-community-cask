@@ -7,8 +7,6 @@ cask "welly" do
   desc "BBS client"
   homepage "https://github.com/clyang/welly"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -21,4 +19,8 @@ cask "welly" do
     "~/Library/Cookies/org.net9.Welly.binarycookies",
     "~/Library/Preferences/org.net9.Welly.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Welly.app"
+  end
 end

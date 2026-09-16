@@ -12,8 +12,6 @@ cask "eiskaltdcpp" do
     regex(%r{url=.*?/EiskaltDC%2B%2B[._-]v?(\d+(?:\.\d+)+)(?:-[^"']+?)?\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "EiskaltDC++.app"
@@ -25,5 +23,9 @@ cask "eiskaltdcpp" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/EiskaltDC++.app"
   end
 end

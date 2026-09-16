@@ -7,8 +7,6 @@ cask "gridea" do
   desc "Static blog writing client"
   homepage "https://gridea.dev/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -24,5 +22,9 @@ cask "gridea" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Gridea.app"
   end
 end

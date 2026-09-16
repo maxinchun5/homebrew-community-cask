@@ -12,8 +12,6 @@ cask "assinador-serpro" do
     regex(/href=.*?Assinador[._-]?Serpro[._-]v?(\d+(?:\.\d+)+)\.m?pkg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "AssinadorSerpro-#{version}.pkg"
@@ -21,4 +19,8 @@ cask "assinador-serpro" do
   uninstall pkgutil: "br.gov.serpro.desktop.assinador"
 
   zap trash: "~/Library/Preferences/org.demoiselle.signer.serpro.desktop.Main.plist"
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/AssinadorSerpro-#{version}.pkg"
+  end
 end

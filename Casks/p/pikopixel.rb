@@ -13,8 +13,6 @@ cask "pikopixel" do
     regex(/PikoPixel[._-]?(\d+(?:\.\d+)*(?:-b\d+)?)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "PikoPixel.app"
@@ -26,5 +24,9 @@ cask "pikopixel" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PikoPixel.app"
   end
 end

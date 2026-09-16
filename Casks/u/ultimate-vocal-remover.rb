@@ -10,11 +10,13 @@ cask "ultimate-vocal-remover" do
   desc "Removes vocals from audio files"
   homepage "https://github.com/Anjok07/ultimatevocalremovergui/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Ultimate Vocal Remover.app"
 
   # No zap stanza required
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ultimate Vocal Remover.app"
+  end
 end

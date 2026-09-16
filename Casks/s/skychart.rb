@@ -13,8 +13,6 @@ cask "skychart" do
     regex(%r{url=.*?/skychart[._-]v?(\d+(?:[.-]\d+)+[a-z]?)[^"' >]*?\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "Install Skychart.pkg"
@@ -29,5 +27,9 @@ cask "skychart" do
 
   caveats do
     requires_rosetta
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/Install Skychart.pkg"
   end
 end

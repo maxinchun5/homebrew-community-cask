@@ -11,8 +11,6 @@ cask "alipay-key-tool" do
     skip "version is shown in screenshot on homepage"
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "支付宝开放平台密钥工具.app"
@@ -25,5 +23,9 @@ cask "alipay-key-tool" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/支付宝开放平台密钥工具.app"
   end
 end

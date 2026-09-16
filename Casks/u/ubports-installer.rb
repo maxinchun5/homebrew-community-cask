@@ -32,8 +32,6 @@ cask "ubports-installer" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "ubports-installer.app"
@@ -43,4 +41,8 @@ cask "ubports-installer" do
     "~/Library/Preferences/com.ubports.installer.plist",
     "~/Library/Saved Application State/com.ubports.installer.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ubports-installer.app"
+  end
 end

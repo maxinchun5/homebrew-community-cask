@@ -11,8 +11,6 @@ cask "mqtt-explorer" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "MQTT Explorer.app"
@@ -27,5 +25,9 @@ cask "mqtt-explorer" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MQTT Explorer.app"
   end
 end

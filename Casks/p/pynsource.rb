@@ -12,8 +12,6 @@ cask "pynsource" do
     regex(/^version[._-]v?(\d+(?:\.\d+)+)$/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Pynsource.app"
@@ -27,5 +25,9 @@ cask "pynsource" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pynsource.app"
   end
 end

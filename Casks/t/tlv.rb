@@ -7,9 +7,11 @@ cask "tlv" do
   desc "Tool for working with Tableau logs"
   homepage "https://github.com/tableau/tableau-log-viewer"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "tlv.app"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/tlv.app"
+  end
 end

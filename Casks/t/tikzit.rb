@@ -7,8 +7,6 @@ cask "tikzit" do
   desc "PGF/TikZ diagram editor"
   homepage "https://tikzit.github.io/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "TikZiT.app"
@@ -21,5 +19,9 @@ cask "tikzit" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TikZiT.app"
   end
 end

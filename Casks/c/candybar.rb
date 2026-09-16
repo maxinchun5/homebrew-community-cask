@@ -12,8 +12,6 @@ cask "candybar" do
     strategy :extract_plist
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "CandyBar.app"
@@ -28,5 +26,9 @@ cask "candybar" do
 
   caveats do
     free_license "https://panic.com/bin/setup.php/cb3/PPQA-YAMA-E3KP-VHXG-B6AL-L"
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/CandyBar.app"
   end
 end

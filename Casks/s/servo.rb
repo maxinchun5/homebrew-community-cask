@@ -16,11 +16,13 @@ cask "servo" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :ventura
 
   app "Servo.app"
 
   zap trash: "~/Library/Application Support/Servo"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Servo.app"
+  end
 end

@@ -12,8 +12,6 @@ cask "bluefish" do
     regex(/href=.*?Bluefish[._-]v?(\d+(?:\.\d+)+)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Bluefish.app"
@@ -26,5 +24,9 @@ cask "bluefish" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Bluefish.app"
   end
 end

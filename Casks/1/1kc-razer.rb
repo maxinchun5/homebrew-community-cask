@@ -12,8 +12,6 @@ cask "1kc-razer" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Razer macOS.app"
@@ -23,4 +21,8 @@ cask "1kc-razer" do
     "~/Library/Preferences/com.electron.razer-macos.plist",
     "~/Library/Saved Application State/com.electron.razer-macos.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Razer macOS.app"
+  end
 end

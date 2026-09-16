@@ -12,8 +12,6 @@ cask "contour" do
   on_intel do
     version "0.6.1.7494"
 
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
     depends_on macos: :sonoma
   end
 
@@ -56,4 +54,8 @@ cask "contour" do
     "~/.config/contour",
     "~/Library/Caches/contour",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/contour.app"
+  end
 end

@@ -10,11 +10,13 @@ cask "toinane-colorpicker" do
   desc "Get and save colour codes"
   homepage "https://colorpicker.fr/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Colorpicker.app"
 
   zap trash: "~/Library/Application Support/Colorpicker"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Colorpicker.app"
+  end
 end

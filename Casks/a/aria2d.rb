@@ -14,8 +14,6 @@ cask "aria2d" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Aria2D.app"
@@ -26,4 +24,8 @@ cask "aria2d" do
     "~/Library/Preferences/com.xjbeta.Aria2D.plist",
     "~/Library/Saved Application State/com.xjbeta.Aria2D.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Aria2D.app"
+  end
 end

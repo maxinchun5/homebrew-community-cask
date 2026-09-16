@@ -7,8 +7,6 @@ cask "tachidesk-sorayomi" do
   desc "Manga reader"
   homepage "https://github.com/Suwayomi/Tachidesk-Sorayomi/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Sorayomi.app"
@@ -17,4 +15,8 @@ cask "tachidesk-sorayomi" do
     "~/Library/Application Scripts/com.suwayomi.tachideskSorayomi",
     "~/Library/Containers/com.suwayomi.tachideskSorayomi",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Sorayomi.app"
+  end
 end

@@ -12,8 +12,6 @@ cask "ultimate" do
     regex(/Version:\s*v?(\d+(?:\.\d+)+).*?#os_Mac/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "Ultimate.pkg"
@@ -27,4 +25,8 @@ cask "ultimate" do
     "~/Library/Preferences/Ultimate.plist",
     "~/Library/Saved Application State/Ultimate.savedState",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/Ultimate.pkg"
+  end
 end

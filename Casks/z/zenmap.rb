@@ -12,8 +12,6 @@ cask "zenmap" do
     regex(/href=.*?nmap[._-]v?(\d+(?:\.\d+)+)\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "nmap-#{version}.mpkg"
@@ -31,4 +29,8 @@ cask "zenmap" do
     "~/.zenmap",
     "~/Library/Saved Application State/org.insecure.Zenmap.savedState",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/nmap-#{version}.mpkg"
+  end
 end

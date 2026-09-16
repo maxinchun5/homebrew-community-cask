@@ -12,8 +12,6 @@ cask "lynkeos" do
     regex(%r{url=.*?/v?(\d+(?:\.\d+)+)/Lynkeos[._-]App[\d._-]*\.zip}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Lynkeos-App-#{version.dots_to_hyphens}/Lynkeos.app"
@@ -24,4 +22,8 @@ cask "lynkeos" do
     "~/Library/Preferences/net.sourceforge.lynkeos.plist",
     "~/Library/Saved Application State/net.sourceforge.lynkeos.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Lynkeos-App-#{version.dots_to_hyphens}/Lynkeos.app"
+  end
 end

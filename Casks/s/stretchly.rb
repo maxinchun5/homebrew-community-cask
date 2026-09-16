@@ -10,8 +10,6 @@ cask "stretchly" do
   desc "Break time reminder app"
   homepage "https://hovancik.net/stretchly/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Stretchly.app"
@@ -23,4 +21,8 @@ cask "stretchly" do
     "~/Library/Logs/Stretchly",
     "~/Library/Preferences/net.hovancik.stretchly.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Stretchly.app"
+  end
 end

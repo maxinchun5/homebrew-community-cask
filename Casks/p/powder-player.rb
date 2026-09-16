@@ -7,8 +7,6 @@ cask "powder-player" do
   desc "Torrent client and streaming media player"
   homepage "https://powder.media/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Powder Player.app"
@@ -22,5 +20,9 @@ cask "powder-player" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Powder Player.app"
   end
 end

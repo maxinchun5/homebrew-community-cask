@@ -12,8 +12,6 @@ cask "evkey" do
     regex(/EVKeyMac\.zip.*?v?(\d+(?:\.\d+)+)/im)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "EVKeyMac.app"
@@ -25,5 +23,9 @@ cask "evkey" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/EVKeyMac.app"
   end
 end

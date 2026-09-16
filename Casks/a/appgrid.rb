@@ -13,8 +13,6 @@ cask "appgrid" do
     strategy :page_match
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "AppGrid.app"
@@ -25,5 +23,9 @@ cask "appgrid" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/AppGrid.app"
   end
 end

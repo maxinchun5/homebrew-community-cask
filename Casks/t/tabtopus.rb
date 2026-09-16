@@ -12,8 +12,6 @@ cask "tabtopus" do
     strategy :sparkle, &:short_version
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -23,4 +21,8 @@ cask "tabtopus" do
     "~/Library/HTTPStorages/com.mariogt.tabtopus",
     "~/Library/Preferences/com.mariogt.tabtopus.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/TabTopus.app"
+  end
 end

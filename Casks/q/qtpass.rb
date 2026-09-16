@@ -7,8 +7,6 @@ cask "qtpass" do
   desc "Multi-platform GUI for pass, the standard unix password manager"
   homepage "https://qtpass.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "QtPass.app"
@@ -17,4 +15,8 @@ cask "qtpass" do
     "~/Library/Preferences/org.ijhack.QtPass.plist",
     "~/Library/Saved Application State/org.qtpass.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/QtPass.app"
+  end
 end

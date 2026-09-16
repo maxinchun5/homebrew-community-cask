@@ -12,8 +12,6 @@ cask "lazpaint" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "LazPaint.app"
@@ -28,5 +26,9 @@ cask "lazpaint" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/LazPaint.app"
   end
 end

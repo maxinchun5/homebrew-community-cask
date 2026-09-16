@@ -15,8 +15,6 @@ cask "nuclear" do
     regex(/^(?:player@)?v?(\d+(?:\.\d+)+)$/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Nuclear.app"
@@ -31,4 +29,8 @@ cask "nuclear" do
     "~/Library/Saved Application State/nuclear.savedState",
     "~/Library/WebKit/com.nuclearplayer",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Nuclear.app"
+  end
 end

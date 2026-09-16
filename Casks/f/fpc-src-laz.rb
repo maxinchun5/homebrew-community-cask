@@ -15,8 +15,6 @@ cask "fpc-src-laz" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "fpcsrc-#{version.csv.first}.pkg"
@@ -30,5 +28,9 @@ cask "fpc-src-laz" do
 
   caveats do
     files_in_usr_local
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/fpcsrc-#{version.csv.first}.pkg"
   end
 end

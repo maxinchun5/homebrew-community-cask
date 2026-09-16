@@ -7,8 +7,6 @@ cask "crunch-app" do
   desc "PNG image optimiser"
   homepage "https://github.com/chrissimpkins/Crunch"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Crunch.app"
@@ -20,5 +18,9 @@ cask "crunch-app" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Crunch.app"
   end
 end

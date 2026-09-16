@@ -12,8 +12,6 @@ cask "alacritty" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Alacritty.app"
@@ -34,4 +32,8 @@ cask "alacritty" do
     "~/Library/Preferences/org.alacritty.plist",
     "~/Library/Saved Application State/org.alacritty.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Alacritty.app"
+  end
 end

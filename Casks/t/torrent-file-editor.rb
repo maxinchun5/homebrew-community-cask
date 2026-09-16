@@ -7,8 +7,6 @@ cask "torrent-file-editor" do
   desc "GUI for editing and creating torrent files"
   homepage "https://torrent-file-editor.github.io/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Torrent File Editor.app"
@@ -23,5 +21,9 @@ cask "torrent-file-editor" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Torrent File Editor.app"
   end
 end

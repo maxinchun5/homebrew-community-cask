@@ -12,8 +12,6 @@ cask "sunvox" do
     regex(/href=.*?sunvox[._-]v?(\d+(?:\.\d+)+[a-z]?)\.zip/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "sunvox/sunvox/macos/SunVox.app"
@@ -24,4 +22,8 @@ cask "sunvox" do
     "~/Library/Preferences/nightradio.SunVox.plist",
     "~/Library/Saved Application State/nightradio.SunVox.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/sunvox/sunvox/macos/SunVox.app"
+  end
 end

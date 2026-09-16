@@ -10,8 +10,6 @@ cask "ariang" do
   desc "Better aria2 desktop frontend than AriaNg"
   homepage "https://github.com/mayswind/AriaNg-Native"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "AriaNg Native.app"
@@ -20,4 +18,8 @@ cask "ariang" do
     "~/Library/Preferences/net.mayswind.ariang.plist",
     "~/Library/Saved Application State/net.mayswind.ariang.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/AriaNg Native.app"
+  end
 end

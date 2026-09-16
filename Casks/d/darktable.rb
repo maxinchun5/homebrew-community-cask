@@ -17,8 +17,6 @@ cask "darktable" do
       depends_on macos: :sequoia
     end
 
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
     app "darktable.app"
 
     uninstall quit: "org.darktable"
@@ -44,4 +42,8 @@ cask "darktable" do
     "~/.local/share/darktable",
     "~/Library/Saved Application State/org.darktable.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/darktable.app"
+  end
 end

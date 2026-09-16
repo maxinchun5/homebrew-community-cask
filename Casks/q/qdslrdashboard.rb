@@ -18,8 +18,6 @@ cask "qdslrdashboard" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "qDslrDashboard.app"
@@ -31,5 +29,9 @@ cask "qdslrdashboard" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/qDslrDashboard.app"
   end
 end

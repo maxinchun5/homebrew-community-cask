@@ -12,8 +12,6 @@ cask "obs-advanced-scene-switcher" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on cask: "obs"
   depends_on :macos
 
@@ -27,4 +25,8 @@ cask "obs-advanced-scene-switcher" do
             rmdir:   "/Library/Application Support/obs-studio/plugins"
 
   # No zap stanza required
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/advanced-scene-switcher-#{version}-macos-universal.pkg"
+  end
 end

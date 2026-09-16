@@ -15,8 +15,6 @@ cask "fishing-funds" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Fishing Funds.app"
@@ -26,4 +24,8 @@ cask "fishing-funds" do
     "~/Library/Logs/Fishing Funds",
     "~/Library/Preferences/com.electron.1zilc.fishing-funds.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Fishing Funds.app"
+  end
 end

@@ -7,13 +7,15 @@ cask "airpass" do
   desc "Status bar app to overcome time-constrained WiFi networks"
   homepage "https://airpass.tiagoalves.me/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Airpass.app"
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Airpass.app"
   end
 end

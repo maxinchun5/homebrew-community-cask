@@ -9,8 +9,6 @@ cask "cockatrice" do
       skip "Legacy version"
     end
 
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
     caveats do
       requires_rosetta
     end
@@ -76,4 +74,8 @@ cask "cockatrice" do
     "~/Library/Saved Application State/com.cockatrice.cockatrice.savedState",
     "~/Library/Saved Application State/com.cockatrice.oracle.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/cockatrice.app"
+  end
 end

@@ -7,8 +7,6 @@ cask "cerebro" do
   desc "Open-source launcher"
   homepage "https://cerebroapp.vercel.app/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Cerebro.app"
@@ -24,5 +22,9 @@ cask "cerebro" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Cerebro.app"
   end
 end

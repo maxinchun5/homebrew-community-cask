@@ -20,8 +20,6 @@ cask "quaternion" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "quaternion.app"
@@ -34,4 +32,8 @@ cask "quaternion" do
     "~/Library/Preferences/com.quotient.quaternion.plist",
     "~/Library/Saved Application State/com.github.quaternion.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/quaternion.app"
+  end
 end

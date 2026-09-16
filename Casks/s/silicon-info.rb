@@ -7,8 +7,6 @@ cask "silicon-info" do
   desc "View the architecture of the running application"
   homepage "https://github.com/billycastelli/Silicon-Info"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Silicon Info.app"
@@ -17,4 +15,8 @@ cask "silicon-info" do
     "~/Library/Application Scripts/com.wcastelli.silicon-info",
     "~/Library/Containers/com.wcastelli.silicon-info",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Silicon Info.app"
+  end
 end

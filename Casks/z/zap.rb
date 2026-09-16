@@ -16,8 +16,6 @@ cask "zap" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "ZAP.app"
@@ -26,4 +24,8 @@ cask "zap" do
     "~/Library/Application Support/ZAP",
     "~/Library/Preferences/org.zaproxy.zap.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/ZAP.app"
+  end
 end

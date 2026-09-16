@@ -7,8 +7,6 @@ cask "morkro-papyrus" do
   desc "Unofficial Dropbox Paper desktop app"
   homepage "https://github.com/morkro/papyrus"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: "papyrus"
   depends_on :macos
 
@@ -22,5 +20,9 @@ cask "morkro-papyrus" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Papyrus.app"
   end
 end

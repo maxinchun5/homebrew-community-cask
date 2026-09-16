@@ -29,8 +29,6 @@ cask "keepassxc@snapshot" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: [
     "keepassxc",
     "keepassxc@beta",
@@ -55,5 +53,9 @@ cask "keepassxc@snapshot" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/KeePassXC.app"
   end
 end

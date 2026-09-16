@@ -15,8 +15,6 @@ cask "caprine" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -31,4 +29,8 @@ cask "caprine" do
     "~/Library/Preferences/com.sindresorhus.caprine.plist",
     "~/Library/Saved Application State/com.sindresorhus.caprine.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Caprine.app"
+  end
 end

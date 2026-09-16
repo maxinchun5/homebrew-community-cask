@@ -16,11 +16,13 @@ cask "pages-data-merge" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Pages Data Merge.app"
 
   zap trash: "~/Library/Saved Application State/com.NyhthawkProductions.Pages-Data-Merge.savedState"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pages Data Merge.app"
+  end
 end

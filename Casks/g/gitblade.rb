@@ -12,8 +12,6 @@ cask "gitblade" do
     regex(%r{href=.*?/gitblade[._-]v?(\d+(?:\.\d+)*)[._-]darwin[._-]x64\.dmg}i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "GitBlade.app"
@@ -27,5 +25,9 @@ cask "gitblade" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/GitBlade.app"
   end
 end

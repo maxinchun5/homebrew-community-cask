@@ -16,8 +16,6 @@ cask "olympus" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
   container nested: "macos.main/dist.zip"
 
@@ -27,4 +25,8 @@ cask "olympus" do
     "~/Library/Application Support/Olympus",
     "~/Library/Saved Application State/everest.olympus.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Olympus.app"
+  end
 end

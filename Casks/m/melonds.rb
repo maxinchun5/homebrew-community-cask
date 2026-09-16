@@ -7,11 +7,13 @@ cask "melonds" do
   desc "Nintendo DS and DSi emulator"
   homepage "https://melonds.kuribo64.net/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "melonDS.app"
 
   zap trash: "~/Library/Preferences/melonDS/melonDS.ini"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/melonDS.app"
+  end
 end

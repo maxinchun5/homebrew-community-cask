@@ -28,8 +28,6 @@ cask "the-unofficial-homestuck-collection" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "The Unofficial Homestuck Collection.app"
@@ -46,5 +44,9 @@ cask "the-unofficial-homestuck-collection" do
       You will need to download the corresponding Asset Pack by visiting:
         https://bambosh.github.io/unofficial-homestuck-collection/
     EOS
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/The Unofficial Homestuck Collection.app"
   end
 end

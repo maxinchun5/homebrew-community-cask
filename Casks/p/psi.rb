@@ -12,8 +12,6 @@ cask "psi" do
     regex(/psi[._-]?(\d+(?:\.\d+)*)[._-]?mac\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Psi.app"
@@ -28,5 +26,9 @@ cask "psi" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Psi.app"
   end
 end

@@ -9,8 +9,6 @@ cask "openrct2" do
   desc "Open-source re-implementation of RollerCoaster Tycoon 2"
   homepage "https://openrct2.io/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "OpenRCT2.app"
@@ -22,4 +20,8 @@ cask "openrct2" do
     "~/Library/Preferences/website.openrct2.OpenRCT2.plist",
     "~/Library/Saved Application State/io.openrct2.OpenRCT2.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenRCT2.app"
+  end
 end

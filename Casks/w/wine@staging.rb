@@ -30,8 +30,6 @@ cask "wine@staging" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   conflicts_with cask: [
     "wine-stable",
     "wine@devel",
@@ -75,5 +73,9 @@ cask "wine@staging" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Wine Staging.app"
   end
 end

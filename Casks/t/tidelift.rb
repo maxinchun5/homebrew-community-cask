@@ -9,7 +9,7 @@ cask "tidelift" do
          x86_64_linux: "2d731623238ee5073885d570e766517d8677acb76067a1a1563bb106f5fd2859"
 
   on_macos do
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
+
   end
 
   url "https://download.tidelift.com/cli/#{version}/#{os}#{arch}/tidelift"
@@ -29,4 +29,8 @@ cask "tidelift" do
   end
 
   # No zap stanza required
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", staged_path.to_s
+  end
 end

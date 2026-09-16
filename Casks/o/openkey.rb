@@ -7,8 +7,6 @@ cask "openkey" do
   desc "Vietnamese input system"
   homepage "https://github.com/tuyenvm/OpenKey/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "OpenKey.app"
@@ -18,4 +16,8 @@ cask "openkey" do
     "~/Library/HTTPStorages/com.tuyenmai.openkey",
     "~/Library/Preferences/com.tuyenmai.openkey.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/OpenKey.app"
+  end
 end

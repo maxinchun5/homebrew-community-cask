@@ -11,8 +11,6 @@ cask "audiogridder-server" do
     cask "audiogridder-plugin"
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "AudioGridderServer_#{version}_macOS-universal.pkg"
@@ -44,4 +42,8 @@ cask "audiogridder-server" do
         "~/.audiogridder",
         "~/Library/Logs/AudioGridder",
       ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/AudioGridderServer_#{version}_macOS-universal.pkg"
+  end
 end

@@ -7,8 +7,6 @@ cask "little-navmap" do
   desc "Flight planning and navigation and airport search and information system"
   homepage "https://albar965.github.io/littlenavmap.html"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Little Navconnect.app"
@@ -24,5 +22,9 @@ cask "little-navmap" do
     <<~EOS
       "The X-Plane plugin will be at #{staged_path} after installation."
     EOS
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Little Navconnect.app"
   end
 end

@@ -12,8 +12,6 @@ cask "repoz" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "RepoZ.#{version}.pkg"
@@ -25,4 +23,8 @@ cask "repoz" do
     "~/.config/sodacore studios",
     "~/Library/Preferences/net.sodacore.repoz.plist",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/RepoZ.#{version}.pkg"
+  end
 end

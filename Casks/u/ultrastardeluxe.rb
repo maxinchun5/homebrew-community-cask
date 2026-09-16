@@ -10,8 +10,6 @@ cask "ultrastardeluxe" do
   desc "Karaoke game"
   homepage "https://usdx.eu/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "UltraStarDeluxe.app"
@@ -19,4 +17,8 @@ cask "ultrastardeluxe" do
   uninstall quit: "org.ultrastardeluxe.ultrastardeluxe"
 
   zap trash: "~/Library/Application Support/UltraStarDeluxe1.3"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/UltraStarDeluxe.app"
+  end
 end

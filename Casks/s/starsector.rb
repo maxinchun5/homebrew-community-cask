@@ -14,11 +14,13 @@ cask "starsector" do
     skip "Cannot be fetched due to Cloudflare protections"
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Starsector.app"
 
   # No zap stanza required
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Starsector.app"
+  end
 end

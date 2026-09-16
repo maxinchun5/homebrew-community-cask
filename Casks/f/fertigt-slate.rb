@@ -7,8 +7,6 @@ cask "fertigt-slate" do
   desc "Window management application"
   homepage "https://github.com/fertigt/slate_arm64"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Slate.app"
@@ -18,4 +16,8 @@ cask "fertigt-slate" do
     "~/.slate.js",
     "~/Library/Application Support/com.tobiasfertig.Slate",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Slate.app"
+  end
 end

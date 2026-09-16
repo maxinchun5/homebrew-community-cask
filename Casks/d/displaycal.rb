@@ -11,8 +11,6 @@ cask "displaycal" do
     url "https://sourceforge.net/projects/dispcalgui/rss?path=/release"
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on formula: "argyll-cms"
   depends_on :macos
@@ -36,5 +34,9 @@ cask "displaycal" do
       If #{token} asks for argyll-cms, do not choose to download.
       Instead, select "Browse" and point #{token} to your #{HOMEBREW_PREFIX}/bin.
     EOS
+  end
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/DisplayCAL-#{version}.pkg"
   end
 end

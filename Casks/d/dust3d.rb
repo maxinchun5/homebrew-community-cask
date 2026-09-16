@@ -12,11 +12,13 @@ cask "dust3d" do
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "dust3d.app"
 
   zap trash: "~/Library/Saved Application State/com.yourcompany.dust3d.savedState"
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/dust3d.app"
+  end
 end

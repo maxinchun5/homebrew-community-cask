@@ -12,8 +12,6 @@ cask "bili-downloader" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "biliDownloader_GUI.app"
@@ -22,5 +20,9 @@ cask "bili-downloader" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/biliDownloader_GUI.app"
   end
 end

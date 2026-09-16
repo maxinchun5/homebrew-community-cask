@@ -26,8 +26,6 @@ cask "phd2" do
   desc "Telescope guiding software"
   homepage "https://openphdguiding.org/"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "PHD2.app"
@@ -37,4 +35,8 @@ cask "phd2" do
     "~/Library/Preferences/org.openphdguiding.phd2.plist",
     "~/Library/Saved Application State/org.openphdguiding.phd2.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/PHD2.app"
+  end
 end

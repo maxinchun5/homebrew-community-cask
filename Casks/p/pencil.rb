@@ -13,8 +13,6 @@ cask "pencil" do
     regex(/href=.*?Pencil[._-]v?(\d+(?:\.\d+)+)[^"' >]*?\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Pencil.app"
@@ -24,4 +22,8 @@ cask "pencil" do
     "~/Library/Application Support/Pencil",
     "~/Library/Preferences/vn.evolus.pencil.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Pencil.app"
+  end
 end

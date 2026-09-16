@@ -7,8 +7,6 @@ cask "mediainfoex" do
   desc "Display file information in Finder contextual menu"
   homepage "https://github.com/sbarex/MediaInfo"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "MediaInfoEx.app"
@@ -20,4 +18,8 @@ cask "mediainfoex" do
     "~/Library/Containers/org.sbarex.MediaInfo",
     "~/Library/Preferences/org.sbarex.MediaInfo.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/MediaInfoEx.app"
+  end
 end

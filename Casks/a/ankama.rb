@@ -12,8 +12,6 @@ cask "ankama" do
     strategy :electron_builder
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -30,5 +28,9 @@ cask "ankama" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Ankama Launcher.app"
   end
 end

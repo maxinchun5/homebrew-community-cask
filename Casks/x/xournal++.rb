@@ -15,8 +15,6 @@ cask "xournal++" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Xournal++.app"
@@ -25,4 +23,8 @@ cask "xournal++" do
     "~/.xournalpp",
     "~/Library/Saved Application State/com.github.xournalpp.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Xournal++.app"
+  end
 end

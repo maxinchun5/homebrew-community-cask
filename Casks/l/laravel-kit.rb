@@ -10,8 +10,6 @@ cask "laravel-kit" do
   desc "Desktop Laravel admin panel app"
   homepage "https://tmdh.github.io/laravel-kit"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Laravel Kit.app"
@@ -21,4 +19,8 @@ cask "laravel-kit" do
     "~/Library/Preferences/com.tmdh.laravel-kit.plist",
     "~/Library/Saved Application State/com.tmdh.laravel-kit.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Laravel Kit.app"
+  end
 end

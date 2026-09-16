@@ -18,8 +18,6 @@ cask "watchfacestudio" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "WatchFaceStudio_#{version.csv.first}.pkg"
@@ -30,4 +28,8 @@ cask "watchfacestudio" do
     "~/Library/Application Support/watchfacestudio",
     "~/Library/Preferences/WatchFaceStudio.plist",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/WatchFaceStudio_#{version.csv.first}.pkg"
+  end
 end

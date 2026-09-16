@@ -15,8 +15,6 @@ cask "ipepresenter" do
     regex(/href=.*?ipepresenter[._-](\d+(?:\.\d+)+)[._-]mac[._-]#{arch}\.dmg/i)
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "IpePresenter.app"
@@ -25,4 +23,8 @@ cask "ipepresenter" do
     "~/Library/Preferences/org.otfried.ipe.IpePresenter.plist",
     "~/Library/Saved Application State/org.otfried.ipe.IpePresenter.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/IpePresenter.app"
+  end
 end

@@ -13,8 +13,6 @@ cask "zoho-mail" do
 
     url "https://downloads.zohocdn.com/zmail-desktop/mac/zoho-mail-desktop-lite-installer-#{arch}v#{version}.dmg"
 
-    disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
     depends_on macos: :monterey
 
     app "Zoho Mail - Desktop.app"
@@ -46,5 +44,9 @@ cask "zoho-mail" do
     strategy :json do |json, regex|
       json[os]&.values&.filter_map { |item| item[livecheck_arch]&.[](regex, 1) }
     end
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Zoho Mail - Desktop.app"
   end
 end

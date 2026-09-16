@@ -7,8 +7,6 @@ cask "retroactive" do
   desc "Run Apple apps on incompatible OS versions"
   homepage "https://github.com/cormiertyshawn895/Retroactive"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   app "Retroactive #{version}/Retroactive.app"
@@ -17,5 +15,9 @@ cask "retroactive" do
 
   caveats do
     requires_rosetta
+  end
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Retroactive #{version}/Retroactive.app"
   end
 end

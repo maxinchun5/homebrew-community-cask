@@ -7,8 +7,6 @@ cask "eloquent" do
   desc "Free/open-source Bible study application, based on the SWORD Project"
   homepage "https://github.com/mdbergmann/Eloquent"
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on macos: :ventura
 
@@ -21,4 +19,8 @@ cask "eloquent" do
     "~/Library/Preferences/org.crosswire.Eloquent.plist.lockfile",
     "~/Library/Saved Application State/org.crosswire.Eloquent.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Eloquent.app"
+  end
 end

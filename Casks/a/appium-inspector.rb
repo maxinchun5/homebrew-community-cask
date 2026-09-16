@@ -29,8 +29,6 @@ cask "appium-inspector" do
     end
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on macos: :monterey
 
   app "Appium Inspector.app"
@@ -42,4 +40,8 @@ cask "appium-inspector" do
     "~/Library/Preferences/io.appium.inspector.plist",
     "~/Library/Saved Application State/io.appium.inspector.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Appium Inspector.app"
+  end
 end

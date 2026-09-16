@@ -12,8 +12,6 @@ cask "opentoonz" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on :macos
 
   pkg "OpenToonz.pkg"
@@ -24,4 +22,8 @@ cask "opentoonz" do
     "~/Library/Caches/OpenToonz",
     "~/Library/Saved Application State/io.github.opentoonz.OpenToonz.savedState",
   ]
+  
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{staged_path}/OpenToonz.pkg"
+  end
 end

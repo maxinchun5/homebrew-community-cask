@@ -15,8 +15,6 @@ cask "goneovim" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   depends_on formula: "neovim"
   depends_on :macos
 
@@ -28,4 +26,8 @@ cask "goneovim" do
     "~/.goneovim",
     "~/Library/Saved Application State/com.ident.goneovim.savedState",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/goneovim-v#{version}-macos-#{arch}/goneovim.app"
+  end
 end

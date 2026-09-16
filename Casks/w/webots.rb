@@ -14,8 +14,6 @@ cask "webots" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on :macos
 
@@ -28,4 +26,8 @@ cask "webots" do
     "~/Library/Caches/Cyberbotics/Webots",
     "~/Library/Preferences/com.cyberbotics.Webots-#{version}.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/Webots.app"
+  end
 end

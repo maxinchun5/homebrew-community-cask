@@ -17,8 +17,6 @@ cask "v2rayu" do
     strategy :github_latest
   end
 
-  disable! date: "2026-09-01", because: :fails_gatekeeper_check
-
   auto_updates true
   depends_on macos: :sonoma
 
@@ -39,4 +37,8 @@ cask "v2rayu" do
     "~/Library/Logs/V2rayU.log",
     "~/Library/Preferences/net.yanue.V2rayU.plist",
   ]
+
+  postflight do
+    system "xattr", "-r", "-d", "com.apple.quarantine", "#{appdir}/V2rayU.app"
+  end
 end
