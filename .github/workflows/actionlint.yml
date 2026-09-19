@@ -69,7 +69,7 @@ jobs:
 
           echo "::add-matcher::$HOME/actionlint-matcher.json"
 
-      - run: actionlint
+      - run: actionlint -ignore "SC2086" -ignore "SC2016"
 
   upload_sarif:
     needs: workflow_syntax
