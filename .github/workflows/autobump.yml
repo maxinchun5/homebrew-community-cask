@@ -4,49 +4,78 @@ on:
   workflow_dispatch:
     inputs:
       casks:
-        description: Custom list of casks to livecheck and bump if outdated
+        description: Custom list of casks to bump
         required: false
   schedule:
     # Every 3 hours 23 minutes past the hour
     - cron: "23 */3 * * *"
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
   autobump:
     if: github.repository == 'maxinchun5/homebrew-community-cask'
     env:
       HOMEBREW_DEVELOPER: 1
-    runs-on: macos-26
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
-        with:
-          core: true
-          cask: true
+        uses: Homebrew/actions/setup-homebrew@1e34f2e2acaa766b7efacb8c26352e6abbb023f9 # 2026.09.13.1
 
       - name: Configure Git user
         id: git_setup
-        uses: Homebrew/actions/git-user-config@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
+        uses: Homebrew/actions/git-user-config@1e34f2e2acaa766b7efacb8c26352e6abbb023f9 # 2026.09.13.1
         with:
           username: ${{ (github.event_name == 'workflow_dispatch' && github.actor) || 'github-actions[bot]' }}
 
       - name: Bump casks
         id: autobump
         env:
-          HOMEBREW_TEST_BOT_AUTOBUMP: 1
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_GIT_COMMITTER_NAME: ${{ steps.git_setup.outputs.name }}
           HOMEBREW_GIT_COMMITTER_EMAIL: ${{ steps.git_setup.outputs.email }}
+          TAP_NAME: ${{ steps.set-up-homebrew.outputs.tap-name }}
           CASKS: ${{ inputs.casks }}
         continue-on-error: true
         run: |
-          BREW_BUMP=(brew bump --no-fork --open-pr --casks)
           if [[ -n "${CASKS-}" ]]; then
-            xargs "${BREW_BUMP[@]}" <<<"${CASKS}"
-          else
-            "${BREW_BUMP[@]}" --auto --tap=maxinchun5/community-cask
+            for cask in $CASKS; do
+              echo "==> Checking latest version for $TAP_NAME/$cask via livecheck ..."
+              
+              # Run livecheck for this specific cask and only return updates if a newer version exists
+              LIVECHECK_JSON=$(brew livecheck "$TAP_NAME/$cask" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
+              
+              # Extract the latest version from the JSON payload
+              LATEST_VERSION=$(echo "$LIVECHECK_JSON" | jq -r '.[] | .version.latest' 2>/dev/null || true)
+
+              # Check if a new version was found
+              if [[ -z "${LATEST_VERSION}" ]]; then
+                echo "==> $TAP_NAME/$cask is already up-to-date or livecheck failed."
+                continue
+              fi
+
+              echo "==> New version found! Bumping $TAP_NAME/$cask to version $LATEST_VERSION ..."
+              
+              # Bump the cask explicitly providing the version option
+              brew bump-cask-pr --no-fork --version="${LATEST_VERSION}" --debug "$TAP_NAME/$cask" || echo "::warning::Bump failed for $TAP_NAME/$cask"
+            done
+            exit 0
           fi
+          # echo "==> Checking for outdated casks via livecheck ..."
+          # OUTDATED_JSON=$(brew livecheck --tap="${TAP_NAME}" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
+          # OUTDATED=$(echo "${OUTDATED_JSON}" | jq -r '.[] | .cask' | paste -sd " " -)
+          # if [[ -z "${OUTDATED// /}" ]]; then
+          #   echo "No outdated casks found."
+          #   exit 0
+          # fi
+          # echo "Outdated: ${OUTDATED}"
+          # # Word splitting on the list is intentional.
+          # # shellcheck disable=SC2086
+          # for cask in ${OUTDATED}; do
+          #   echo "==> Bumping ${cask} ..."
+          #   brew bump-cask-pr --no-fork --debug "${cask}" || echo "::warning::Bump failed for ${cask}"
+          # done
