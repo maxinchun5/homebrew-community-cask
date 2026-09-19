@@ -81,6 +81,7 @@ jobs:
         run: |
           gh issue create \
             --repo maxinchun5/homebrew-community-cask \
+            --title "$CASK should be archived." \
             --body "$CASK should be archived. Check $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
       - name: Check cask for unavailable homepage.
@@ -92,6 +93,7 @@ jobs:
         run:  |
           gh issue create \
             --repo maxinchun5/homebrew-community-cask \
+            --title "$CASK has homepage issues." \
             --body "$CASK has homepage issues. Check $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
       - name: Check cask for missing sources.
@@ -103,4 +105,5 @@ jobs:
         run:  |
           gh issue create \
             --repo maxinchun5/homebrew-community-cask \
+            --title "$CASK source has problems." \
             --body "$CASK source has problems. Check $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
