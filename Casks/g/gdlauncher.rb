@@ -7,6 +7,8 @@ cask "gdlauncher" do
   desc "Custom Minecraft Launcher"
   homepage "https://gdevs.io/"
 
+  deprecate! date: "2026-08-22", because: :discontinued
+
   depends_on :macos
 
   app "GDLauncher.app"
