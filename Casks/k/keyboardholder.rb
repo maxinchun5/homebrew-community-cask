@@ -1,6 +1,6 @@
 cask "keyboardholder" do
-  version "1.14.12"
-  sha256 "346e7983e994e4d5c49a940c3aec3fa2791a5c2344f37c1a3dab4f6817774337"
+  version "1.14.13"
+  sha256 "9fece35441c2f23b63c3b2d05ef5f5a32226f367afe3d0704d77b0aa4d51cc8d"
 
   url "https://github.com/leaves615/KeyboardHolder/releases/download/v#{version}/KeyboardHolder-#{version}.zip"
   name "KeyboardHolder"
