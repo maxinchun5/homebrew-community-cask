@@ -1,9 +1,9 @@
 cask "nwjs" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.115.0"
-  sha256 arm:   "d601cb05998c2ff69c0400d38af58dc7ba068c536f8e744aa3347e8b66a61483",
-         intel: "9071b62cd93697a7e657dfb631b2aa15fc980b0e47fdb5bd8ee972ac81301ae0"
+  version "0.116.0"
+  sha256 arm:   "5522a5848f509daff487847c0163b613d2cb5d6a43737df0759980908af941ff",
+         intel: "d882c338fcd836d13d3bf7021e58ea3af206939ae5ce85321b5b9649923d7114"
 
   url "https://dl.nwjs.io/v#{version}/nwjs-sdk-v#{version}-osx-#{arch}.zip"
   name "NW.js"
