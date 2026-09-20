@@ -7,6 +7,8 @@ cask "gswitch" do
   desc "Set which graphics card to use"
   homepage "https://codyschrank.github.io/gSwitch/"
 
+  deprecate! date: "2025-05-19", because: :discontinued
+
   depends_on :macos
 
   app "gSwitch.app"
