@@ -10,8 +10,6 @@ on:
     # Every 3 hours 23 minutes past the hour
     - cron: "23 */3 * * *"
 
-permissions: {}
-
 jobs:
   autobump:
     if: github.repository == 'maxinchun5/homebrew-community-cask'
@@ -44,38 +42,56 @@ jobs:
         run: |
           if [[ -n "${CASKS-}" ]]; then
             for cask in $CASKS; do
-              echo "==> Checking latest version for $TAP_NAME/$cask via livecheck ..."
+              cask="$TAP_NAME/$cask"
+              echo "==> Checking latest version for $cask via livecheck ..."
               
               # Run livecheck for this specific cask and only return updates if a newer version exists
-              LIVECHECK_JSON=$(brew livecheck "$TAP_NAME/$cask" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
+              LIVECHECK_JSON=$(brew livecheck "$cask" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
               
               # Extract the latest version from the JSON payload
               LATEST_VERSION=$(echo "$LIVECHECK_JSON" | jq -r '.[] | .version.latest' 2>/dev/null || true)
 
               # Check if a new version was found
               if [[ -z "${LATEST_VERSION}" ]]; then
-                echo "==> $TAP_NAME/$cask is already up-to-date or livecheck failed."
+                echo "==> $cask is already up-to-date or livecheck failed."
                 continue
               fi
 
-              echo "==> New version found! Bumping $TAP_NAME/$cask to version $LATEST_VERSION ..."
-              
+              echo "==> New version found! Bumping $cask to version $LATEST_VERSION ..."
               # Bump the cask explicitly providing the version option
-              brew bump-cask-pr --no-fork --version="${LATEST_VERSION}" --debug "$TAP_NAME/$cask" || echo "::warning::Bump failed for $TAP_NAME/$cask"
+              brew bump-cask-pr \
+                --no-fork \
+                --version="${LATEST_VERSION}" \
+                --debug \
+                "$cask" || echo "::warning::Bump failed for $cask"
             done
             exit 0
           fi
-          # echo "==> Checking for outdated casks via livecheck ..."
-          # OUTDATED_JSON=$(brew livecheck --tap="${TAP_NAME}" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
-          # OUTDATED=$(echo "${OUTDATED_JSON}" | jq -r '.[] | .cask' | paste -sd " " -)
-          # if [[ -z "${OUTDATED// /}" ]]; then
-          #   echo "No outdated casks found."
-          #   exit 0
-          # fi
-          # echo "Outdated: ${OUTDATED}"
-          # # Word splitting on the list is intentional.
-          # # shellcheck disable=SC2086
-          # for cask in ${OUTDATED}; do
-          #   echo "==> Bumping ${cask} ..."
-          #   brew bump-cask-pr --no-fork --debug "${cask}" || echo "::warning::Bump failed for ${cask}"
-          # done
+
+          echo "==> Checking for outdated casks via livecheck ..."
+          OUTDATED_JSON=$(brew livecheck --tap="$TAP_NAME" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
+          
+          # Extracts "name:version" pairs from the JSON array
+          OUTDATED_PAIRS=$(echo "$OUTDATED_JSON" | jq -r '.[] | "\(.cask):\(.version.latest)"' | paste -sd " " -)
+          
+          if [[ -z "${OUTDATED_PAIRS// /}" ]]; then
+            echo "No outdated casks found."
+            exit 0
+          fi
+          
+          echo "Outdated packages found: $OUTDATED_PAIRS"
+          
+          for pair in ${OUTDATED_PAIRS}; do
+            # Split the string by the colon delimiter
+            cask="$TAP_NAME/${pair%%:*}"
+            version="${pair##*:}"
+            
+            echo "==> New version found! Bumping $cask to version $version ..."
+            
+            # Executing the bump with the extracted version number, force flag, and quota check bypass
+            brew bump-cask-pr \
+              --no-fork \
+              --version="${version}" \
+              --debug \
+              "$cask" || echo "::warning::Bump failed for $cask"
+          done
