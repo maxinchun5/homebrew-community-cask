@@ -72,7 +72,7 @@ jobs:
           OUTDATED_JSON=$(brew livecheck --tap="$TAP_NAME" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
           
           # Extracts "name:version" pairs from the JSON array
-          OUTDATED_PAIRS=$(echo "$OUTDATED_JSON" | jq -r '.[] | "\(.cask):\(.version.latest)"' | paste -sd " " -)
+          OUTDATED_PAIRS=$(echo "$OUTDATED_JSON" | jq -r '.[] | select(.version.latest != null and .version.latest != "null" and .version.latest != "") | "\(.cask):\(.version.latest)"' | paste -sd " " -)
           
           if [[ -z "${OUTDATED_PAIRS// /}" ]]; then
             echo "No outdated casks found."
