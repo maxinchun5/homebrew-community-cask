@@ -1,35 +1,49 @@
 cask "appium-inspector" do
   arch arm: "arm64", intel: "x64"
 
-  version "2026.7.1"
-  sha256 arm:   "0d67af30dacf5cc84545ab7356375349b8e0594a01f6f96dc5d5268cec730bd4",
-         intel: "5c855085441a591d86c24ea387c651e64a24248942bf32c23653788c26b15df1"
+  on_monterey do
+    version "2026.9.2"
+    sha256 arm:   "87ca4fcdec4c36165870e42748ecfe6cc32f4506f8a776875b00e8b1315edfa2",
+           intel: "fbfe72111d9722101f20f14956e1624004022285bab07eac086ca9faaf0dfc4c"
 
-  url "https://github.com/appium/appium-inspector/releases/download/v#{version}/Appium-Inspector-#{version}-mac-#{arch}.zip"
+    url "https://github.com/appium/appium-inspector/releases/download/v#{version}/Appium-Inspector-#{version}-mac-#{arch}.zip"
+
+    livecheck do
+      skip "Legacy version"
+    end
+  end
+  on_ventura :or_newer do
+    version "2026.9.2"
+    sha256 arm:   "87ca4fcdec4c36165870e42748ecfe6cc32f4506f8a776875b00e8b1315edfa2",
+           intel: "fbfe72111d9722101f20f14956e1624004022285bab07eac086ca9faaf0dfc4c"
+
+    url "https://github.com/appium/appium-inspector/releases/download/v#{version}/Appium-Inspector-#{version}-mac-#{arch}.zip"
+
+    # Not every GitHub release provides a file for macOS, so we check multiple
+    # recent releases instead of only the "latest" release.
+    livecheck do
+      url :url
+      regex(/^Appium.*?v?(\d+(?:\.\d+)+)[._-]mac[._-]#{arch}\.(?:dmg|pkg|zip)$/i)
+      strategy :github_releases do |json, regex|
+        json.map do |release|
+          next if release["draft"] || release["prerelease"]
+
+          release["assets"]&.map do |asset|
+            match = asset["name"]&.match(regex)
+            next if match.blank?
+
+            match[1]
+          end
+        end.flatten
+      end
+    end
+  end
+
   name "Appium Inspector GUI"
   desc "GUI inspector for mobile apps"
   homepage "https://github.com/appium/appium-inspector/"
 
-  # Not every GitHub release provides a file for macOS, so we check multiple
-  # recent releases instead of only the "latest" release.
-  livecheck do
-    url :url
-    regex(/^Appium.*?v?(\d+(?:\.\d+)+)[._-]mac[._-]#{arch}\.(?:dmg|pkg|zip)$/i)
-    strategy :github_releases do |json, regex|
-      json.map do |release|
-        next if release["draft"] || release["prerelease"]
-
-        release["assets"]&.map do |asset|
-          match = asset["name"]&.match(regex)
-          next if match.blank?
-
-          match[1]
-        end
-      end.flatten
-    end
-  end
-
-  depends_on macos: :monterey
+  depends_on :macos
 
   app "Appium Inspector.app"
 
