@@ -7,6 +7,8 @@ cask "tempbox" do
   desc "Disposable email client"
   homepage "https://tempbox.waseem.works/"
 
+  deprecate! date: "2026-01-19", because: :discontinued
+
   depends_on :macos
 
   app "TempBox.app"
