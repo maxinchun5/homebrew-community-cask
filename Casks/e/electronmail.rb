@@ -1,9 +1,20 @@
 cask "electronmail" do
   arch arm: "arm64", intel: "x64"
 
-  version "5.3.8"
-  sha256 arm:   "577d968b4a0253d74b7f3ab183739db1e8882d7ef03e2046373ecab86d2f9596",
-         intel: "23552f14c49d03092a824867fa69011ac940f2ff954da8cefd96b4949e6e619f"
+  on_monterey :or_older do
+    version "5.3.8"
+    sha256 arm:   "d824541227fb50cb198035b0dc7894122a7af305ddd0050f3c7768ef5d999d87",
+           intel: "172c4e98eaa5a0cc23b3ea92f771fab506d05426e59fe448c2d7f4a13498e5c0"
+
+    livecheck do
+      skip "Legacy version"
+    end
+  end
+  on_ventura :or_newer do
+    version "5.3.9"
+    sha256 arm:   "d824541227fb50cb198035b0dc7894122a7af305ddd0050f3c7768ef5d999d87",
+           intel: "172c4e98eaa5a0cc23b3ea92f771fab506d05426e59fe448c2d7f4a13498e5c0"
+  end
 
   url "https://github.com/vladimiry/ElectronMail/releases/download/v#{version}/electron-mail-#{version}-mac-#{arch}.dmg"
   name "ElectronMail"
