@@ -6,8 +6,6 @@ on:
       - main
   pull_request:
 
-permissions: {}
-
 defaults:
   run:
     shell: bash -xeuo pipefail {0}
@@ -23,9 +21,7 @@ jobs:
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        uses: Homebrew/actions/setup-homebrew@1e34f2e2acaa766b7efacb8c26352e6abbb023f9 # 2026.09.13.1
 
       - name: Cache Homebrew Bundler RubyGems
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -34,10 +30,15 @@ jobs:
           key: macos-26-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
           restore-keys: macos-26-rubygems-
 
+      # Erases environment state left over from previous actions runner jobs, such as Homebrew caches, downloads, logs, and temporary files. It does not run any tests.
       - run: brew test-bot --only-cleanup-before
 
+      # Installs required Ruby Gems and locks down Homebrew test-bot prerequisites.
       - run: brew test-bot --only-setup
 
+      # Instantly scans your entire Casks/ directory for syntax, token errors, and layout mistakes.
       - run: brew test-bot --only-tap-syntax
-      - run: brew test-bot --only-cask
-        if: github.event_name == 'pull_request'
+
+      # Triggers only during PRs to download, verify hashes, and live-test your brand-new or updated cask files.
+      - run: brew test-bot --only-formulae
+        if: ${{ github.event_name == 'pull_request' }}

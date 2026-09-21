@@ -1,11 +1,9 @@
-# This file is synced from the `.github` repository, do not modify it directly.
 name: Actionlint
 
 on:
   push:
     branches:
       - main
-      - master
   pull_request:
 
 defaults:
@@ -21,11 +19,8 @@ env:
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_ENV_HINTS: 1
 
-permissions: {}
-
 jobs:
   workflow_syntax:
-    if: github.repository_owner == 'maxinchun5'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,7 +29,7 @@ jobs:
     steps:
       - name: Set up Homebrew
         id: setup-homebrew
-        uses: Homebrew/actions/setup-homebrew@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
+        uses: Homebrew/actions/setup-homebrew@1e34f2e2acaa766b7efacb8c26352e6abbb023f9 # 2026.09.13.1
         with:
           core: false
           cask: false
@@ -53,7 +48,7 @@ jobs:
       - name: Upload SARIF file
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         # We can't use the SARIF file when triggered by `merge_group` so we don't upload it.
-        if: always() && github.event_name != 'merge_group'
+        if: ${{ always() && github.event_name != 'merge_group' }}
         with:
           name: results.sarif
           path: results.sarif

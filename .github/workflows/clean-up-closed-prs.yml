@@ -22,7 +22,6 @@ env:
 jobs:
   delete-branch:
     if: >
-      github.repository_owner == 'maxinchun5' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       !github.event.pull_request.merged
     runs-on: ubuntu-latest

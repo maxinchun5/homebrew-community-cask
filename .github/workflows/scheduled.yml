@@ -1,12 +1,9 @@
 name: Scheduled online check
-permissions:
-  contents: read
 
 on:
   push:
     branches:
       - main
-      - master
     paths:
       - .github/workflows/scheduled.yml
   schedule:
@@ -17,29 +14,35 @@ concurrency:
   group: scheduled
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   create_matrix:
-    if: startsWith( github.repository, 'maxinchun5/' )
     runs-on: macos-26
     outputs:
       json: ${{ steps.matrix.outputs.json }}
     env:
       TEST_COUNT: 50
-      TAP: maxinchun5/community-cask
     steps:
+      - name: Set TAP env varaible
+        run: |
+          TAP="${GITHUB_REPOSITORY/homebrew-/}"
+          echo "TAP=$TAP" >> $GITHUB_ENV
+
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
+        uses: Homebrew/actions/setup-homebrew@1e34f2e2acaa766b7efacb8c26352e6abbb023f9 # 2026.09.13.1
         with:
           core: false
-          cask: true
+          cask: false
 
       - run: brew install coreutils
 
       - name: Generate matrix
         id: matrix
         run: |
-          casks=$(find "$(brew --repo ${TAP})/Casks" -type f | shuf -n ${TEST_COUNT} | xargs -I{} sh -c 'echo ${TAP}/$(basename {} .rb)')
+          casks=$(find "$(brew --repo $TAP)/Casks" -type f | shuf -n $TEST_COUNT | xargs -I{} sh -c 'echo $TAP/$(basename {} .rb)')
           json="$(
             echo $casks | xargs brew info --json=v2 --casks |
             jq --compact-output '[.casks[] | select(.deprecated == false and .disabled == false) | .full_token]'
@@ -47,15 +50,14 @@ jobs:
           echo "json=${json}" >> "$GITHUB_OUTPUT"
 
   audit_online:
-    if: startsWith( github.repository, 'maxinchun5/' )
     runs-on: ${{ matrix.os }}
     needs: create_matrix
     name: "Online check (${{ matrix.os }}): ${{ matrix.cask }}"
     env:
       HOMEBREW_DEVELOPER: 1
-      CASK: ${{ matrix.cask }}
       HOMEBREW_GITHUB_API_TOKEN: "${{ github.token }}"
       GH_TOKEN: "${{ github.token }}"
+      CASK: ${{ matrix.cask }}
     permissions:
       issues: write # To create issues
     strategy:
@@ -66,10 +68,10 @@ jobs:
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
+        uses: Homebrew/actions/setup-homebrew@1e34f2e2acaa766b7efacb8c26352e6abbb023f9 # 2026.09.13.1
         with:
           core: false
-          cask: true
+          cask: false
 
       - name: Check cask source is not archived.
         id: archived
@@ -79,7 +81,7 @@ jobs:
         if: ${{ failure() && steps.archived.conclusion == 'failure' }}
         run: |
           gh issue create \
-            --repo maxinchun5/homebrew-community-cask \
+            --repo $GITHUB_REPOSITORY \
             --title "$CASK should be archived." \
             --body "$CASK should be archived. Check $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
@@ -91,7 +93,7 @@ jobs:
         if: ${{ failure() && steps.homepage.conclusion == 'failure' }}
         run:  |
           gh issue create \
-            --repo maxinchun5/homebrew-community-cask \
+            --repo $GITHUB_REPOSITORY \
             --title "$CASK has homepage issues." \
             --body "$CASK has homepage issues. Check $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
@@ -103,6 +105,6 @@ jobs:
         if: ${{ failure() && steps.fetch.conclusion == 'failure' }}
         run:  |
           gh issue create \
-            --repo maxinchun5/homebrew-community-cask \
+            --repo $GITHUB_REPOSITORY \
             --title "$CASK source has problems." \
             --body "$CASK source has problems. Check $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

@@ -1,4 +1,3 @@
-# This file is synced from the `.github` repository, do not modify it directly.
 name: Check pull requests
 
 on:
@@ -9,8 +8,6 @@ on:
       - opened
       - edited
       - reopened
-
-permissions: {}
 
 defaults:
   run:
@@ -25,7 +22,6 @@ jobs:
     # Restrict this write-token workflow to repositories with supported templates.
     # The first step also fails if a repository checkout has occurred.
     if: >-
-      github.repository == 'maxinchun5/homebrew-community-cask' &&
       github.event.pull_request.user.login != 'github-actions[bot]' &&
       github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
@@ -80,14 +76,11 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          if [[ "${GITHUB_REPOSITORY}" == "maxinchun5/homebrew-community-cask" ]]
+          if grep -qE "Created (with|by) \`brew bump(-cask-pr|-formula-pr)?\`" "${RUNNER_TEMP}/check-prs/body" ||
+              grep -qF "Created by https://github.com/mislav/bump-homebrew-formula-action" "${RUNNER_TEMP}/check-prs/body"
           then
-            if grep -qE "Created (with|by) \`brew bump(-cask-pr|-formula-pr)?\`" "${RUNNER_TEMP}/check-prs/body" ||
-               grep -qF "Created by https://github.com/mislav/bump-homebrew-formula-action" "${RUNNER_TEMP}/check-prs/body"
-            then
-              echo "complete_template=true" >>"${GITHUB_OUTPUT:?}"
-              exit 0
-            fi
+            echo "complete_template=true" >>"${GITHUB_OUTPUT:?}"
+            exit 0
           fi
 
           complete_template="$(

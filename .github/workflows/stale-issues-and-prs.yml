@@ -12,8 +12,6 @@ on:
     - cron: "0 0 * * *"
   issue_comment:
 
-permissions: {}
-
 defaults:
   run:
     shell: bash -xeuo pipefail {0}
@@ -25,11 +23,9 @@ concurrency:
 jobs:
   stale:
     if: >
-      github.repository_owner == 'maxinchun5' && (
-        github.event_name != 'issue_comment' || (
-          contains(github.event.issue.labels.*.name, 'stale') ||
-          contains(github.event.pull_request.labels.*.name, 'stale')
-        )
+      github.event_name != 'issue_comment' || (
+        contains(github.event.issue.labels.*.name, 'stale') ||
+        contains(github.event.pull_request.labels.*.name, 'stale')
       )
     runs-on: ubuntu-slim
     permissions:
@@ -55,11 +51,9 @@ jobs:
 
   bump-pr-stale:
     if: >
-      github.repository_owner == 'maxinchun5' && (
-        github.event_name != 'issue_comment' || (
-          contains(github.event.issue.labels.*.name, 'stale') ||
-          contains(github.event.pull_request.labels.*.name, 'stale')
-        )
+      github.event_name != 'issue_comment' || (
+        contains(github.event.issue.labels.*.name, 'stale') ||
+        contains(github.event.pull_request.labels.*.name, 'stale')
       )
     runs-on: ubuntu-slim
     permissions:

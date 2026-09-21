@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - master
     paths:
       - .github/workflows/remove-disabled-packages.yml
   schedule:
@@ -12,27 +11,29 @@ on:
     - cron: "0 0 * * *"
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
 concurrency:
   group: remove-disabled-packages
   cancel-in-progress: true
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   remove-disabled-packages:
-    if: github.repository_owner == 'maxinchun5'
     runs-on: macos-26
+    permissions:
+      contents: write
+      pull-requests: write
     env:
       REMOVAL_BRANCH: remove-disabled-packages
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
+        uses: Homebrew/actions/setup-homebrew@1e34f2e2acaa766b7efacb8c26352e6abbb023f9 # 2026.09.13.1
         with:
           core: false
-          cask: true
+          cask: false
 
       - name: Configure Git user
         id: git-user-config

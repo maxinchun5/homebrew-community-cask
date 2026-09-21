@@ -8,8 +8,6 @@ on:
       - edited
       - reopened
 
-permissions: {}
-
 defaults:
   run:
     shell: bash -euo pipefail {0}
@@ -23,7 +21,6 @@ jobs:
     # Restrict this write-token workflow to repositories with supported templates.
     # The first step also fails if a repository checkout has occurred.
     if: >-
-      github.repository == 'maxinchun5/homebrew-community-cask' &&
       github.event.issue.user.login != 'github-actions[bot]' &&
       github.event.issue.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
