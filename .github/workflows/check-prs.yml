@@ -21,7 +21,7 @@ jobs:
   manage:
     # Restrict this write-token workflow to repositories with supported templates.
     # The first step also fails if a repository checkout has occurred.
-    if: >-
+    if: >
       github.event.pull_request.user.login != 'github-actions[bot]' &&
       github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
@@ -115,7 +115,7 @@ jobs:
 
       - name: Find pull request closer
         id: closer
-        if: >-
+        if: >
           github.event.pull_request.state == 'closed' &&
           steps.template.outputs.complete_template == 'true'
         run: |
@@ -123,7 +123,7 @@ jobs:
           echo "closed_by=${closed_by}" >>"${GITHUB_OUTPUT:?}"
 
       - name: Reopen completed pull request
-        if: >-
+        if: >
           github.event.pull_request.state == 'closed' &&
           steps.template.outputs.complete_template == 'true' &&
           steps.closer.outputs.closed_by == 'github-actions[bot]' &&
@@ -133,7 +133,7 @@ jobs:
             -f state=open
 
       - name: Remove resolved template comments
-        if: >-
+        if: >
           steps.template.outputs.complete_template == 'true' &&
           steps.comments.outputs.has_incomplete_template_comment == 'true'
         run: |
@@ -144,7 +144,7 @@ jobs:
           done <"${RUNNER_TEMP:?}/check-prs/incomplete-template-comment-ids"
 
       - name: Comment on incomplete pull request
-        if: >-
+        if: >
           github.event.pull_request.state != 'closed' &&
           steps.template.outputs.complete_template == 'false' &&
           steps.comments.outputs.has_incomplete_template_comment != 'true'
@@ -160,7 +160,7 @@ jobs:
             )"
 
       - name: Close incomplete pull request
-        if: >-
+        if: >
           github.event.pull_request.state != 'closed' &&
           steps.template.outputs.complete_template == 'false'
         run: |

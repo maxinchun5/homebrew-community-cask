@@ -76,7 +76,10 @@ jobs:
       contents: read
       issues: write
       pull-requests: write
-    if: ${{ always() && github.actor != 'github-actions[bot]' }}
+    if: >
+      always() && 
+      github.actor != 'github-actions[bot]' && 
+      github.actor != 'dependabot[bot]'
     runs-on: ubuntu-slim
     env:
       PR: ${{ github.event.number }}
