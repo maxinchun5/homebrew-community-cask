@@ -33,11 +33,13 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
     steps:
       - name: Mark/Close Stale Issues and Pull Requests
         uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GH_ACTION_PAT }}
           days-before-stale: 21
           days-before-close: 7
           stale-issue-message: >
@@ -65,7 +67,7 @@ jobs:
       - name: Mark/Close Stale `bump-formula-pr` and `bump-cask-pr` Pull Requests
         uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GH_ACTION_PAT }}
           days-before-stale: 2
           days-before-close: 1
           stale-pr-message: >

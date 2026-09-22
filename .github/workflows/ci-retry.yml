@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Re-run failed jobs
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail

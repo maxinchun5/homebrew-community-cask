@@ -55,9 +55,9 @@ jobs:
     name: "Online check (${{ matrix.os }}): ${{ matrix.cask }}"
     env:
       HOMEBREW_DEVELOPER: 1
-      HOMEBREW_GITHUB_API_TOKEN: "${{ github.token }}"
-      GH_TOKEN: "${{ github.token }}"
+      HOMEBREW_GITHUB_API_TOKEN: "${{ secrets.GH_ACTION_PAT }}"
       CASK: ${{ matrix.cask }}
+      GH_TOKEN: "${{ secrets.GH_ACTION_PAT }}"
     permissions:
       issues: write # To create issues
     strategy:

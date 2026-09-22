@@ -19,7 +19,9 @@ jobs:
       contents: read
       pull-requests: read
     env:
+        HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GH_ACTION_PAT }}
         HOMEBREW_DEVELOPER: 1
+        GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew

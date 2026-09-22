@@ -56,7 +56,7 @@ jobs:
         if: fromJson(steps.remove_disabled.outputs.packages-removed)
         uses: Homebrew/actions/git-try-push@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_ACTION_PAT }}
           directory: ${{ steps.set-up-homebrew.outputs.repository-path }}
           branch: ${{ env.REMOVAL_BRANCH }}
         env:
@@ -68,7 +68,7 @@ jobs:
         if: fromJson(steps.remove_disabled.outputs.packages-removed)
         working-directory: ${{ steps.set-up-homebrew.outputs.repository-path }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
           PR_BODY: >
             This pull request was created automatically by the
             [`remove-disabled-packages`](https://github.com/Homebrew/homebrew-cask/blob/HEAD/.github/workflows/remove-disabled-packages.yml)

@@ -18,17 +18,19 @@ jobs:
       contents: read
       pull-requests: write
       statuses: write
+    env:
+      GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
     steps:
       - name: Check commit format
         uses: Homebrew/actions/check-commit-format@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_ACTION_PAT }}
 
       - name: Label pull request
         uses: Homebrew/actions/label-pull-requests@f8d4222eb633e65c2a0157383cf80861fc7fae7f # 2026.09.07.1
         if: ${{ always() }}
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_ACTION_PAT }}
           def: |
             - label: cask deprecated
               path: Casks/.+
@@ -82,12 +84,11 @@ jobs:
       github.actor != 'dependabot[bot]'
     runs-on: ubuntu-slim
     env:
+      GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
       PR: ${{ github.event.number }}
     steps:
       - name: Check pull request base branch
         id: base
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           branch="$(
             gh api \
@@ -101,14 +102,11 @@ jobs:
       - name: Change base branch to `main`
         id: change
         if: steps.base.outputs.branch == 'master'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr edit "${PR}" --base main --repo "${GITHUB_REPOSITORY}"
 
       - name: Post comment
         if: steps.base.outputs.branch == 'master'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BODY: |-
             > [!TIP]
             > This pull request targets the `master` branch. For future pull requests, please target the `main` branch instead.
@@ -117,7 +115,6 @@ jobs:
       - name: Post failure comment
         if: failure() && steps.change.conclusion == 'failure'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BODY: |-
             > [!CAUTION]
             > Failed to change base branch to `main`. Please edit your pull request manually to target the `main` branch instead of the `master` branch.

@@ -30,7 +30,7 @@ jobs:
       contents: read
       issues: write
     env:
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
       ISSUE_NUMBER: ${{ github.event.issue.number }}
     steps:
       - name: Verify no checkout
