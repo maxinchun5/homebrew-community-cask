@@ -1,6 +1,16 @@
 cask "macstroke" do
-  version "3.0.1"
-  sha256 "4315e9ebb7862892d649b38925d67c53ffb28cc2fd474e201aa462f9c4ca4cb8"
+  on_monterey :or_older do
+    version "2.0.5"
+    sha256 "113116367df18a2d3278d9540afdb0476f6b45dd6fbd09a565c9c038bb5e1a88"
+
+    livecheck do
+      skip "Legacy version"
+    end
+  end
+  on_ventura :or_newer do
+    version "3.0.1"
+    sha256 "4315e9ebb7862892d649b38925d67c53ffb28cc2fd474e201aa462f9c4ca4cb8"
+  end
 
   url "https://github.com/mtjo/MacStroke/releases/download/#{version}/MacStroke.zip"
   name "MacStroke"
