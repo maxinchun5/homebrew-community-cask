@@ -7,6 +7,8 @@ cask "tachidesk-sorayomi" do
   desc "Manga reader"
   homepage "https://github.com/Suwayomi/Tachidesk-Sorayomi/"
 
+  deprecate! date: "2026-08-21", because: :discontinued
+
   depends_on :macos
 
   app "Sorayomi.app"
