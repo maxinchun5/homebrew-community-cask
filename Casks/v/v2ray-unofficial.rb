@@ -12,6 +12,8 @@ cask "v2ray-unofficial" do
     strategy :github_latest
   end
 
+  disable! date: "2026-09-25", because: :no_longer_available
+
   depends_on :macos
 
   app "V2Ray-Desktop.app"
