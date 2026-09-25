@@ -33,6 +33,7 @@ cask "alex313031-thorium" do
                   executable: "#{appdir}/Thorium Browser.app/Contents/MacOS/Thorium"
 
   postflight_steps do
+    run "/bin/chmod", args: ["-R", "+w", "{{staged_path}}/.homebrew-command-wrappers"]
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 

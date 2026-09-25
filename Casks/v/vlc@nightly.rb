@@ -48,6 +48,7 @@ cask "vlc@nightly" do
                   executable: "#{appdir}/VLC.app/Contents/MacOS/VLC"
 
   postflight_steps do
+    run "/bin/chmod", args: ["-R", "+w", "{{staged_path}}/.homebrew-command-wrappers"]
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
