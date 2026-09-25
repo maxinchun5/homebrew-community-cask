@@ -7,6 +7,8 @@ cask "swimat" do
   desc "Xcode formatter plug-in for Swift code"
   homepage "https://github.com/Jintin/Swimat"
 
+  deprecate! date: "2026-08-03", because: :discontinued
+
   depends_on :macos
 
   app "Swimat.app"
