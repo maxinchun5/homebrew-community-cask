@@ -23,8 +23,9 @@ jobs:
   delete-branch:
     if: >
       github.event.pull_request.head.repo.full_name == github.repository &&
-      (github.actor == 'github-actions[bot]' ||
-      github.actor == 'dependabot[bot]')
+      (github.actor == github.repository_owner ||
+       github.actor == 'github-actions[bot]' ||
+       github.actor == 'dependabot[bot]')
     runs-on: ubuntu-latest
     # Ignore errors as branch may already be deleted
     continue-on-error: true
